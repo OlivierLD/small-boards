@@ -4,7 +4,7 @@ We will talk here about the way to develop code for those small PCBs, as well as
 Several possibilities are available, among them:
 - Serial
 - I2C
-    - About I2C, see how to use those small boards as I<sup><small>2</small></sup>C slaves [here](https://github.com/OlivierLD/raspberry-pi4j-samples/blob/master/I2C.SPI/src/i2c/comm/README.md).
+    - About I2C, see how to use those small boards as I<sup><small>2</small></sup>C slaves [here](https://github.com/OlivierLD/raspberry-coffee/blob/master/I2C.SPI/src/i2c/comm/README.md).
 - In some cases (i.e. when the PCB has WiFi capabilities), REST over HTTP, TCP, can be used too.
 
 We will also talk - as a reminder - about the way to upload and run sketches on those boards. They do not all follow the same "protocol"...
@@ -93,5 +93,5 @@ See the [Adafruit tutorial](https://learn.adafruit.com/introducing-trinket?view=
 ### Photon
 Use a USB-A to USB-C (male-male) cable.
 
-Beside that, the `Photon` uses its own web-based IDE, at [https://build.particle.io](https://build.particle.io)'.
+Beside that, the `Photon` uses its own web-based IDE, at [https://build.particle.io](https://build.particle.io).
 The code is similar to what's used above. It also comes with a free access to an IoT server.

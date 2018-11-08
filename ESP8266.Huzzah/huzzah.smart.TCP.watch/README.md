@@ -28,6 +28,8 @@ The ESP8266 will ping the [NavServer/NMEA.multiplexer](https://github.com/Olivie
 ##### Wiring with the Adafruit Feather Huzzah
 ![Wiring](./TCP.watch.feather_bb.png)
 
+> _Note_: The code of `huzzah.smart.TCP.watch.ino` works without modification with the wiring above.
+
 ---
 
 ##### Prototyping with an Huzzah/ESP8266
