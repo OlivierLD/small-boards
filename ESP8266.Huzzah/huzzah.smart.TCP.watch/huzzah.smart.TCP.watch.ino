@@ -5,7 +5,7 @@
    Main class of what will be the TCP watch.
 
    Sends REST requests to the NavServer to get navigation data (see REST_REQUEST variable)
-   That one spits out data on the Serial console, and on an oled screen SSD1306 124x68.
+   That one spits out data on the Serial console, and on an oled screen SSD1306 128x64.
 
    @author Olivier LeDiouris
 */
@@ -35,12 +35,23 @@ const char* REST_REQUEST = "/mux/cache?option=txt"; // txt, not json.
 const int BETWEEN_LOOPS = 500; // in milli-sec.
 /* ----- End of Customizable Data ----- */
 
+#define HUZZAH
+
 // SSD1306 OLED Display connections and wiring
+#ifdef HUZZAH
 #define SDA 14
 #define SCL 12
+const int I2C = 0x3D; // Huzzah
+#endif
+
+#ifdef FEATHER
+#define SDA 4
+#define SCL 5
+const int I2C = 0x3C; // Feather
+#endif
+
 //#define RST 2
 
-const int I2C = 0x3D;
 
 // Initialize the oled display for address 0x3c
 // 0x3D is the adafruit address.
