@@ -104,7 +104,7 @@ void loop() {
       ssd1306.clearDisplay();
       ssd1306.setCursor(0, 0);
       ssd1306.setTextSize(2);
-      ssd1306.println("TextSize 2");
+      ssd1306.println("1 - TextSize 2");
       ssd1306.setTextSize(1);
       ssd1306.println("Oliv did it.");
       break;
@@ -112,7 +112,7 @@ void loop() {
       ssd1306.clearDisplay();
       ssd1306.setCursor(0, yOffset);
       ssd1306.setTextSize(1);
-      sprintf(dataBuffer, "yOffset = %d", yOffset);
+      sprintf(dataBuffer, "2 - yOffset = %d", yOffset);
       ssd1306.println(dataBuffer);
       break;
     case 3:
@@ -121,14 +121,14 @@ void loop() {
       ssd1306.setTextSize(3);
       ssd1306.println("Size 3");
       ssd1306.setTextSize(1);
-      ssd1306.println("Very big, hey?");
+      ssd1306.println("3 - Very big, hey?");
       break;
     default:
       break;
   }
 
   delay(10);
-  yield(); // TODO What's that?
+  yield(); // Send in background...
   ssd1306.display();
 }
 
