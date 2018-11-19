@@ -83,7 +83,7 @@ const int EW = 2;
 
 char* toDegMin(float data, int type) {
   int sign = (data >= 0) ? 1 : -1;
-  float absData = data >= 0 ? data : -data; // abs returns an int...
+  float absData = data >= 0 ? data : -data; // abs returns an int... TODO Try fabs
   int intPart = (int)absData;
   float minSec = (absData - intPart) * 60;
 #ifdef DEBUG
