@@ -5,22 +5,29 @@
    Main class of what will be the TCP watch.
 
    Sends REST requests to the NavServer to get navigation data (see REST_REQUEST variable)
-   That one spits out data on the Serial console, and on an oled screen SSD1306 124x68.
+   That one spits out data on the Serial console, and on an oled screen SSD1306 128x32.
+   Ideally stacked on top of the Feather.
 
    @author Olivier LeDiouris
+
+   Originally inspired by https://learn.adafruit.com/micropython-oled-watch
 */
 #include <Wire.h>
 #include <ESP8266WiFi.h>
+// 2 libs below, available through the library manager.
+// Repo at https://github.com/adafruit/Adafruit_SSD1306/blob/master/Adafruit_SSD1306.cpp and around.
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
+#define NULL 0
 // #define DEBUG // Uncomment for more Serial output.
 
 /* ----- Customizable Data ----- */
 // Network and Host Names definitions, customize if necessary
 #define __PI_NET__       // 192.168.127.1 on Pi-Net
-//#undef __PI_NET__
-//#define __SONIC_AT_HOME__   // 192.168.42.4 on Sonic-00e0
+// #undef __PI_NET__
+
+// #define __SONIC_AT_HOME__   // 192.168.42.4 on Sonic-00e0
 #undef __SONIC_AT_HOME__
 
 #include "custom_values.h" // Contains _SSID, _PASSWORD, _HOST, _HTTP_PORT, used below.
@@ -100,39 +107,215 @@ char* toDegMin(float data, int type) {
   return degMinVal;
 }
 
+char* msToTimeStr(long ms) {
+  int seconds = (int)(ms / 1000);
+  int minutes = 0;
+  int hours = 0;
+  if (seconds > 59) {
+    minutes = (int)(seconds / 60);
+    seconds -= (minutes * 60);
+  }
+  if (minutes > 59) {
+    hours = (int)(minutes / 60);
+    minutes -= (hours * 60);
+  }
+  char buffer[128];
+  sprintf(buffer, "%02d:%02d:%02d", hours, minutes, seconds);
+  return buffer;
+}
+
+const int WIDTH = 128;
+const int HEIGHT = 32;
+const int RADIUS = 16;
+
+void drawLine(int fromX, int fromY, int toX, int toY) {
+  int deltaX = (toX - fromX);
+  int deltaY = (toY - fromY);
+  if (deltaX == 0 && deltaY == 0) {
+    ssd1306.drawPixel(fromX, fromY, WHITE);
+    return;
+  }
+  if (deltaX == 0) {
+    for (int y = min(fromY, toY); y <= max(toY, fromY); y++) {
+      if (fromX >= 0 && fromX < WIDTH && y >= 0 && y < HEIGHT) {
+        ssd1306.drawPixel(fromX, y, WHITE);
+      }
+    }
+  } else if (deltaY == 0) {
+    for (int x = min(fromX, toX); x <= max(toX, fromX); x++) {
+      if (x >= 0 && x < WIDTH && fromY >= 0 && fromY < HEIGHT) {
+        ssd1306.drawPixel(x, fromY, WHITE);
+      }
+    }
+  } else if (abs(deltaX) >= abs(deltaY)) { // [-45, +45]
+    if (deltaX < 0) {
+      int X = fromX;
+      int Y = fromY;
+      fromX = toX;
+      toX = X;
+      fromY = toY;
+      toY = Y;
+      deltaX = (toX - fromX);
+      deltaY = (toY - fromY);
+    }
+    float coeffDir = (float) deltaY / (float) deltaX;
+    //    if (fromX < toX)
+    {
+      for (int x = 0; x <= deltaX; x++) {
+        int y = fromY + (int) (round(x * coeffDir));
+        int _x = x + fromX;
+        if (_x >= 0 && _x < WIDTH && y >= 0 && y < HEIGHT) {
+          ssd1306.drawPixel(_x, y, WHITE);
+        }
+      }
+    }
+  } else if (abs(deltaX) < abs(deltaY)) { // > 45, < -45
+    if (deltaY < 0) {
+      int X = fromX;
+      int Y = fromY;
+      fromX = toX;
+      toX = X;
+      fromY = toY;
+      toY = Y;
+      deltaX = (toX - fromX);
+      deltaY = (toY - fromY);
+    }
+    float coeffDir = (float) deltaX / (float) deltaY;
+    //    if (fromX < toX)
+    {
+      for (int y = 0; y <= deltaY; y++) {
+        int x = fromX + (int) (round(y * coeffDir));
+        int _y = y + fromY;
+        if (_y >= 0 && _y < HEIGHT && x >= 0 && x < WIDTH) {
+          ssd1306.drawPixel(x, _y, WHITE);
+        }
+      }
+    }
+  }
+}
+
+float degToRadians(float deg) {
+  return (deg * 71) / 4068;
+}
+
+void drawHeading(int heading) {
+  ssd1306.clearDisplay();
+  // Face
+  for (int deg = 0; deg < 360; deg++) {
+    float rad =  degToRadians((float)deg);
+    int x = (int)(RADIUS * sin(rad));
+    int y = (int)(RADIUS * cos(rad));
+    ssd1306.drawPixel(16 + x, 16 + y, WHITE);
+  }
+  {
+    float rad = degToRadians(heading);
+    int x = round((RADIUS * 0.75) * sin(rad));
+    int y = round((RADIUS * 0.75) * cos(rad));
+    drawLine(16, 16, 16 + x, 16 - y);
+  }
+}
+
+void drawWatch(int hours, int minutes, int seconds) {
+  ssd1306.clearDisplay();
+  // Face
+  for (int deg = 0; deg < 360; deg++) {
+    float rad =  degToRadians((float)deg);
+    int x = (int)(RADIUS * sin(rad));
+    int y = (int)(RADIUS * cos(rad));
+    ssd1306.drawPixel(16 + x, 16 + y, WHITE);
+  }
+  float hoursInDegrees = ((hours % 12) * 30) + (((minutes * 6) + (seconds / 10)) / 12);
+  float minInDegrees = ((minutes * 6) + (seconds / 10));
+  float secInDegrees = seconds * 6;
+
+  //sprintf(dataBuffer, "ms:%d => %02d:%02d:%02d, %f", ms, hours, minutes, seconds, secInDegrees);
+  //Serial.println(dataBuffer);
+
+  // Seconds
+  {
+    float rad = degToRadians(secInDegrees);
+    int x = round((RADIUS * 0.75) * sin(rad));
+    int y = round((RADIUS * 0.75) * cos(rad));
+    //    if (seconds == 7 || seconds == 8 || seconds == 22 || seconds == 23 || seconds == 37 || seconds == 38 || seconds == 52 || seconds == 53) {
+    //      sprintf(dataBuffer, "Sec: %d => deg: %f, rad: %f, x: %d, y: %d", seconds, secInDegrees, rad, x, y);
+    //      Serial.println(dataBuffer);
+    //    }
+    drawLine(16, 16, 16 + x, 16 - y);
+  }
+  // Minutes
+  {
+    float rad = degToRadians(minInDegrees);
+    int x = round((RADIUS * 0.65) * sin(rad));
+    int y = round((RADIUS * 0.65) * cos(rad));
+    drawLine(16, 16, 16 + x, 16 - y);
+  }
+  // Hours
+  {
+    float rad = degToRadians(hoursInDegrees);
+    int x = round((RADIUS * 0.5) * sin(rad));
+    int y = round((RADIUS * 0.5) * cos(rad));
+    drawLine(16, 16, 16 + x, 16 - y);
+  }
+}
+
 int screenIndex = 0;
+boolean charOnly = false;
 
 void repaint() {
   ssd1306.clearDisplay();
 
   ssd1306.setTextColor(WHITE);
   ssd1306.setTextSize(1);
-//ssd1306.setTextSize(2);
+  //ssd1306.setTextSize(2);
 
   char dataBuffer[128];
 
   ssd1306.setCursor(0, 0);
   switch (screenIndex) {
     case 0:
-      ssd1306.println("--- Position ---"); 
+      ssd1306.println("--- Position ---");
       sprintf(dataBuffer, "L: %s", toDegMin(lat, NS));
       ssd1306.println(dataBuffer);
       sprintf(dataBuffer, "G: %s", toDegMin(lng, EW));
       ssd1306.println(dataBuffer);
       break;
     case 1:
-      ssd1306.println("--- Displacement ---");
-      sprintf(dataBuffer, "SOG: %.2f kts", sog);
-      ssd1306.println(dataBuffer);
-      sprintf(dataBuffer, "COG: %d", cog);
-      ssd1306.println(dataBuffer);
+      if (charOnly) {
+        ssd1306.println("--- Displacement ---");
+        sprintf(dataBuffer, "SOG: %.2f kts", sog);
+        ssd1306.println(dataBuffer);
+        sprintf(dataBuffer, "COG: %d", cog);
+        ssd1306.println(dataBuffer);
+      } else {
+        // Draw compass
+        drawHeading(cog);
+        // Then COG-SOG
+        ssd1306.setCursor(40, 0);
+        sprintf(dataBuffer, "SOG: %.2f kts", sog);
+        ssd1306.println(dataBuffer);
+        ssd1306.setCursor(40, 10);
+        sprintf(dataBuffer, "COG: %d", cog);
+        ssd1306.println(dataBuffer);
+      }
       break;
     case 2:
-      ssd1306.println("--- Network ---"); 
-      sprintf(dataBuffer, "Net: %s", SSID);
-      ssd1306.println(dataBuffer);
-      sprintf(dataBuffer, "%02d:%02d:%02d UTC", hour, mins, sec);
-      ssd1306.println(dataBuffer);
+      if (charOnly) {
+        ssd1306.println("--- Network ---");
+        sprintf(dataBuffer, "Net: %s", SSID);
+        ssd1306.println(dataBuffer);
+        sprintf(dataBuffer, "%02d:%02d:%02d UTC", hour, mins, sec);
+        ssd1306.println(dataBuffer);
+      } else {
+        // Draw watch
+        drawWatch(hour, mins, sec);
+        // Then display time
+        ssd1306.setCursor(40, 0);
+        sprintf(dataBuffer, "%02d:%02d:%02d UTC", hour, mins, sec);
+        ssd1306.println(dataBuffer);
+        ssd1306.setCursor(40, 10);
+        sprintf(dataBuffer, "Net:%s", SSID);
+        ssd1306.println(dataBuffer);
+      }
       break;
     default:
       break;
@@ -160,7 +343,7 @@ void setup() {
   int count = 0;
   char dataBuffer[128];
 
-  // Testing the screen
+  // Initializing buttons
   pinMode(BUTTON_A, INPUT_PULLUP);
   pinMode(BUTTON_B, INPUT_PULLUP);
   pinMode(BUTTON_C, INPUT_PULLUP);
@@ -248,12 +431,12 @@ void loop() {
       Serial.println("Button C");
     }
     delay(10);
-    yield(); // TODO What's that?
+    yield(); // Send to backgbround, or so.
     //ssd1306.display();
   } else {
     unsigned long time = millis();
     if (time - lastPing > 5000) {
-      screenIndex += 1;
+      screenIndex += 1; // Scroll to next screen
       lastPing = time;
       if (screenIndex > 2) {
         screenIndex = 0;
@@ -284,7 +467,7 @@ void loop() {
     Serial.println(url);
 
     // This will send the request to the server
-    sendRequest(client, "GET", url, "HTTP/1.1", HOST);
+    sendRESTRequest(client, "GET", url, "HTTP/1.1", HOST, NULL, 0, String());
     delay(500);
 
     // Read all the lines of the reply from server and print them to Serial
@@ -336,11 +519,22 @@ void loop() {
   repaint(); // Display data on screen
 }
 
-void sendRequest(WiFiClient client, String verb, String url, String protocol, String host) {
+void sendRESTRequest(WiFiClient client, String verb, String url, String protocol, String host, String headers[], int headerLen, String payload) {
   String request = verb + " " + url + " " + protocol + "\r\n" +
-                   "Host: " + host + "\r\n" +
-                   "Connection: close\r\n" +
-                   "\r\n";
+                   "Host: " + host + "\r\n";
+  // Headers ?
+  if (headers != NULL && headerLen > 0) {
+    for (int i = 0; i < headerLen; i++) {
+      request = String(request + headers[i] + "\r\n");
+    }
+  }
+
+  request = String(request + "Connection: close\r\n" + "\r\n");
+  
+  // Payload ?
+  if (payload != NULL && payload.length() > 0) {
+    request = String(request + payload);
+  }
   client.print(request);
 }
 
