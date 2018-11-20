@@ -1,5 +1,6 @@
 /**
-   Screen test for the Feather SSD1306 128x32
+   Screen test for the Feather SSD1306 128x32, or 128x64
+   Screen definition and address depend on defines: SSD1306_128x32 and SSD1306_128x64, see below.
    Test with NO buttons
 
    @author Olivier LeDiouris
@@ -265,13 +266,13 @@ void loop() {
       ssd1306.println(dataBuffer);
       break;
     case 1:
-      interval = 2000;
+      interval = 2000 * (SSD1306_HEIGHT / 32);
       ssd1306.clearDisplay();
       ssd1306.setCursor(0, yOffset);
       ssd1306.setTextSize(1);
       sprintf(dataBuffer, "2 - yOffset = %d", yOffset);
       yOffset += 1;
-      if (yOffset > 32) {
+      if (yOffset > SSD1306_HEIGHT) {
         yOffset = 0;
       }
       ssd1306.println(dataBuffer);
