@@ -86,6 +86,13 @@ char dataBuffer[128];
 
 unsigned long lastPing = 0;
 
+#define BALL_RADIUS 3
+
+int bouncingBallX = random(10, SSD1306_WIDTH - 10);
+int bouncingBallY = BALL_RADIUS;
+int bouncingXIncrement = 1;
+int bouncingYIncrement = 3;
+
 void loop() {
   unsigned long time = millis();
 
@@ -112,6 +119,21 @@ void loop() {
   sprintf(dataBuffer, "%s", msToTimeStr(time - started, false));
   ssd1306.println(dataBuffer);
   ssd1306.drawFastHLine(0, 56, SSD1306_WIDTH - 1, WHITE);
+
+  // A bouncing ball here
+  int boxHeight = (116 - 58);
+
+  ssd1306.drawRect(0, 58, ssd1306.width(), boxHeight, WHITE);
+  ssd1306.fillCircle(bouncingBallX, bouncingBallY + 58, BALL_RADIUS, WHITE);
+  bouncingBallX += bouncingXIncrement;
+  bouncingBallY += bouncingYIncrement;
+
+  if (bouncingBallX <= BALL_RADIUS || bouncingBallX >= (ssd1306.width() - BALL_RADIUS)) {
+    bouncingXIncrement *= -1;
+  }
+  if (bouncingBallY <= BALL_RADIUS || bouncingBallY >= (boxHeight - BALL_RADIUS)) {
+    bouncingYIncrement *= -1;
+  }
 
   ssd1306.setCursor(0, 118);
   ssd1306.println("Oliv did it.");
