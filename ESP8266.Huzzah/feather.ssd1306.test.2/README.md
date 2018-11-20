@@ -2,9 +2,11 @@
 ### For 128x32 and 128x64 displays
 
 The same code works for both screens, some `#define` statements have to be changed in the code.
-The test will display some characters, with different sizes, and do some drawings as well (a watch).
 
-The `I2C` is not the same for both, see in the code
+The test will show how to use the basic features of the library.
+It will display some characters, with different sizes, and do some drawings as well (a watch).
+
+The `I2C` address is not the same for both, see in the code
 ```C
 #include <Adafruit_SSD1306.h>
 

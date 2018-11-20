@@ -8,4 +8,6 @@ As such, it can connect to a Network (LAN or Internet, whatever).
 - [`huzzah.smart.TCP.watch`](TCPWatch/README.md): Same as above, with an OLED display to see the result.
 - Several tests/samples are also provided here.
 
----
+Many directories contain a `README.md`, giving details and instructions when needed.
+
+----------------------------------------

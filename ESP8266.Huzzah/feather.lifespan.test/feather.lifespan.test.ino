@@ -21,6 +21,7 @@ Adafruit_SSD1306 ssd1306 = Adafruit_SSD1306(128, 32, &Wire);
 const char* ssid     = "Sonic-00e0";
 const char* password = "67369c7831";
 
+// hostname and port where the REST Server is running
 const char* host = "192.168.42.8"; // Or whatever IP or hostname you can reach
 const int port = 9999;
 
@@ -87,10 +88,10 @@ unsigned long lastPing = 0;
 int interval = 1000; // default
 
 void loop() {
-  delay(500); 
+  delay(500);
 
   unsigned long time = millis();
-  
+
   ssd1306.clearDisplay();
   ssd1306.setTextColor(WHITE);
   ssd1306.setTextSize(2);
@@ -117,14 +118,14 @@ void loop() {
 //    String url = "/testwifi/index.html";
 //    Serial.print("Requesting URL: ");
 //    Serial.println(url);
-//  
+//
 //    // This will send the request to the server
 //    sendRequest(client, "GET", url, "HTTP/1.1", host);
 //    delay(500);
 //    sendRESTRequest(client, "GET", url, "HTTP/1.1", host, NULL, 0, String());
 //    delay(500);
 //  }
-  
+
   String url = "/feather/lifespan"; // REST Endpoint
   sprintf(dataBuffer, "Content.length: %d", payload.length());
   String headers[] = {
@@ -174,7 +175,7 @@ void sendRESTRequest(WiFiClient client, String verb, String url, String protocol
   }
 
   request = String(request + "Connection: close\r\n" + "\r\n");
-  
+
   // Payload ?
   if (payload != NULL && payload.length() > 0) {
     request = String(request + payload);

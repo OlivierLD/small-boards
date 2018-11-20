@@ -1,7 +1,7 @@
 /**
-   Test for the Feather SSD1306 128x32
+   Test for the Feather SSD1306 128x32 Stack oled screen
    Test with buttons
-   
+
    @author Olivier LeDiouris
 */
 #include <Wire.h>

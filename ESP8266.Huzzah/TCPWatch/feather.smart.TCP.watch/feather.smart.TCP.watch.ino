@@ -278,6 +278,7 @@ void repaint() {
       ssd1306.println(dataBuffer);
       sprintf(dataBuffer, "G: %s", toDegMin(lng, EW));
       ssd1306.println(dataBuffer);
+      ssd1306.println("----- GPS ------");
       break;
     case 1:
       if (charOnly) {
@@ -530,7 +531,7 @@ void sendRESTRequest(WiFiClient client, String verb, String url, String protocol
   }
 
   request = String(request + "Connection: close\r\n" + "\r\n");
-  
+
   // Payload ?
   if (payload != NULL && payload.length() > 0) {
     request = String(request + payload);
