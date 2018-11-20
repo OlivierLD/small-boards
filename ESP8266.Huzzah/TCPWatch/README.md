@@ -21,7 +21,7 @@ I'm not there yet, but this could be a cheap approach.
 
 It will be using REST over HTTP, TCP will come later, if needed.
 
-We want this watch device to can communicate with a server on the same Local Area Network (**LAN**) or Wide Area Network (**WAN**).
+We want this watch device to communicate with a server on the same Local Area Network (**LAN**) or Wide Area Network (**WAN**).
 
 For example:
 - You are or a boat, there is a Raspberry Pi running inside, gathering and computing data (See the [RESTNavServer](https://github.com/OlivierLD/raspberry-coffee/tree/master/RESTNavServer) for details). Several such watches can connect to the Raspberry Pi's network to read and display all the data managed by the server.
