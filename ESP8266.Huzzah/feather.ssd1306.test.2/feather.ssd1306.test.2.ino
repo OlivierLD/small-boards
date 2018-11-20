@@ -1,6 +1,8 @@
 /**
    Screen test for the Feather SSD1306 128x32, or 128x64
    Screen definition and address depend on defines: SSD1306_128x32 and SSD1306_128x64, see below.
+   Graphical primitives doc at https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives
+   
    Test with NO buttons
 
    @author Olivier LeDiouris
@@ -74,72 +76,6 @@ char* msToTimeDisplay(long ms) {
   return buffer;
 }
 
-void drawLine(int fromX, int fromY, int toX, int toY) {
-  int deltaX = (toX - fromX);
-  int deltaY = (toY - fromY);
-  if (deltaX == 0 && deltaY == 0) {
-    ssd1306.drawPixel(fromX, fromY, WHITE);
-    return;
-  }
-  if (deltaX == 0) {
-    for (int y = min(fromY, toY); y <= max(toY, fromY); y++) {
-      if (fromX >= 0 && fromX < SSD1306_WIDTH && y >= 0 && y < SSD1306_HEIGHT) {
-        ssd1306.drawPixel(fromX, y, WHITE);
-      }
-    }
-  } else if (deltaY == 0) {
-    for (int x = min(fromX, toX); x <= max(toX, fromX); x++) {
-      if (x >= 0 && x < SSD1306_WIDTH && fromY >= 0 && fromY < SSD1306_HEIGHT) {
-        ssd1306.drawPixel(x, fromY, WHITE);
-      }
-    }
-  } else if (abs(deltaX) >= abs(deltaY)) { // [-45, +45]
-    if (deltaX < 0) {
-      int X = fromX;
-      int Y = fromY;
-      fromX = toX;
-      toX = X;
-      fromY = toY;
-      toY = Y;
-      deltaX = (toX - fromX);
-      deltaY = (toY - fromY);
-    }
-    float coeffDir = (float) deltaY / (float) deltaX;
-    //    if (fromX < toX)
-    {
-      for (int x = 0; x <= deltaX; x++) {
-        int y = fromY + (int) (round(x * coeffDir));
-        int _x = x + fromX;
-        if (_x >= 0 && _x < SSD1306_WIDTH && y >= 0 && y < SSD1306_HEIGHT) {
-          ssd1306.drawPixel(_x, y, WHITE);
-        }
-      }
-    }
-  } else if (abs(deltaX) < abs(deltaY)) { // > 45, < -45
-    if (deltaY < 0) {
-      int X = fromX;
-      int Y = fromY;
-      fromX = toX;
-      toX = X;
-      fromY = toY;
-      toY = Y;
-      deltaX = (toX - fromX);
-      deltaY = (toY - fromY);
-    }
-    float coeffDir = (float) deltaX / (float) deltaY;
-    //    if (fromX < toX)
-    {
-      for (int y = 0; y <= deltaY; y++) {
-        int x = fromX + (int) (round(y * coeffDir));
-        int _y = y + fromY;
-        if (_y >= 0 && _y < SSD1306_HEIGHT && x >= 0 && x < SSD1306_WIDTH) {
-          ssd1306.drawPixel(x, _y, WHITE);
-        }
-      }
-    }
-  }
-}
-
 void setup() {
   started = millis(); // init.
   ssd1306.begin(SSD1306_SWITCHCAPVCC, SSD1306_I2C_ADDR);
@@ -178,7 +114,7 @@ const int CENTER_X = SSD1306_HEIGHT / 2;
 const int CENTER_Y = SSD1306_HEIGHT / 2;
 int nbSec = 0;
 
-const int MAX_STEPS = 3;
+const int MAX_STEPS = 4;
 
 float degToRadians(float deg) {
   return (deg * 71) / 4068;
@@ -206,6 +142,9 @@ void drawWatch(unsigned long ms, boolean secondsOnly) {
     int y = (int)(RADIUS * cos(rad));
     ssd1306.drawPixel(CENTER_X + x, CENTER_Y + y, WHITE);
   }
+  // Other option, faster
+  ssd1306.drawCircle(CENTER_X, CENTER_Y, (int)(RADIUS * 0.9), WHITE);
+  
   float hoursInDegrees = ((hours % 12) * 30) + (((minutes * 6) + (seconds / 10)) / 12);
   float minInDegrees = ((minutes * 6) + (seconds / 10));
   float secInDegrees = seconds * 6;
@@ -218,7 +157,7 @@ void drawWatch(unsigned long ms, boolean secondsOnly) {
     float rad = degToRadians(secInDegrees);
     int x = round((RADIUS * 0.75) * sin(rad));
     int y = round((RADIUS * 0.75) * cos(rad));
-    drawLine(CENTER_X, CENTER_Y, CENTER_X + x, CENTER_Y - y);
+    ssd1306.drawLine(CENTER_X, CENTER_Y, CENTER_X + x, CENTER_Y - y, WHITE);
   }
   if (!secondsOnly) {
     // Minutes
@@ -226,19 +165,24 @@ void drawWatch(unsigned long ms, boolean secondsOnly) {
       float rad = degToRadians(minInDegrees);
       int x = round((RADIUS * 0.65) * sin(rad));
       int y = round((RADIUS * 0.65) * cos(rad));
-      drawLine(CENTER_X, CENTER_Y, CENTER_X + x, CENTER_Y - y);
+      ssd1306.drawLine(CENTER_X, CENTER_Y, CENTER_X + x, CENTER_Y - y, WHITE);
     }
     // Hours
     {
       float rad = degToRadians(hoursInDegrees);
       int x = round((RADIUS * 0.5) * sin(rad));
       int y = round((RADIUS * 0.5) * cos(rad));
-      drawLine(CENTER_X, CENTER_Y, CENTER_X + x, CENTER_Y - y);
+      ssd1306.drawLine(CENTER_X, CENTER_Y, CENTER_X + x, CENTER_Y - y, WHITE);
     }
   }
 }
 
 int interval = 5000; // default
+
+int bouncingBallX = random(10, SSD1306_WIDTH - 10);
+int bouncingBallY = 0;
+int bouncingXIncrement = 1;
+int bouncingYIncrement = 3;
 
 void loop() {
   unsigned long time = millis();
@@ -293,11 +237,33 @@ void loop() {
         ssd1306.setTextSize(1);
         int xCursor = (2 * RADIUS) + 12; // 48 in 128x32
         int yCursor = RADIUS - 4; // 4=8/2. 12 in 128x32
+        ssd1306.setCursor(xCursor, yCursor - 10);
+        ssd1306.println("Up since");
         ssd1306.setCursor(xCursor, yCursor);
         sprintf(dataBuffer, "%s", msToTimeStr(time - started));
         ssd1306.println(dataBuffer);
       }
       break;
+    case 4: // Bouncing ball
+      interval = 30000;
+      ssd1306.clearDisplay();
+      // Frame
+//    ssd1306.drawFastHLine(0, 0, SSD1306_WIDTH - 1, WHITE); // Top
+//    ssd1306.drawFastHLine(0, SSD1306_HEIGHT - 1, SSD1306_WIDTH, WHITE); // Bottom
+//    ssd1306.drawFastVLine(0, 0, SSD1306_HEIGHT - 1, WHITE); // Left
+//    ssd1306.drawFastVLine(0, SSD1306_WIDTH - 1, SSD1306_HEIGHT, WHITE); // Right
+      ssd1306.drawRect(0, 0, SSD1306_WIDTH, SSD1306_HEIGHT, WHITE);
+      
+      ssd1306.fillCircle(bouncingBallX, bouncingBallY, 3, WHITE);
+      bouncingBallX += bouncingXIncrement;
+      bouncingBallY += bouncingYIncrement;
+      if (bouncingBallX <= 0 || bouncingBallX >= SSD1306_WIDTH) {
+        bouncingXIncrement *= -1;
+      }
+      if (bouncingBallY <= 0 || bouncingBallY >= SSD1306_HEIGHT) {
+        bouncingYIncrement *= -1;
+      }
+      break;  
     default:
       break;
   }

@@ -6,6 +6,8 @@ The same code works for both screens, some `#define` statements have to be chang
 The test will show how to use the basic features of the library.
 It will display some characters, with different sizes, and do some drawings as well (a watch).
 
+Documentation can be found [here](https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives).
+
 The `I2C` address is not the same for both, see in the code
 ```C
 #include <Adafruit_SSD1306.h>
