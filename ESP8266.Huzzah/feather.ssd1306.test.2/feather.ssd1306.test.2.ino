@@ -91,10 +91,11 @@ void setup() {
   // text display tests
   ssd1306.setTextSize(1);
   ssd1306.setTextColor(WHITE);
+  ssd1306.setTextWrap(false);
   ssd1306.setCursor(0, 0);
   ssd1306.println("Let's go:");
   ssd1306.println("We are in. TxtSize=1");
-  ssd1306.println("123456789012345678901234567890");
+  ssd1306.println("123456789012345678901234567890"); // Should be cut, as setTextWrap(false);
   ssd1306.setCursor(0, 0);
   ssd1306.display(); // actually display all of the above
 
@@ -235,6 +236,8 @@ void loop() {
       {
         drawWatch(time - started, false);
         ssd1306.setTextSize(1);
+        ssd1306.setCursor(0, 0);
+        ssd1306.println("4");
         int xCursor = (2 * RADIUS) + 12; // 48 in 128x32
         int yCursor = RADIUS - 4; // 4=8/2. 12 in 128x32
         ssd1306.setCursor(xCursor, yCursor - 10);
@@ -247,6 +250,10 @@ void loop() {
     case 4: // Bouncing ball
       interval = 30000;
       ssd1306.clearDisplay();
+      ssd1306.setTextSize(1);
+      ssd1306.setCursor(3, 3);
+      ssd1306.println("5");
+
       // Frame
 //    ssd1306.drawFastHLine(0, 0, SSD1306_WIDTH - 1, WHITE); // Top
 //    ssd1306.drawFastHLine(0, SSD1306_HEIGHT - 1, SSD1306_WIDTH, WHITE); // Bottom
