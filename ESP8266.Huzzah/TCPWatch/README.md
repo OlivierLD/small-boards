@@ -15,13 +15,14 @@ It might not be as user-friendly as a nice web-page, but I'm working on it.
 
 I'm not there yet, but this could be a cheap approach.
 
-The Pebble was a cheap smart-watch, the first option was about $100. But after Pebble got acquired by Fitbit,
-it was gone - along with the nice Cloud IDE they were providing. The cheapest of Fitbit is more than $200,
-and this is the kind of devices that tells you to stand up every time you sit down. Not needed.
+> The Pebble was a cheap smart-watch, the first option was about $100. But after Pebble got acquired by Fitbit,
+> it was gone - along with the nice Cloud IDE they were providing. The cheapest of Fitbit is more than $200,
+> and this is the kind of devices that tells you to stand up every time you sit down. Not needed.
 
 It will be using REST over HTTP, TCP will come later, if needed.
 
-We want here to build a watch-like device that can communicate with a server on the same Local Area Network (**LAN**) or Wide Area Network (**WAN**).
+We want this watch device to can communicate with a server on the same Local Area Network (**LAN**) or Wide Area Network (**WAN**).
+
 For example:
 - You are or a boat, there is a Raspberry Pi running inside, gathering and computing data (See the [RESTNavServer](https://github.com/OlivierLD/raspberry-coffee/tree/master/RESTNavServer) for details). Several such watches can connect to the Raspberry Pi's network to read and display all the data managed by the server.
 - You have a data logger running (like [that one](https://github.com/OlivierLD/raspberry-coffee/blob/master/NMEA.multiplexer/examples.md#driving-and-logging)) in your kayak when you're paddling, the logger can also act as a REST server, and you can see your speed and course over ground on this watch device (like [here](./feather.smart.TCP.watch/README.md)).
