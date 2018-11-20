@@ -1,6 +1,7 @@
 /*
    Test the life span of a Feather with OLED Screen, and a LiPo battery.
    POST a REST request every second, as long as it is alive.
+   The server keeps track of the messages posted by the Feather.
 */
 
 #include <Wire.h>

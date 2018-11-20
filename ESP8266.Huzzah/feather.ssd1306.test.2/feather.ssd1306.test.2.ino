@@ -1,7 +1,7 @@
 /**
    Screen test for the Feather SSD1306 128x32
    Test with NO buttons
-   
+
    @author Olivier LeDiouris
 */
 #include <Wire.h>
@@ -9,40 +9,27 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-Adafruit_SSD1306 ssd1306 = Adafruit_SSD1306(128, 32, &Wire);
+// for 128x32
+//#define SSD1306_128x32
+//#undef SSD1306_128x64
 
-// OLED FeatherWing buttons map to different pins depending on board:
-#if defined(ESP8266)
-#define BUTTON_A  0
-#define BUTTON_B 16
-#define BUTTON_C  2
-#define LED       0
-#elif defined(ESP32)
-#define BUTTON_A 15
-#define BUTTON_B 32
-#define BUTTON_C 14
-#define LED      13
-#elif defined(ARDUINO_STM32_FEATHER)
-#define BUTTON_A PA15
-#define BUTTON_B PC7
-#define BUTTON_C PC5
-#define LED PB5
-#elif defined(TEENSYDUINO)
-#define BUTTON_A  4
-#define BUTTON_B  3
-#define BUTTON_C  8
-#define LED 13
-#elif defined(ARDUINO_FEATHER52)
-#define BUTTON_A 31
-#define BUTTON_B 30
-#define BUTTON_C 27
-#define LED 17
-#else // 32u4, M0, M4, and 328p
-#define BUTTON_A  9
-#define BUTTON_B  6
-#define BUTTON_C  5
-#define LED      13
+// for 128x64
+#undef SSD1306_128x32
+#define SSD1306_128x64
+
+const int SSD1306_WIDTH = 128;
+
+#ifdef SSD1306_128x32
+const int SSD1306_I2C_ADDR = 0x3C; // for 128x32
+const int SSD1306_HEIGHT = 32;
 #endif
+
+#ifdef SSD1306_128x64
+const int SSD1306_I2C_ADDR = 0x3D; // for 128x64
+const int SSD1306_HEIGHT = 64;
+#endif
+
+Adafruit_SSD1306 ssd1306 = Adafruit_SSD1306(SSD1306_WIDTH, SSD1306_HEIGHT, &Wire);
 
 unsigned long started = 0;
 
@@ -86,17 +73,7 @@ char* msToTimeDisplay(long ms) {
   return buffer;
 }
 
-const int WIDTH = 128;
-const int HEIGHT = 32;
 void drawLine(int fromX, int fromY, int toX, int toY) {
-  //  float deltaX = (toX - fromX);
-  //  float deltaY = (toY - fromY);
-  //  float maxDelta = fabs(max(deltaX, deltaY));
-  //  for (int i = 0; i < maxDelta; i++) {
-  //    int _x = (int)(fromX + (i * (deltaX / maxDelta)));
-  //    int _y = (int)(fromY + (i * (deltaY / maxDelta)));
-  //    ssd1306.drawPixel(_x, _y, WHITE);
-  //  }
   int deltaX = (toX - fromX);
   int deltaY = (toY - fromY);
   if (deltaX == 0 && deltaY == 0) {
@@ -105,13 +82,13 @@ void drawLine(int fromX, int fromY, int toX, int toY) {
   }
   if (deltaX == 0) {
     for (int y = min(fromY, toY); y <= max(toY, fromY); y++) {
-      if (fromX >= 0 && fromX < WIDTH && y >= 0 && y < HEIGHT) {
+      if (fromX >= 0 && fromX < SSD1306_WIDTH && y >= 0 && y < SSD1306_HEIGHT) {
         ssd1306.drawPixel(fromX, y, WHITE);
       }
     }
   } else if (deltaY == 0) {
     for (int x = min(fromX, toX); x <= max(toX, fromX); x++) {
-      if (x >= 0 && x < WIDTH && fromY >= 0 && fromY < HEIGHT) {
+      if (x >= 0 && x < SSD1306_WIDTH && fromY >= 0 && fromY < SSD1306_HEIGHT) {
         ssd1306.drawPixel(x, fromY, WHITE);
       }
     }
@@ -132,7 +109,7 @@ void drawLine(int fromX, int fromY, int toX, int toY) {
       for (int x = 0; x <= deltaX; x++) {
         int y = fromY + (int) (round(x * coeffDir));
         int _x = x + fromX;
-        if (_x >= 0 && _x < WIDTH && y >= 0 && y < HEIGHT) {
+        if (_x >= 0 && _x < SSD1306_WIDTH && y >= 0 && y < SSD1306_HEIGHT) {
           ssd1306.drawPixel(_x, y, WHITE);
         }
       }
@@ -154,7 +131,7 @@ void drawLine(int fromX, int fromY, int toX, int toY) {
       for (int y = 0; y <= deltaY; y++) {
         int x = fromX + (int) (round(y * coeffDir));
         int _y = y + fromY;
-        if (_y >= 0 && _y < HEIGHT && x >= 0 && x < WIDTH) {
+        if (_y >= 0 && _y < SSD1306_HEIGHT && x >= 0 && x < SSD1306_WIDTH) {
           ssd1306.drawPixel(x, _y, WHITE);
         }
       }
@@ -164,7 +141,7 @@ void drawLine(int fromX, int fromY, int toX, int toY) {
 
 void setup() {
   started = millis(); // init.
-  ssd1306.begin(SSD1306_SWITCHCAPVCC, 0x3C); // Address 0x3C for 128x32
+  ssd1306.begin(SSD1306_SWITCHCAPVCC, SSD1306_I2C_ADDR);
   // initialize display
   ssd1306.display();
   delay(2000);
@@ -195,7 +172,9 @@ int yOffset = 0;
 char dataBuffer[128];
 
 unsigned long lastPing = 0;
-const int RADIUS = 16;
+const int RADIUS = SSD1306_HEIGHT / 2;
+const int CENTER_X = SSD1306_HEIGHT / 2;
+const int CENTER_Y = SSD1306_HEIGHT / 2;
 int nbSec = 0;
 
 const int MAX_STEPS = 3;
@@ -224,25 +203,21 @@ void drawWatch(unsigned long ms, boolean secondsOnly) {
     float rad =  degToRadians((float)deg);
     int x = (int)(RADIUS * sin(rad));
     int y = (int)(RADIUS * cos(rad));
-    ssd1306.drawPixel(16 + x, 16 + y, WHITE);
+    ssd1306.drawPixel(CENTER_X + x, CENTER_Y + y, WHITE);
   }
   float hoursInDegrees = ((hours % 12) * 30) + (((minutes * 6) + (seconds / 10)) / 12);
   float minInDegrees = ((minutes * 6) + (seconds / 10));
   float secInDegrees = seconds * 6;
 
-//sprintf(dataBuffer, "ms:%d => %02d:%02d:%02d, %f", ms, hours, minutes, seconds, secInDegrees);
-//Serial.println(dataBuffer);
+  //sprintf(dataBuffer, "ms:%d => %02d:%02d:%02d, %f", ms, hours, minutes, seconds, secInDegrees);
+  //Serial.println(dataBuffer);
 
   // Seconds
   {
     float rad = degToRadians(secInDegrees);
     int x = round((RADIUS * 0.75) * sin(rad));
     int y = round((RADIUS * 0.75) * cos(rad));
-//    if (seconds == 7 || seconds == 8 || seconds == 22 || seconds == 23 || seconds == 37 || seconds == 38 || seconds == 52 || seconds == 53) {
-//      sprintf(dataBuffer, "Sec: %d => deg: %f, rad: %f, x: %d, y: %d", seconds, secInDegrees, rad, x, y);
-//      Serial.println(dataBuffer);
-//    }
-    drawLine(16, 16, 16 + x, 16 - y);
+    drawLine(CENTER_X, CENTER_Y, CENTER_X + x, CENTER_Y - y);
   }
   if (!secondsOnly) {
     // Minutes
@@ -250,14 +225,14 @@ void drawWatch(unsigned long ms, boolean secondsOnly) {
       float rad = degToRadians(minInDegrees);
       int x = round((RADIUS * 0.65) * sin(rad));
       int y = round((RADIUS * 0.65) * cos(rad));
-      drawLine(16, 16, 16 + x, 16 - y);
+      drawLine(CENTER_X, CENTER_Y, CENTER_X + x, CENTER_Y - y);
     }
     // Hours
     {
       float rad = degToRadians(hoursInDegrees);
       int x = round((RADIUS * 0.5) * sin(rad));
       int y = round((RADIUS * 0.5) * cos(rad));
-      drawLine(16, 16, 16 + x, 16 - y);
+      drawLine(CENTER_X, CENTER_Y, CENTER_X + x, CENTER_Y - y);
     }
   }
 }
@@ -312,11 +287,15 @@ void loop() {
       break;
     case 3: // Bonus
       interval = 60000;
-      drawWatch(time - started, false);
-      ssd1306.setTextSize(1);
-      ssd1306.setCursor(48, 12); // 12: 16 - (8/2)
-      sprintf(dataBuffer, "%s", msToTimeStr(time - started));
-      ssd1306.println(dataBuffer);
+      {
+        drawWatch(time - started, false);
+        ssd1306.setTextSize(1);
+        int xCursor = (2 * RADIUS) + 12; // 48 in 128x32
+        int yCursor = RADIUS - 4; // 4=8/2. 12 in 128x32
+        ssd1306.setCursor(xCursor, yCursor);
+        sprintf(dataBuffer, "%s", msToTimeStr(time - started));
+        ssd1306.println(dataBuffer);
+      }
       break;
     default:
       break;

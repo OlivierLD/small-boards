@@ -35,27 +35,14 @@ const char* REST_REQUEST = "/mux/cache?option=txt"; // txt, not json.
 const int BETWEEN_LOOPS = 500; // in milli-sec.
 /* ----- End of Customizable Data ----- */
 
-#define HUZZAH
-
 // SSD1306 OLED Display connections and wiring
-#ifdef HUZZAH
 #define SDA 14
 #define SCL 12
-const int I2C = 0x3D; // Huzzah
-#endif
 
-#ifdef FEATHER
-#define SDA 4
-#define SCL 5
-const int I2C = 0x3C; // Feather
-#endif
+const int I2C = 0x3D; // Adafruit SSD1306 128x64
 
 //#define RST 2
 
-
-// Initialize the oled display for address 0x3c
-// 0x3D is the adafruit address.
-// sda-pin=14 and sdc-pin=12
 SSD1306 ssd1306(I2C, SDA, SCL);
 
 // Data from REST server

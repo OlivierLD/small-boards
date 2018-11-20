@@ -16,7 +16,7 @@ It might not be as user-friendly as a nice web-page, but I'm working on it.
 I'm not there yet, but this could be a cheap approach.
 
 The Pebble was a cheap smart-watch, the first option was about $100. But after it got acquired by Fitbit,
-it was gone - along with the nice Cloud IDE they were providing. The cheapest of Fitbit is more then $200,
+it was gone - along with the nice Cloud IDE they were providing. The cheapest of Fitbit is more than $200,
 and this is the kind of devices that tells you to stand up every time you sit down. Not needed.
 
 It will be using REST over HTTP, TCP will come later, if needed.

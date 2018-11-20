@@ -16,6 +16,9 @@ It will be using REST over HTTP, TCP will come later.
 
 The ESP8266/Huzzah has built-in WiFi capabilities, and can deal with an OLED screen like the `SSD1306`.
 
+> _Note_: For the `OLED` screen, we use here the files `ssd1306_i2c.ccp` and `ssd1306_i2c.h`. Another option
+> would be to use the Adafruit SSD1306 libraries, as shown in the `feather.ssd1306.test.2`. Those libraries work for both the `128x32` and `128x64` screens.
+
 The starting point was [this document](https://learn.adafruit.com/huzzah-weather-display?view=all).
 
 The ESP8266 will ping the [NavServer/NMEA.multiplexer](https://github.com/OlivierLD/raspberry-coffee/blob/master/NMEA.multiplexer/README.md) with a request like `GET /mux/cache?option=txt`.

@@ -6,5 +6,6 @@ As such, it can connect to a Network (LAN or Internet, whatever).
 - `huzzah.web.client`: Web client 101, the basics.
 - `huzzah.web.2.client`: Web client sending a REST request, and parsing the result. Output is sent to the Serial console.
 - [`huzzah.smart.TCP.watch`](TCPWatch/README.md): Same as above, with an OLED display to see the result.
+- Several tests/samples are also provided here.
 
 ---
