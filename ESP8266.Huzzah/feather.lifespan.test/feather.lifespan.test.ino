@@ -22,7 +22,7 @@ const char* ssid     = "Sonic-00e0";
 const char* password = "67369c7831";
 
 // hostname and port where the REST Server is running
-const char* host = "192.168.42.8"; // Or whatever IP or hostname you can reach
+const char* host = "192.168.42.8";
 const int port = 9999;
 
 unsigned long started = 0;
@@ -114,18 +114,6 @@ void loop() {
   }
 
   // We now create a URI for the request
-//  {
-//    String url = "/testwifi/index.html";
-//    Serial.print("Requesting URL: ");
-//    Serial.println(url);
-//
-//    // This will send the request to the server
-//    sendRequest(client, "GET", url, "HTTP/1.1", host);
-//    delay(500);
-//    sendRESTRequest(client, "GET", url, "HTTP/1.1", host, NULL, 0, String());
-//    delay(500);
-//  }
-
   String url = "/feather/lifespan"; // REST Endpoint
   sprintf(dataBuffer, "Content.length: %d", payload.length());
   String headers[] = {
@@ -149,21 +137,6 @@ void loop() {
   Serial.println("closing connection");
 }
 
-//void sendRequest(WiFiClient client, String verb, String url, String protocol, String host) {
-//  String request = verb + " " + url + " " + protocol + "\r\n" +
-//                   "Host: " + host + "\r\n" +
-//                   "Connection: close\r\n" +
-//                   "\r\n";
-//  if (DEBUG) {
-//    Serial.println("--------------------");
-//    Serial.println(request);
-//    Serial.println("--------------------");
-//  }
-//  if (!SIMULATING) {
-//    client.print(request);
-//  }
-//}
-//
 void sendRESTRequest(WiFiClient client, String verb, String url, String protocol, String host, String headers[], int headerLen, String payload) {
   String request = verb + " " + url + " " + protocol + "\r\n" +
                    "Host: " + host + "\r\n";

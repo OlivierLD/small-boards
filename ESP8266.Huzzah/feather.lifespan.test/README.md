@@ -9,4 +9,6 @@ Such a server is available for example [here](https://github.com/OlivierLD/raspb
 The test will ping the REST server, posting to the resource above a payload formatted with `HH:MM:SS`, like `01:15:06` every second or so, until it dies.
 The last posted payload reflects the lifespan of the Feather.
 
+> See the method `sendRESTRequest` in the code, to see how to make any REST request.
 
+---
