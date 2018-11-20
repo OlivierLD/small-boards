@@ -1,11 +1,9 @@
 /**
-   Screen test for the Feather SSD1306 128x64
    Shows how to rotate the screen content.
+   Screen test for the Feather SSD1306 128x64 Only. Makes no sense to rotate the 128x32.
    
    Graphical primitives doc at https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives
    
-   Test with NO buttons
-
    @author Olivier LeDiouris
 */
 #include <Wire.h>
@@ -17,6 +15,8 @@
 #define ROT_90  1
 #define ROT_180 2
 #define ROT_270 3
+
+// #define DEBUG 
 
 const int SSD1306_WIDTH = 128;
 
@@ -89,6 +89,15 @@ unsigned long lastPing = 0;
 void loop() {
   unsigned long time = millis();
 
+#ifdef DEBUG
+  Serial.print("Started:");
+  Serial.print(started);
+  Serial.print(", time:");
+  Serial.print(time);
+  Serial.print(", delta:");
+  Serial.println(time - started);
+#endif
+  
   ssd1306.clearDisplay();
   ssd1306.setCursor(0, 0);
   ssd1306.setTextSize(2);
