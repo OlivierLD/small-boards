@@ -243,6 +243,14 @@ void repaint() {
           ssd1306.fillCircle(prevX, prevY, 2, WHITE);
         }
       }
+      // Overlay SOG-COG
+      ssd1306.setCursor(2, 2);
+      sprintf(dataBuffer, "SOG:%.2f", sog);
+      ssd1306.println(dataBuffer);
+      ssd1306.setCursor(2, 12);
+      sprintf(dataBuffer, "COG:%03d", cog);
+      ssd1306.println(dataBuffer);
+     
       break;
     default:
       break;
@@ -279,7 +287,8 @@ void setup() {
   ssd1306.println("TCP");
   ssd1306.println("Watch");
   ssd1306.setTextSize(1);
-  ssd1306.println("by OlivSoft");
+  ssd1306.println("by");
+  ssd1306.println("OlivSoft");
   ssd1306.setCursor(0, 0);
   ssd1306.display(); // actually display all of the above
 
