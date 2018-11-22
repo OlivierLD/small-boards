@@ -23,7 +23,7 @@ Done with `feather.lifespan.test.ino` (See the [README.md](../../feather.lifespa
 The last posted data can be obtained from another service `GET /feather/lifespan` by any REST client:
 ```
  $ curl http://localhost:9999/feather/lifespan
- 00:11:37
+  00:11:37
 ```
 
 #### Some results

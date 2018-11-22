@@ -13,7 +13,26 @@
 #define DEBUG true
 #define SIMULATING false
 
-Adafruit_SSD1306 ssd1306 = Adafruit_SSD1306(128, 32, &Wire);
+/*
+ * Uncomment next line if running on a small screen !!
+ */
+// #define SSD1306_128x32
+
+#ifdef SSD1306_128x32
+
+#define I2C_ADDR 0x3C
+#define SSD1306_WIDTH 128
+#define SSD1306_HEIGHT 32
+
+#else
+
+#define I2C_ADDR 0x3D
+#define SSD1306_WIDTH 128
+#define SSD1306_HEIGHT 64
+
+#endif
+
+Adafruit_SSD1306 ssd1306 = Adafruit_SSD1306(SSD1306_WIDTH, SSD1306_HEIGHT, &Wire);
 
 // Network and Host definitions
 
@@ -46,7 +65,7 @@ char* msToTimeStr(long ms) {
 
 void setup() {
   started = millis(); // init.
-  ssd1306.begin(SSD1306_SWITCHCAPVCC, 0x3C); // Address 0x3C for 128x32
+  ssd1306.begin(SSD1306_SWITCHCAPVCC, I2C_ADDR); // Address 0x3C for 128x32, 0x3D otherwise
   // initialize display
   ssd1306.display();
   delay(1000);
@@ -132,7 +151,6 @@ void loop() {
   } else {
     Serial.println("... Simulated response");
   }
-
   Serial.println();
   Serial.println("closing connection");
 }
