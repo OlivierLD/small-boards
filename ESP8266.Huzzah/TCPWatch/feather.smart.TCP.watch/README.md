@@ -29,8 +29,8 @@ The last posted data can be obtained from another service `GET /feather/lifespan
 #### Some results
 | Capacity | Lifespan |
 |---------:|---------:|
-|  105 mAh |     1:15 |
-|  400 mAh |          |
+|  105 mAh |  1:15:04 |
+|  400 mAh |  5:21:37 |
 | 1200 mAh |          |
 | 2500 mAh |          |
 
