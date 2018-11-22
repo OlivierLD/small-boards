@@ -3,6 +3,8 @@
    Draw a map on a SSD1306 128x64
 
    @author Olivier LeDiouris
+
+   Keywords: SSD1306, Dynamic Arrays, Kewl Stuff!
 */
 // Graphical primitives doc at https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives
 #include <Adafruit_GFX.h>

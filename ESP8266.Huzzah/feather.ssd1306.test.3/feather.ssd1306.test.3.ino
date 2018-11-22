@@ -1,10 +1,12 @@
 /**
    Shows how to rotate the screen content.
    Screen test for the Feather SSD1306 128x64 Only. Makes no sense to rotate the 128x32.
-   
+
    Graphical primitives doc at https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives
-   
+
    @author Olivier LeDiouris
+
+   Keywords: ESP8266, Feather, Huzzah, SD1306, Multiple screens, Graphics, Rotated, 128x64
 */
 #include <Wire.h>
 #include <ESP8266WiFi.h>
@@ -16,7 +18,7 @@
 #define ROT_180 2
 #define ROT_270 3
 
-// #define DEBUG 
+// #define DEBUG
 
 const int SSD1306_WIDTH = 128;
 
@@ -51,11 +53,11 @@ char* msToTimeStr(long ms, boolean minSec) {
 void setup() {
   started = millis(); // init.
   ssd1306.begin(SSD1306_SWITCHCAPVCC, SSD1306_I2C_ADDR);
-  
+
   // initialize display
   ssd1306.setRotation(ROT_90);
   ssd1306.display();
-  
+
   delay(2000);
   ssd1306.clearDisplay();
   ssd1306.display();
@@ -104,7 +106,7 @@ void loop() {
   Serial.print(", delta:");
   Serial.println(time - started);
 #endif
-  
+
   ssd1306.clearDisplay();
   ssd1306.setCursor(0, 0);
   ssd1306.setTextSize(2);
@@ -142,4 +144,3 @@ void loop() {
   yield(); // Send in background and move on
   ssd1306.display();
 }
-

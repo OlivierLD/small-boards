@@ -1,5 +1,5 @@
 /**
-   Simple HTTP webclient REST, for the NavServer,
+   Simple HTTP webclient REST, for the NavServer (in http://github.com/OlivierLD/raspberry-coffee),
    for Feather-Huzzah/ESP8266.
 
    Main class of what will be the TCP watch.
@@ -10,6 +10,8 @@
    Also draws a map of the recent positions.
 
    @author Olivier LeDiouris
+
+   Keywords: ESP8266, SSD1306, Dynamic Arrays, Rotated screen, Multiple screens, REST, GET, NavServer
 */
 #include <Wire.h>
 #include <ESP8266WiFi.h>

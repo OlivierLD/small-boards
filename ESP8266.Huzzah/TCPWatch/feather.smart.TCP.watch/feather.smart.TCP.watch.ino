@@ -11,6 +11,11 @@
    @author Olivier LeDiouris
 
    Originally inspired by https://learn.adafruit.com/micropython-oled-watch
+
+   Keywords: ESP8266, Feather, Huzzah, NavServer, 128x32 ...
+
+
+   TODO Cleanup in the drawLine and graphics primitives
 */
 #include <Wire.h>
 #include <ESP8266WiFi.h>
@@ -560,4 +565,3 @@ String getValue(String line) {
   }
   return line.substring(separatorPosition + 1);
 }
-

@@ -7,7 +7,13 @@
    Sends REST requests to the NavServer to get navigation data (see REST_REQUEST variable)
    That one spits out data on the Serial console, and on an oled screen SSD1306 128x64.
 
+   Warning: Power Supply for the Huzzah can be an issue.
+
    @author Olivier LeDiouris
+
+   Keywords: ESP8266, Huzzah, Specific SSD1306 management
+
+   TODO Cleanup (Graphical primitives), deprecate (use Adafruit libs)
 */
 #include <Wire.h>
 #include "ssd1306_i2c.h"
@@ -321,4 +327,3 @@ String getValue(String line) {
   }
   return line.substring(separatorPosition + 1);
 }
-

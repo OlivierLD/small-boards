@@ -3,6 +3,8 @@
    Test with buttons
 
    @author Olivier LeDiouris
+
+   Keywords: ESP8266, Feather, SSD1306 Cap, buttons
 */
 #include <Wire.h>
 #include <ESP8266WiFi.h>
@@ -132,4 +134,3 @@ void loop() {
   yield(); // Send in background...
   ssd1306.display();
 }
-

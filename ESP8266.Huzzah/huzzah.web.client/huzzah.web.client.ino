@@ -1,6 +1,8 @@
 /*
    Simple HTTP get webclient test
-   for Huzzah/ESP8266
+   for Huzzah/ESP8266 and Feather/ESP8266
+
+   Keywords: REST, GET, ESP8266
 */
 
 #include <ESP8266WiFi.h>
@@ -79,4 +81,3 @@ void sendRequest(WiFiClient client, String verb, String url, String protocol, St
                    "\r\n";
   client.print(request);
 }
-

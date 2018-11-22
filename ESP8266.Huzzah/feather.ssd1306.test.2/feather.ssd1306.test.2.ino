@@ -2,10 +2,12 @@
    Screen test for the Feather SSD1306 128x32, or 128x64
    Screen definition and address depend on defines: SSD1306_128x32 and SSD1306_128x64, see below.
    Graphical primitives doc at https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives
-   
+
    Test with NO buttons
 
    @author Olivier LeDiouris
+
+   Keywords: ESP8266, Feather, Huzzah, SD1306, Multiple screens
 */
 #include <Wire.h>
 #include <ESP8266WiFi.h>
@@ -145,7 +147,7 @@ void drawWatch(unsigned long ms, boolean secondsOnly) {
   }
   // Other option, faster
   ssd1306.drawCircle(CENTER_X, CENTER_Y, (int)(RADIUS * 0.9), WHITE);
-  
+
   float hoursInDegrees = ((hours % 12) * 30) + (((minutes * 6) + (seconds / 10)) / 12);
   float minInDegrees = ((minutes * 6) + (seconds / 10));
   float secInDegrees = seconds * 6;
@@ -260,7 +262,7 @@ void loop() {
 //    ssd1306.drawFastVLine(0, 0, SSD1306_HEIGHT - 1, WHITE); // Left
 //    ssd1306.drawFastVLine(0, SSD1306_WIDTH - 1, SSD1306_HEIGHT, WHITE); // Right
       ssd1306.drawRect(0, 0, SSD1306_WIDTH, SSD1306_HEIGHT, WHITE);
-      
+
       ssd1306.fillCircle(bouncingBallX, bouncingBallY, 3, WHITE);
       bouncingBallX += bouncingXIncrement;
       bouncingBallY += bouncingYIncrement;
@@ -270,7 +272,7 @@ void loop() {
       if (bouncingBallY <= 0 || bouncingBallY >= SSD1306_HEIGHT) {
         bouncingYIncrement *= -1;
       }
-      break;  
+      break;
     default:
       break;
   }
@@ -279,4 +281,3 @@ void loop() {
   yield(); // Send in background and move on
   ssd1306.display();
 }
-
