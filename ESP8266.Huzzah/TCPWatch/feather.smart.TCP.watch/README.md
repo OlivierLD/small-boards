@@ -27,13 +27,14 @@ The last posted data can be obtained from another service `GET /feather/lifespan
 ```
 
 #### Some results
-| Capacity | Lifespan |
-|---------:|---------:|
-|  105 mAh |  1:15:04 |
-|  400 mAh |  5:21:37 |
-| 1200 mAh |          |
-| 2500 mAh |          |
+| Capacity | Lifespan |  in sec |
+|---------:|---------:|--------:|
+|  105 mAh | 01:15:04 |   4,504 |
+|  400 mAh | 05:21:37 |  19,297 |
+| 1200 mAh | 11:55:45 |  42,945 |
+| 2500 mAh | 32:46:46 | 119,006 |
 
+This seems _not_ to be linear. The bigger the better...
  ---
 
 Screen on : 1:12:00, keep going => 1:15:00...
