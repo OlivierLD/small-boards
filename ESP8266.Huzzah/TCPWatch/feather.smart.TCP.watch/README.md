@@ -35,7 +35,5 @@ The last posted data can be obtained from another service `GET /feather/lifespan
 | 2500 mAh | 32:46:46 | 119,006 |
 
 This seems _not_ to be linear. The bigger the better...
- ---
 
-Screen on : 1:12:00, keep going => 1:15:00...
-End of all 1:16:43
+ ---
