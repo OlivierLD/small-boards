@@ -11,7 +11,7 @@
 
    @author Olivier LeDiouris
 
-   Keywords: ESP8266, SSD1306, Dynamic Arrays, Rotated screen, Multiple screens, REST, GET, NavServer
+   Keywords: ESP8266, SSD1306, Dynamic Arrays, Rotated screen, Multiple screens, REST, GET, NavServer, Draw a Map
 */
 #include <Wire.h>
 #include <ESP8266WiFi.h>
@@ -21,10 +21,10 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-#define ROT_0   0
-#define ROT_90  1
-#define ROT_180 2
-#define ROT_270 3
+#define ROT_0   0 // LANDSCAPE
+#define ROT_90  1 // PORTRAIT
+#define ROT_180 2 // LANDSCAPE * -1
+#define ROT_270 3 // PORTRAIT * -1
 
 #define NULL 0
 // #define DEBUG // Uncomment for more Serial output.

@@ -1,10 +1,11 @@
 /**
    Test for the Feather SSD1306 128x32 Stack oled screen
-   Test with buttons
+   Test with buttons. Push and Release detection.
 
    @author Olivier LeDiouris
 
-   Keywords: ESP8266, Feather, SSD1306 Cap, 3 buttons
+   Keywords: ESP8266, Feather, SSD1306 Cap, 3 buttons. 
+   Push and release management.
 */
 #include <Wire.h>
 #include <ESP8266WiFi.h>
@@ -46,6 +47,10 @@ Adafruit_SSD1306 ssd1306 = Adafruit_SSD1306(128, 32, &Wire);
 #define LED      13
 #endif
 
+boolean buttonADown = false;
+boolean buttonBDown = false;
+boolean buttonCDown = false;
+
 void setup() {
   ssd1306.begin(SSD1306_SWITCHCAPVCC, 0x3C); // Address 0x3C for 128x32
   // initialize display
@@ -57,20 +62,14 @@ void setup() {
   Serial.begin(115200); // Console output
   delay(100);
 
-  char dataBuffer[128];
-
-  // Testing the screen
   pinMode(BUTTON_A, INPUT_PULLUP);
   pinMode(BUTTON_B, INPUT_PULLUP);
   pinMode(BUTTON_C, INPUT_PULLUP);
 
-  // TODO A banner, like TCP Smart watch, double size characters.
-  // text display tests
   ssd1306.setTextSize(1);
   ssd1306.setTextColor(WHITE);
   ssd1306.setCursor(0, 0);
-  ssd1306.println("Let's go:"); // TODO Change this
-  ssd1306.println("We are in.\nText Size = 1");
+  ssd1306.println("Push buttons tests.\nPush and release.");
   ssd1306.setCursor(0, 0);
   ssd1306.display(); // actually display all of the above
 
@@ -79,58 +78,73 @@ void setup() {
   Serial.println("Setup completed");
 }
 
-int status = 0;
-
-int yOffset = 0;
-char dataBuffer[128];
-
 void loop() {
   if (!digitalRead(BUTTON_A)) {
-    Serial.println("Button A");
-    status = 1;
+    if (!buttonADown) { // New push
+      display("<- Button A is pushed", 0, 0);
+      Serial.println("Button A pushed");
+    }
+    buttonADown = true;
+  } else {
+    if (buttonADown) {
+      display("Button A released", 0, 0);
+      Serial.println("Button A released");
+    }
+    buttonADown = false;
   }
   if (!digitalRead(BUTTON_B)) {
-    Serial.println("Button B");
-    yOffset += 1;
-    if (yOffset > 32) { // Last full line is 24 with text size = 1, bottom truncated after that.
-      yOffset = 0;
+    if (!buttonBDown) { // New push
+      display("<- Button B is pushed", 0, 10);
+      Serial.println("Button B pushed");
     }
-    status = 2;
+    buttonBDown = true;
+  } else {
+    if (buttonBDown) {
+      display("Button B released", 0, 0);
+      Serial.println("Button B released");
+    }
+    buttonBDown = false;
   }
   if (!digitalRead(BUTTON_C)) {
-    Serial.println("Button C");
-    status = 3;
+    if (!buttonCDown) { // New push
+      display("<- Button C is pushed", 0, 20);
+      Serial.println("Button C pushed");
+    }
+    buttonCDown = true;
+  } else {
+    if (buttonCDown) {
+      display("Button C released", 0, 0);
+      Serial.println("Button C released");
+    }
+    buttonCDown = false;
   }
 
-  switch (status) {
-    case 1:
-      ssd1306.clearDisplay();
-      ssd1306.setCursor(0, 0);
-      ssd1306.setTextSize(2);
-      ssd1306.println("1 - TextSize 2");
-      ssd1306.setTextSize(1);
-      ssd1306.println("Oliv did it.");
-      break;
-    case 2:
-      ssd1306.clearDisplay();
-      ssd1306.setCursor(0, yOffset);
-      ssd1306.setTextSize(1);
-      sprintf(dataBuffer, "2 - yOffset = %d", yOffset);
-      ssd1306.println(dataBuffer);
-      break;
-    case 3:
-      ssd1306.clearDisplay();
-      ssd1306.setCursor(0, 0);
-      ssd1306.setTextSize(3);
-      ssd1306.println("Size 3");
-      ssd1306.setTextSize(1);
-      ssd1306.println("3 - Very big, hey?");
-      break;
-    default:
-      break;
+  // More than 1 button pressed?
+  int nbButtonDown = 0 + (buttonADown ? 1 : 0) + (buttonBDown ? 1 : 0) + (buttonCDown ? 1 : 0);
+  if (nbButtonDown > 1) {
+    Serial.print("Pressing ");
+    if (buttonADown) {
+      Serial.print("A ");  
+    }
+    if (buttonBDown) {
+      Serial.print("B ");  
+    }
+    if (buttonCDown) {
+      Serial.print("C ");  
+    }
+    Serial.println();
   }
 
   delay(10);
   yield(); // Send in background...
+//ssd1306.display();
+}
+
+void display(String text, int x, int y) {
+  ssd1306.clearDisplay();
+  ssd1306.setCursor(x, y);
+  ssd1306.println(text);
+  ssd1306.setCursor(0, 0);
   ssd1306.display();
 }
+
