@@ -149,8 +149,6 @@ void displayMenu() {
 }
 
 char dataBuffer[128];
-unsigned long lastPing = 0;
-int interval = 1000; // default
 
 void loop() {
   if (!digitalRead(BUTTON_A)) {
@@ -202,7 +200,6 @@ void loop() {
   if (!menuIsDisplayed && (now - lastDisplay) > 10000) { // Re-displaying menu after 10 sec
     displayMenu();
   }
-
   delay(10);
   yield(); // Send in background...
 }
@@ -233,7 +230,7 @@ String makeRESTRequest(String url, String verb, String payload) {
   const int httpPort = port;
   if (!SIMULATING && !client.connect(host, httpPort)) {
     Serial.println("connection failed");
-    return (String)NULL;
+    return "{\"error\":\"Connection failed\"}";
   }
 
   if (payload != NULL) {
