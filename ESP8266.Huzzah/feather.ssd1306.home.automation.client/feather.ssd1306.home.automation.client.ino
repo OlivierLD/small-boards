@@ -81,9 +81,9 @@ boolean buttonCDown = false;
 const char* ssid     = "Sonic-00e0";
 const char* password = "67369c7831";
 
-// hostname and port where the REST Server is running
-const char* host = "192.168.42.8";
-const int port = 9999;
+// Modify this too: hostname and port where the REST Server is running
+const char* host = "192.168.42.15";
+const int port = 9876;
 
 unsigned long lastDisplay = 0;
 boolean menuIsDisplayed = true;
