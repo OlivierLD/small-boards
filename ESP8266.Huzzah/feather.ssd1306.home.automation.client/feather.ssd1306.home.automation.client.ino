@@ -17,6 +17,8 @@
 #define DEBUG true
 #define SIMULATING false
 
+#include "RESTHelper.h"
+
 /*
   >>>> Uncomment next line if running on a small screen !!
 */
@@ -85,6 +87,8 @@ const char* password = "67369c7831";
 const char* host = "192.168.42.15";
 const int port = 9876;
 
+RESTHelper restHelper(SIMULATING);
+
 unsigned long lastDisplay = 0;
 boolean menuIsDisplayed = true;
 
@@ -110,8 +114,8 @@ void setup() {
   ssd1306.setCursor(0, 0);
   ssd1306.display(); // actually display all of the above
 
-//delay(1000);
-  
+  //delay(1000);
+
   // We start by connecting to a WiFi network
   Serial.println();
   Serial.println();
@@ -160,7 +164,7 @@ void loop() {
     buttonADown = true;
   } else {
     if (buttonADown) {
-//    display("Button A released", 0, 0);
+      //    display("Button A released", 0, 0);
       Serial.println("Button A released");
       lastDisplay = millis();
     }
@@ -175,7 +179,7 @@ void loop() {
     buttonBDown = true;
   } else {
     if (buttonBDown) {
-//    display("Button B released", 0, 0);
+      //    display("Button B released", 0, 0);
       Serial.println("Button B released");
       lastDisplay = millis();
     }
@@ -190,7 +194,7 @@ void loop() {
     buttonCDown = true;
   } else {
     if (buttonCDown) {
-//    display("Button C released", 0, 0);
+      //    display("Button C released", 0, 0);
       Serial.println("Button C released");
       lastDisplay = millis();
     }
@@ -205,7 +209,7 @@ void loop() {
 }
 
 void getRelayStatus() {
-  String status = makeRESTRequest("/relay/status/1", "GET", (String)NULL);
+  String status = restHelper.makeRESTRequest(host, port, "/relay/status/1", "GET", (String)NULL);
   Serial.println(status);
   display(status, 0, 0);
   lastDisplay = millis();
@@ -213,80 +217,10 @@ void getRelayStatus() {
 
 void setRelayStatus(boolean state) {
   sprintf(dataBuffer, "{ status: %s }", (state ? "true" : "false"));
-  String status = makeRESTRequest("/relay/status/1", "POST", dataBuffer);
+  String status = restHelper.makeRESTRequest(host, port, "/relay/status/1", "POST", dataBuffer);
   Serial.println(status);
   display(status, 0, 15);
   lastDisplay = millis();
-}
-
-String makeRESTRequest(String url, String verb, String payload) {
-  String response;
-
-  Serial.print("connecting to ");
-  Serial.println(host);
-
-  // Use WiFiClient class to create TCP connections
-  WiFiClient client;
-  const int httpPort = port;
-  if (!SIMULATING && !client.connect(host, httpPort)) {
-    Serial.println("connection failed");
-    return "{\"error\":\"Connection failed\"}";
-  }
-
-  if (payload != NULL) {
-    sprintf(dataBuffer, "Content.length: %d", payload.length());
-    String headers[] = {
-      "Content-Type: application/json",
-      dataBuffer
-    };
-    sendRESTRequest(client, verb, url, "HTTP/1.1", host, headers, 2, payload);
-  } else {
-    sendRESTRequest(client, verb, url, "HTTP/1.1", host, NULL, 0, payload);
-  }
-  delay(500);
-
-  if (!SIMULATING) {
-    // Read all the lines of the reply from server and print them to Serial
-    while (client.available()) {
-      response = client.readStringUntil('\r');
-      Serial.print(response); // Output here
-    }
-  } else {
-    Serial.println("... Simulated response");
-    response = "{simulated: true}";
-  }
-  Serial.println();
-  Serial.println("closing connection");
-
-  return response;
-}
-
-void sendRESTRequest(WiFiClient client, String verb, String url, String protocol, String host, String headers[], int headerLen, String payload) {
-  String request = verb + " " + url + " " + protocol + "\r\n" +
-                   "Host: " + host + "\r\n";
-  // Headers ?
-  if (headers != NULL && headerLen > 0) {
-    for (int i = 0; i < headerLen; i++) {
-      request = String(request + headers[i] + "\r\n");
-    }
-  }
-
-  request = String(request + "Connection: close\r\n" + "\r\n");
-
-  // Payload ?
-  if (payload != NULL && payload.length() > 0) {
-    request = String(request + payload);
-  } else if (DEBUG) {
-    Serial.println("No Payload");
-  }
-  if (DEBUG) {
-    Serial.println("--------------------");
-    Serial.println(request);
-    Serial.println("--------------------");
-  }
-  if (!SIMULATING) {
-    client.print(request);
-  }
 }
 
 void display(String text, int x, int y) {

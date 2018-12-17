@@ -251,16 +251,20 @@ void loop() {
     Serial.println(url);
 
     String headers[] = {
-    "Cache-Control: no-cache"
-  };
+      "Cache-Control: no-cache"
+    };
     // This will send the request to the server
     sendRESTRequest(client, "GET", url, "HTTP/1.1", HOST, headers, 0, String());
     delay(500);
 
     // Read all the lines of the reply from server and print them to Serial
     // Keys are BSP, LAT, LNG, SOG, COG, DATE, YEAR, MONTH, DAY, HOUR, MIN, SEC
+    int status = 0;
     while (client.available()) {
       String line = client.readStringUntil('\n');
+      if (response.startsWith("HTTP/1.1 ")) {
+        status = response.substring(9).toInt();
+      }
 #ifdef DEBUG
       Serial.println(line);
 #endif
@@ -293,6 +297,12 @@ void loop() {
         dew = data[0]["dew"];
       }
     }
+    // Last line (payload) is returned, only. Headers a read, but not returned.
+    Serial.println();
+    Serial.println("-- REST request response received. --");
+    Serial.print("  >>> Response Status:");
+    Serial.println(status);
+
     sprintf(dataBuffer, "Wind Dir=%d, Wind Speed=%f, Temp=%f, DateTime=%s", wdir, ws, atemp, datetime);
     Serial.println(dataBuffer);
     Serial.println("<< closing connection");
