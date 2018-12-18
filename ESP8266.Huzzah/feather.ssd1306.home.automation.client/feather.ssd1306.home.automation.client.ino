@@ -6,6 +6,12 @@
    - POST to turn it on or off
 
    Keywords: ESP8266, SSD1306, Full REST Client, Home Automation
+
+   Required extra libraries:
+   - Adafruit GFX
+   - Adafruit SSD1306
+
+   TODO: Zip RESTHelper, make it a library
 */
 
 #include <Wire.h>
@@ -209,17 +215,17 @@ void loop() {
 }
 
 void getRelayStatus() {
-  String status = restHelper.makeRESTRequest(host, port, "/relay/status/1", "GET", (String)NULL);
-  Serial.println(status);
-  display(status, 0, 0);
+  RESTHelper::Response statusResponse = restHelper.makeRESTRequest(host, port, "/relay/status/1", "GET", (String)NULL);
+  Serial.println(statusResponse.content);
+  display(statusResponse.content, 0, 0);
   lastDisplay = millis();
 }
 
 void setRelayStatus(boolean state) {
   sprintf(dataBuffer, "{ status: %s }", (state ? "true" : "false"));
-  String status = restHelper.makeRESTRequest(host, port, "/relay/status/1", "POST", dataBuffer);
-  Serial.println(status);
-  display(status, 0, 15);
+  RESTHelper::Response statusResponse = restHelper.makeRESTRequest(host, port, "/relay/status/1", "POST", dataBuffer);
+  Serial.println(statusResponse.content);
+  display(statusResponse.content, 0, 15);
   lastDisplay = millis();
 }
 

@@ -12,7 +12,7 @@
 #define DEBUG false
 #endif
 
-// Private vars, in the header (RESTHelper.h)
+// Private vars:
 // boolean simulating = false;
 // char dataBuffer[256];
 
@@ -20,8 +20,10 @@ RESTHelper::RESTHelper(boolean simulate) {
   simulating = simulate;
 }
 
-String RESTHelper::makeRESTRequest(String host, int port, String url, String verb, String payload) {
+RESTHelper::Response RESTHelper::makeRESTRequest(String host, int port, String url, String verb, String payload) {
   String response;
+
+  Response restResponse;
 
   Serial.print("connecting to ");
   Serial.println(host);
@@ -31,7 +33,9 @@ String RESTHelper::makeRESTRequest(String host, int port, String url, String ver
   const int httpPort = port;
   if (!simulating && !client.connect(host, httpPort)) {
     Serial.println("connection failed");
-    return "{\"error\":\"Connection failed\"}";
+    restResponse.status = 0;
+    restResponse.content = "{\"error\":\"Connection failed\"}";
+    return restResponse;
   }
 
   if (payload != NULL) {
@@ -61,14 +65,20 @@ String RESTHelper::makeRESTRequest(String host, int port, String url, String ver
     Serial.println("-- REST request response received. --");
     Serial.print("  >>> Response Status:");
     Serial.println(status);
+
+    restResponse.status = status;
+    restResponse.content = response;
   } else {
     Serial.println("... Simulated response");
     response = "{simulated: true}";
+    restResponse.status = 0;
+    restResponse.content = response;
   }
   Serial.println();
   Serial.println("closing connection");
 
-  return response;
+//return response;
+  return restResponse;
 }
 
 void RESTHelper::sendRESTRequest(WiFiClient client, String verb, String url, String protocol, String host, String headers[], int headerLen, String payload) {
