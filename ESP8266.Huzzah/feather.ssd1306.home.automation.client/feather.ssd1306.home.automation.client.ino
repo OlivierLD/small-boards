@@ -10,8 +10,7 @@
    Required extra libraries:
    - Adafruit GFX
    - Adafruit SSD1306
-
-   TODO: Zip RESTHelper, make it a library
+   - RESTHelper (see ../RESTHElper.lib)
 */
 
 #include <Wire.h>
