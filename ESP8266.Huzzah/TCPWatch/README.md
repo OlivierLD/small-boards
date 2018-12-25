@@ -35,6 +35,8 @@ The ESP8266 will ping the [NavServer/NMEA.multiplexer](https://github.com/Olivie
 
 ## Several implementations
 
+In any case, a banner in the main sketch will tell you what specific feature(s) it illustrates or uses.
+
 - [Huzzah/ESP8266 with a 128x64 oled display](./huzzah.smart.TCP.watch/README.md)
 - [Feather-Huzzah/ESP8266 with a 128x64 oled display](./huzzah.smart.TCP.watch/README.md#prototyping-with-an-adafruit-feather-huzzahesp8266)
 - [Feather-Huzzah/ESP8266 with a 128x32 stacked oled display](./feather.smart.TCP.watch/README.md)

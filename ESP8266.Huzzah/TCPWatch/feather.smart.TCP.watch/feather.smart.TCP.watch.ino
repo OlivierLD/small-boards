@@ -2,7 +2,7 @@
    Simple HTTP webclient REST, for the NavServer,
    for Feather-Huzzah/ESP8266.
 
-   Main class of what will be the TCP watch.
+   Main class of what will possibly be the TCP watch.
 
    Sends REST requests to the NavServer to get navigation data (see REST_REQUEST variable)
    That one spits out data on the Serial console, and on an oled screen SSD1306 128x32.
@@ -32,7 +32,7 @@
 #define __PI_NET__       // 192.168.127.1 on Pi-Net
 // #undef __PI_NET__
 
-// #define __SONIC_AT_HOME__   // 192.168.42.4 on Sonic-00e0
+// #define __SONIC_AT_HOME__   // 192.168.42.x on Sonic-00e0
 #undef __SONIC_AT_HOME__
 
 #include "custom_values.h" // Contains _SSID, _PASSWORD, _HOST, _HTTP_PORT, used below.

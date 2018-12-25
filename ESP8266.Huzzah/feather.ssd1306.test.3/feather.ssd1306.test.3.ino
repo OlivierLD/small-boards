@@ -6,7 +6,7 @@
 
    @author Olivier LeDiouris
 
-   Keywords: ESP8266, Feather, Huzzah, SD1306, Multiple screens, Graphics, Rotated, 128x64
+   Keywords: ESP8266, Feather, Huzzah, SD1306, Multiple screens, Graphics demo, Rotated, 128x64
 */
 #include <Wire.h>
 #include <ESP8266WiFi.h>

@@ -10,7 +10,7 @@
    Required extra libraries:
    - Adafruit GFX
    - Adafruit SSD1306
-   - RESTHelper (see ../RESTHElper.lib)
+   - RESTHelper (see ../RESTHelper.lib)
 */
 
 #include <Wire.h>
@@ -25,7 +25,7 @@
 #include <RESTHelper.h>
 
 /*
-  >>>> Uncomment next line if running on a small screen !!
+  >>>> Leave next line uncommented if running on a small (128x32) screen !!
 */
 #define SSD1306_128x32
 

@@ -12,7 +12,7 @@
 
    There is a bitmap in the banner ;)
 
-   Keywords: ESP8266, Full REST Client, JSON, GET, SSD1306, Bitmap
+   Keywords: ESP8266, Full REST Client, JSON, GET, SSD1306, Bitmap splash screen
 
    @author Olivier LeDiouris
 */

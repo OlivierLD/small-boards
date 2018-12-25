@@ -1,5 +1,5 @@
 /*
-   Simple HTTP get webclient test
+   Simple sample of an HTTP get webclient basic test, just see if the connection is established.
    for Huzzah/ESP8266 and Feather/ESP8266
 
    Keywords: REST, GET, ESP8266

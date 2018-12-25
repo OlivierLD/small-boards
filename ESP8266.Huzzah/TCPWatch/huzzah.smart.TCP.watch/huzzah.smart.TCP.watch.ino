@@ -1,8 +1,8 @@
-/**
+  /**
    Simple HTTP get webclient REST test
-   for Huzzah/ESP8266.
+   for Huzzah/ESP8266 (no Feather)
 
-   Main class of what will be the TCP watch.
+   Main class of what will possibly be the TCP watch.
 
    Sends REST requests to the NavServer to get navigation data (see REST_REQUEST variable)
    That one spits out data on the Serial console, and on an oled screen SSD1306 128x64.

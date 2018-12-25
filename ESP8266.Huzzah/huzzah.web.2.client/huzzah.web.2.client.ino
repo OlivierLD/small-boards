@@ -1,5 +1,5 @@
 /*
-   Simple HTTP get webclient REST test
+   Simple HTTP get webclient REST test, pings the NMEA Cache of the NavServer
    for Huzzah/ESP8266.
    That one spits out data on the Serial console (no oled screen).
 */

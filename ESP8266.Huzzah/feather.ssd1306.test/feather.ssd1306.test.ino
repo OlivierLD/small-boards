@@ -4,7 +4,7 @@
 
    @author Olivier LeDiouris
 
-   Keywords: ESP8266, Feather, SSD1306 Cap, 3 buttons
+   Keywords: ESP8266, Feather, SSD1306 Cap, 3 buttons (very basic test)
 */
 #include <Wire.h>
 #include <ESP8266WiFi.h>

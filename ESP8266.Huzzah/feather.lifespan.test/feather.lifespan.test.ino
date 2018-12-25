@@ -2,8 +2,9 @@
    Test the life span of a Feather with OLED Screen, and a LiPo battery.
    POST a REST request every second, as long as it is alive.
    The server keeps track of the messages posted by the Feather.
+   Implementation available at https://github.com/OlivierLD/raspberry-coffee/blob/master/RESTNavServer/src/java/navrest/RESTImplementation.java
 
-   Keywords: ESP8266, SSD1306, LiPo, lifespan, ping
+   Keywords: ESP8266, SSD1306, LiPo, lifespan test, ping
 */
 
 #include <Wire.h>
@@ -42,7 +43,8 @@ Adafruit_SSD1306 ssd1306 = Adafruit_SSD1306(SSD1306_WIDTH, SSD1306_HEIGHT, &Wire
 const char* ssid     = "Sonic-00e0";
 const char* password = "67369c7831";
 
-// hostname and port where the REST Server is running
+// hostname and port where the REST Server is running.
+// Modify this to fit your config.
 const char* host = "192.168.42.8";
 const int port = 9999;
 
