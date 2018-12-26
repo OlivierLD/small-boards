@@ -18,6 +18,9 @@ The ESP8266/Huzzah has built-in WiFi capabilities, and can deal with an OLED scr
 
 > _Note_: For the `OLED` screen, we use here the files `ssd1306_i2c.ccp` and `ssd1306_i2c.h`. Another option
 > would be to use the Adafruit SSD1306 libraries, as shown in the `feather.ssd1306.test.2`. Those libraries work for both the `128x32` and `128x64` screens.
+> Wiring might not be the same... See note below in the document about that.
+
+> _Note_: We use here the `SSD1306` in its `I2C` configuration, the default is `SPI`. Make sure you have the right jumpers connected (this is well documented).
 
 The starting point was [this document](https://learn.adafruit.com/huzzah-weather-display?view=all).
 
@@ -48,5 +51,8 @@ The ESP8266 will ping the [NavServer/NMEA.multiplexer](https://github.com/Olivie
 
 ##### Prototyping with an Adafruit Feather Huzzah/ESP8266
 ![Proto](./prototyping.feather.01.jpg)
+
+> Warning!! : When using the `Adafruit SSD1306` library with a `Feather`, the screen's SDA goes to the Feather's `SDA` pin (top right)
+> and the Screen's Clk goes to the Feather's `SCL` pin (the one at the left of `SDA`).
 
 ---

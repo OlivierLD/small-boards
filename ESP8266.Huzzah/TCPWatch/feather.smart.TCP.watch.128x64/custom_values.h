@@ -12,7 +12,7 @@
 #ifdef __SONIC_AT_HOME__
 #define _SSID "Sonic-00e0"
 #define _PASSWORD "67369c7831"
-#define _HOST "192.168.42.8"
+#define _HOST "192.168.42.15"
 #define _HTTP_PORT 9999
 #endif
 

@@ -5,13 +5,28 @@
    Main class of what will be the TCP watch.
 
    Sends REST requests to the NavServer to get navigation data (see REST_REQUEST variable)
-   That one spits out data on the Serial console, and on an oled screen SSD1306 128x64, rotated.
+   That one spits out data on the Serial console, and on an oled screen SSD1306 128x64, rotated (portrait).
 
-   Also draws a map of the recent positions.
+   Also draws a map (yes!) of the recent positions.
 
    @author Olivier LeDiouris
 
-   Keywords: ESP8266, Feather-Huzzah, SSD1306, Dynamic Arrays, Rotated screen, Multiple screens, REST, GET, NavServer, Draw a Map
+   Keywords: 
+   - ESP8266
+   - Feather-Huzzah
+   - SSD1306, 128x64 
+   - Dynamic Arrays (position buffer)
+   - Portrait rotated screen
+   - Multiple screens
+   - REST, GET
+   - NavServer
+   - Draw a Map
+
+   Required libraries:
+   - Adafruit SSD1306, Adafruit GFX
+   - Generic ESP8266
+
+   No json llib required, we request a txt payload.
 */
 #include <Wire.h>
 #include <ESP8266WiFi.h>
@@ -34,7 +49,7 @@
 // #define __PI_NET__       // 192.168.127.1 on Pi-Net
 #undef __PI_NET__
 
-#define __SONIC_AT_HOME__   // 192.168.42.4 on Sonic-00e0
+#define __SONIC_AT_HOME__   // 192.168.42.xx on Sonic-00e0
 // #undef __SONIC_AT_HOME__
 
 #include "custom_values.h" // Contains _SSID, _PASSWORD, _HOST, _HTTP_PORT, used below.
@@ -118,6 +133,8 @@ const int BETWEEN_LOOPS = 500; // in milli-sec.
 
 const int SSD1306_WIDTH = 128;
 const int SSD1306_HEIGHT = 64;
+
+//const int SSD1306_I2C_ADDR = 0x3C; // for 128x32
 const int SSD1306_I2C_ADDR = 0x3D; // for 128x64
 
 Adafruit_SSD1306 ssd1306 = Adafruit_SSD1306(SSD1306_WIDTH, SSD1306_HEIGHT, &Wire);
@@ -382,7 +399,7 @@ void loop() {
     Serial.print("Requesting URL: ");
     Serial.println(url);
 
-    // This will send the request to the server
+    // This will send the request to the server. 'client' has been initialized with the host name.
     sendRESTRequest(client, "GET", url, "HTTP/1.1", HOST, NULL, 0, String());
     delay(500);
 

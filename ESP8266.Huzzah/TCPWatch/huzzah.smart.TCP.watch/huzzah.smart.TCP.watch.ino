@@ -45,7 +45,7 @@ const int BETWEEN_LOOPS = 500; // in milli-sec.
 #define SDA 14
 #define SCL 12
 
-const int I2C = 0x3D; // Adafruit SSD1306 128x64
+const int I2C = 0x3D; // Adafruit SSD1306 128x64: 0x3D, 128x32: 0x3C
 
 //#define RST 2
 
