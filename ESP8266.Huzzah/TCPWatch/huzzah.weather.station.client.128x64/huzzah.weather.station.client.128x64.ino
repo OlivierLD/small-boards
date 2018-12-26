@@ -1,8 +1,8 @@
 /**
   Simple HTTP get webclient REST test
-  for Huzzah/ESP8266 (NOT a Feather)
+  for Huzzah/ESP8266 (no Feather)
 
-  Main class of what could possibly be the TCP watch.
+  Main class of what will possibly be the TCP watch.
 
   Sends REST requests to the NavServer to get navigation data (see REST_REQUEST variable)
   That one spits out data on the Serial console, and on an oled screen SSD1306 128x64.
@@ -13,12 +13,7 @@
 
   Keywords: ESP8266, Huzzah, Specific SSD1306 management
 
-   Required libraries:
-   - Generic ESP8266
-   - ArduinoJson 5.13.3 (< Not the most recent one!!)
-
-  TODO Cleanup (Graphical primitives), deprecate (use Adafruit libs if possible)
-       Implement the RESTHelper lib
+  TODO Cleanup (Graphical primitives), deprecate (use Adafruit libs)
 */
 #include <Wire.h>
 #include "ssd1306_i2c.h"
@@ -43,7 +38,7 @@ const int HTTP_PORT = _HTTP_PORT;
 
 const char* REST_REQUEST = "/php/weather/reports.v2/json.data.php?type=ALL&period=LAST";
 
-const int BETWEEN_LOOPS = 1000; // in milli-sec.
+const int BETWEEN_LOOPS = 10000; // in milli-sec.
 /* ----- End of Customizable Data ----- */
 
 // SSD1306 OLED Display connections and wiring
@@ -58,9 +53,13 @@ SSD1306 ssd1306(I2C, SDA, SCL);
 
 DynamicJsonBuffer  jsonBuffer(200);
 // Data from REST server
-char datetime[128];
+char datetime[64];
+String dataDate = "";
+String dataTime = "xx:xx:xx";
 int wdir;
 float gust, ws, rain, press, atemp, hum, dew;
+
+int restStatus = 0;
 
 char dataBuffer[128];
 
@@ -128,8 +127,10 @@ void repaint(int x, int y) {
   ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
   yOffset += 8;
 
-  sprintf(dataBuffer, "------- %c ------", spin[ping++ % 4]);
-  //                  "------- + ------"
+  char _time[16];
+  dataTime.toCharArray(_time, dataTime.length());
+  sprintf(dataBuffer, "- %s %d -", _time, restStatus); // Data time and REST Status
+  //                  "- XX:XX:XX 200 -"
   ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
 
   ssd1306.display();
@@ -252,11 +253,10 @@ void loop() {
   delay(500);
 
   // Read all the lines of the reply from server and print them to Serial
-  int status = 0;
   while (client.available()) {
     String line = client.readStringUntil('\n');
     if (line.startsWith("HTTP/1.1 ")) {
-      status = line.substring(9).toInt();
+      restStatus = line.substring(9).toInt();
     }
 #ifdef DEBUG
     Serial.println(line);
@@ -280,8 +280,11 @@ void loop() {
       */
       wdir = data[0]["wdir"];
       ws = data[0]["ws"];
-      const char * _datetime = data[0]["time"]; // Must be a const
+      const char * _datetime = data[0]["time"]; // Must be a const. Format is time": "2018-12-26 15:37:25"
       strcpy(datetime, _datetime);
+      String dt = String(datetime); // Make it a String
+      dataDate = dt.substring(0, dt.indexOf(" "));
+      dataTime = dt.substring(dt.indexOf(" ") + 1);
       gust = data[0]["gust"];
       rain = data[0]["rain"];
       press = data[0]["press"];
@@ -294,7 +297,7 @@ void loop() {
   Serial.println();
   Serial.println("-- REST request response received. --");
   Serial.print("  >>> Response Status:");
-  Serial.println(status);
+  Serial.println(restStatus);
 
   sprintf(dataBuffer, "Wind Dir=%d, Wind Speed=%f, Temp=%f, DateTime=%s", wdir, ws, atemp, datetime);
   Serial.println(dataBuffer);
