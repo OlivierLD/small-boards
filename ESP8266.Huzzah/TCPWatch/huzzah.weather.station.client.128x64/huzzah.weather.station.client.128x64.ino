@@ -38,7 +38,7 @@ const int HTTP_PORT = _HTTP_PORT;
 
 const char* REST_REQUEST = "/php/weather/reports.v2/json.data.php?type=ALL&period=LAST";
 
-const int BETWEEN_LOOPS = 500; // in milli-sec.
+const int BETWEEN_LOOPS = 1000; // in milli-sec.
 /* ----- End of Customizable Data ----- */
 
 // SSD1306 OLED Display connections and wiring
@@ -171,7 +171,7 @@ void setup() {
   ssd1306.setFontScale2x2(true);
   ssd1306.drawString(0,  0, "Weather");
   ssd1306.drawString(0, 16, " Station");
-  ssd1306.drawString(0, 32, "Client");
+  ssd1306.drawString(0, 32, "  Client...");
   ssd1306.setFontScale2x2(false);
   ssd1306.drawString(0, 50, "By OlivSoft");
 #endif
