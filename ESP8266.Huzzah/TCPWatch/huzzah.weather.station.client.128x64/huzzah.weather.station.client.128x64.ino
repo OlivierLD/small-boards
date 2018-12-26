@@ -13,6 +13,10 @@
 
   Keywords: ESP8266, Huzzah, Specific SSD1306 management
 
+   Required libraries:
+   - Generic ESP8266
+   - ArduinoJson 5.13.3 (< Not the most recent one!!)
+
   TODO Cleanup (Graphical primitives), deprecate (use Adafruit libs if possible)
        Implement the RESTHelper lib
 */
