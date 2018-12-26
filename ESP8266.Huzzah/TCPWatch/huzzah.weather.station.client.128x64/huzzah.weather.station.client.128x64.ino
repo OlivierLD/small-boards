@@ -13,6 +13,10 @@
 
   Keywords: ESP8266, Huzzah, Specific SSD1306 management
 
+  Required Library(ies):
+  - Generic ESP8266
+  - ArduinoJson v 5.13.3
+
   TODO Cleanup (Graphical primitives), deprecate (use Adafruit libs)
 */
 #include <Wire.h>
@@ -39,6 +43,12 @@ const int HTTP_PORT = _HTTP_PORT;
 const char* REST_REQUEST = "/php/weather/reports.v2/json.data.php?type=ALL&period=LAST";
 
 const int BETWEEN_LOOPS = 10000; // in milli-sec.
+/*
+ * Note: Server is updated every 10 minutes.
+ * 10 seconds makes sure you get the last update, and give enough time for the 
+ * REST Request to complete.
+ */
+
 /* ----- End of Customizable Data ----- */
 
 // SSD1306 OLED Display connections and wiring
