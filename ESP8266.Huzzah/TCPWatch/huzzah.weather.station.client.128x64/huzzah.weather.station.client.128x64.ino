@@ -1,8 +1,8 @@
 /**
   Simple HTTP get webclient REST test
-  for Huzzah/ESP8266 (no Feather)
+  for Huzzah/ESP8266 (NOT a Feather)
 
-  Main class of what will possibly be the TCP watch.
+  Main class of what could possibly be the TCP watch.
 
   Sends REST requests to the NavServer to get navigation data (see REST_REQUEST variable)
   That one spits out data on the Serial console, and on an oled screen SSD1306 128x64.
@@ -13,7 +13,8 @@
 
   Keywords: ESP8266, Huzzah, Specific SSD1306 management
 
-  TODO Cleanup (Graphical primitives), deprecate (use Adafruit libs)
+  TODO Cleanup (Graphical primitives), deprecate (use Adafruit libs if possible)
+       Implement the RESTHelper lib
 */
 #include <Wire.h>
 #include "ssd1306_i2c.h"
@@ -122,7 +123,7 @@ void repaint(int x, int y) {
   sprintf(dataBuffer, "HUM %.2f %%", hum);
   ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
   yOffset += 8;
-  
+
   sprintf(dataBuffer, "------- %c ------", spin[ping++ % 4]);
   //                  "------- + ------"
   ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
