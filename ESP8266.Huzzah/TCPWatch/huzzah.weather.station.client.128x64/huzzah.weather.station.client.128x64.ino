@@ -95,20 +95,34 @@ void repaint(int x, int y) {
   int yOffset = 8;
 
   //sprintf(dataBuffer, "Wind Dir=%d, Wind Speed=%f, Temp=%f, DateTime=%s", wdir, ws, atemp, datetime);
-
-  sprintf(dataBuffer, "Net: %s", SSID);
+  // press = data[0]["press"];
+  // atemp = data[0]["atemp"];
+  // hum = data[0]["hum"];
+  sprintf(dataBuffer, "Net %s", SSID);
   ssd1306.drawString(1 + x, 0, dataBuffer);
   ssd1306.drawString(1 + x, yOffset + y, "- Weather Data -"); // Max 16 characters
   yOffset += 8;
-  sprintf(dataBuffer, "TWS: %.2f kts", ws);
+  // TWS
+  sprintf(dataBuffer, "TWS %.2f kts", ws);
   ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
   yOffset += 8;
-  sprintf(dataBuffer, "TWD: %d", wdir);
+  // TWD
+  sprintf(dataBuffer, "TWD %d", wdir);
   ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
   yOffset += 8;
-  sprintf(dataBuffer, "TEMP: %.2f C", atemp);
+  // Air Temp
+  sprintf(dataBuffer, "TEMP %.2f C", atemp);
   ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
   yOffset += 8;
+  // Pressure
+  sprintf(dataBuffer, "PRMSL %.1f hPa", press);
+  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+  yOffset += 8;
+  // Rel Humidity
+  sprintf(dataBuffer, "HUM %.2f %", hum);
+  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+  yOffset += 8;
+  
   sprintf(dataBuffer, "------- %c ------", spin[ping++ % 4]);
   //                  "------- + ------"
   ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
