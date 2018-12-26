@@ -119,7 +119,7 @@ void repaint(int x, int y) {
   ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
   yOffset += 8;
   // Rel Humidity
-  sprintf(dataBuffer, "HUM %.2f %", hum);
+  sprintf(dataBuffer, "HUM %.2f %%", hum);
   ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
   yOffset += 8;
   
