@@ -267,8 +267,8 @@ void loop() {
     int status = 0;
     while (client.available()) {
       String line = client.readStringUntil('\n');
-      if (response.startsWith("HTTP/1.1 ")) {
-        status = response.substring(9).toInt();
+      if (line.startsWith("HTTP/1.1 ")) {
+        status = line.substring(9).toInt();
       }
 #ifdef DEBUG
       Serial.println(line);

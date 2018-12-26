@@ -57,6 +57,8 @@ char datetime[128];
 int wdir;
 float gust, ws, rain, press, atemp, hum, dew;
 
+char dataBuffer[128];
+
 const int NS = 1;
 const int EW = 2;
 
@@ -101,22 +103,22 @@ void repaint(int x, int y) {
   //  yOffset += 8;
 
   // TODO Actual data display
-//  sprintf(dataBuffer, "L: %s", toDegMin(lat, NS));
-//  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
-//  yOffset += 8;
-//  sprintf(dataBuffer, "G: %s", toDegMin(lng, EW));
-//  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
-//
-//  yOffset += 8;
-//  sprintf(dataBuffer, "SOG: %.2f kts", sog);
-//  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
-//  yOffset += 8;
-//  sprintf(dataBuffer, "COG: %d", cog);
-//  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
-//  yOffset += 8;
-//  sprintf(dataBuffer, "------- %c ------", spin[ping++ % 4]);
-//  //                  "------- + ------"
-//  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+  //  sprintf(dataBuffer, "L: %s", toDegMin(lat, NS));
+  //  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+  //  yOffset += 8;
+  //  sprintf(dataBuffer, "G: %s", toDegMin(lng, EW));
+  //  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+  //
+  //  yOffset += 8;
+  //  sprintf(dataBuffer, "SOG: %.2f kts", sog);
+  //  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+  //  yOffset += 8;
+  //  sprintf(dataBuffer, "COG: %d", cog);
+  //  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+  //  yOffset += 8;
+  //  sprintf(dataBuffer, "------- %c ------", spin[ping++ % 4]);
+  //  //                  "------- + ------"
+  //  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
 
   ssd1306.display();
   if (ping >= 4) {
@@ -238,9 +240,12 @@ void loop() {
   delay(500);
 
   // Read all the lines of the reply from server and print them to Serial
-  // Keys are BSP, LAT, LNG, SOG, COG, DATE, YEAR, MONTH, DAY, HOUR, MIN, SEC
+  int status = 0;
   while (client.available()) {
     String line = client.readStringUntil('\n');
+    if (line.startsWith("HTTP/1.1 ")) {
+      status = line.substring(9).toInt();
+    }
 #ifdef DEBUG
     Serial.println(line);
 #endif
