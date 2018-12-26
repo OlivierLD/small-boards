@@ -94,31 +94,24 @@ void repaint(int x, int y) {
   char dataBuffer[128];
   int yOffset = 8;
 
+  //sprintf(dataBuffer, "Wind Dir=%d, Wind Speed=%f, Temp=%f, DateTime=%s", wdir, ws, atemp, datetime);
+
   sprintf(dataBuffer, "Net: %s", SSID);
   ssd1306.drawString(1 + x, 0, dataBuffer);
-  ssd1306.drawString(1 + x, yOffset + y, "--- Nav Data ---"); // Max 16 characters
+  ssd1306.drawString(1 + x, yOffset + y, "- Weather Data -"); // Max 16 characters
   yOffset += 8;
-  //  sprintf(dataBuffer, "BSP: %.2f kts", bsp);
-  //  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
-  //  yOffset += 8;
-
-  // TODO Actual data display
-  //  sprintf(dataBuffer, "L: %s", toDegMin(lat, NS));
-  //  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
-  //  yOffset += 8;
-  //  sprintf(dataBuffer, "G: %s", toDegMin(lng, EW));
-  //  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
-  //
-  //  yOffset += 8;
-  //  sprintf(dataBuffer, "SOG: %.2f kts", sog);
-  //  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
-  //  yOffset += 8;
-  //  sprintf(dataBuffer, "COG: %d", cog);
-  //  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
-  //  yOffset += 8;
-  //  sprintf(dataBuffer, "------- %c ------", spin[ping++ % 4]);
-  //  //                  "------- + ------"
-  //  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+  sprintf(dataBuffer, "TWS: %.2f kts", ws);
+  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+  yOffset += 8;
+  sprintf(dataBuffer, "TWD: %d", wdir);
+  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+  yOffset += 8;
+  sprintf(dataBuffer, "TEMP: %.2f C", atemp);
+  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+  yOffset += 8;
+  sprintf(dataBuffer, "------- %c ------", spin[ping++ % 4]);
+  //                  "------- + ------"
+  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
 
   ssd1306.display();
   if (ping >= 4) {
