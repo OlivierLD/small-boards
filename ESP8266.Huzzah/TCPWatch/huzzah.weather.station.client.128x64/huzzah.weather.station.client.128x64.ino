@@ -99,22 +99,24 @@ void repaint(int x, int y) {
   //  sprintf(dataBuffer, "BSP: %.2f kts", bsp);
   //  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
   //  yOffset += 8;
-  sprintf(dataBuffer, "L: %s", toDegMin(lat, NS));
-  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
-  yOffset += 8;
-  sprintf(dataBuffer, "G: %s", toDegMin(lng, EW));
-  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
 
-  yOffset += 8;
-  sprintf(dataBuffer, "SOG: %.2f kts", sog);
-  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
-  yOffset += 8;
-  sprintf(dataBuffer, "COG: %d", cog);
-  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
-  yOffset += 8;
-  sprintf(dataBuffer, "------- %c ------", spin[ping++ % 4]);
-  //                  "------- + ------"
-  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+  // TODO Actual data display
+//  sprintf(dataBuffer, "L: %s", toDegMin(lat, NS));
+//  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+//  yOffset += 8;
+//  sprintf(dataBuffer, "G: %s", toDegMin(lng, EW));
+//  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+//
+//  yOffset += 8;
+//  sprintf(dataBuffer, "SOG: %.2f kts", sog);
+//  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+//  yOffset += 8;
+//  sprintf(dataBuffer, "COG: %d", cog);
+//  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
+//  yOffset += 8;
+//  sprintf(dataBuffer, "------- %c ------", spin[ping++ % 4]);
+//  //                  "------- + ------"
+//  ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
 
   ssd1306.display();
   if (ping >= 4) {
