@@ -12,7 +12,12 @@
 
    There is a bitmap in the banner ;)
 
-   Keywords: ESP8266, Full REST Client, JSON, GET, SSD1306, Bitmap splash screen
+   Keywords: ESP8266, Feather-Huzzah, Feather, Full REST Client, JSON, GET, SSD1306, Bitmap splash screen
+
+   Required libraries:
+   - Generic ESP8266
+   - Adafruit SSD1306
+   - ArduinoJson 5.13.3 (< Not the most recent one!!)
 
    @author Olivier LeDiouris
 */

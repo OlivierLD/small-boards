@@ -11,7 +11,7 @@
 
    @author Olivier LeDiouris
 
-   Keywords: ESP8266, SSD1306, Dynamic Arrays, Rotated screen, Multiple screens, REST, GET, NavServer, Draw a Map
+   Keywords: ESP8266, Feather-Huzzah, SSD1306, Dynamic Arrays, Rotated screen, Multiple screens, REST, GET, NavServer, Draw a Map
 */
 #include <Wire.h>
 #include <ESP8266WiFi.h>
@@ -66,7 +66,7 @@ void freeChain (StrPt * head) {
   StrPt * thisOne;
 
   thisOne = head;
-  while (thisOne) { 
+  while (thisOne) {
     nextOne = thisOne->next;
     free((char *)thisOne);
     thisOne = nextOne;
@@ -127,7 +127,7 @@ float bsp, lat, lng, sog;
 int cog, year, month, day, hour, mins, sec;
 String date;
 
-float prevLat = -1000, 
+float prevLat = -1000,
       prevLng = -1000;
 
 Pos * posListHead = NULL;
@@ -185,7 +185,7 @@ void repaint() {
     case 0:
       ssd1306.setCursor(0, 0);
       ssd1306.setTextSize(1);
-      ssd1306.println("SOG (kts)");  
+      ssd1306.println("SOG (kts)");
       ssd1306.drawFastHLine(0, 10, ssd1306.width() - 1, WHITE);
       ssd1306.setTextSize(2);
       ssd1306.setCursor(0, 14);
@@ -194,7 +194,7 @@ void repaint() {
       ssd1306.drawFastHLine(0, 32, ssd1306.width() - 1, WHITE);
       ssd1306.setCursor(0, 35);
       ssd1306.setTextSize(1);
-      ssd1306.println("COG (deg)");  
+      ssd1306.println("COG (deg)");
       ssd1306.drawFastHLine(0, 44, ssd1306.width() - 1, WHITE);
       ssd1306.setTextSize(2);
       ssd1306.setCursor(0, 48);
@@ -218,20 +218,20 @@ void repaint() {
         // 2 - Now plot
         float deltaLat = maxLat - minLat;
         float deltaLng = maxLng - minLng;
-#ifdef DEBUG        
+#ifdef DEBUG
         sprintf(dataBuffer, "lat in [%f..%f], lng in [%f..%f]", minLat, maxLat, minLng, maxLng);
         Serial.println(dataBuffer);
-#endif        
+#endif
         float distCoeff = min( ((float)ssd1306.width()) / deltaLng, ((float)ssd1306.height()) / deltaLat) * 0.8; // 0.8, not to hit the borders
         // Square projection for now...
         int prevX = -1, prevY = -1;
         walkList(posListHead, it) {
           float graphLng = it->lng - minLng;
           float fromCenterLng = graphLng - (deltaLng / 2);
-          int x = round(((float)ssd1306.width() / 2) + (fromCenterLng * distCoeff)); 
+          int x = round(((float)ssd1306.width() / 2) + (fromCenterLng * distCoeff));
           float graphLat = it->lat - minLat;
           float fromCenterLat = graphLat - (deltaLat / 2);
-          int y = round(((float)ssd1306.height() / 2) - (fromCenterLat * distCoeff)); 
+          int y = round(((float)ssd1306.height() / 2) - (fromCenterLat * distCoeff));
           if (prevX == -1 && prevY == -1) {
             ssd1306.drawPixel(x, y, WHITE);
           } else {
@@ -239,7 +239,7 @@ void repaint() {
           }
           prevX = x;
           prevY = y;
-        }    
+        }
         // Plot last point
         if (prevX != -1 && prevY != -1) {
           ssd1306.fillCircle(prevX, prevY, 2, WHITE);
@@ -252,7 +252,7 @@ void repaint() {
       ssd1306.setCursor(2, 12);
       sprintf(dataBuffer, "COG:%03d", cog);
       ssd1306.println(dataBuffer);
-     
+
       break;
     default:
       break;
@@ -262,7 +262,7 @@ void repaint() {
 }
 
 void setup() {
-  ssd1306.begin(SSD1306_SWITCHCAPVCC, SSD1306_I2C_ADDR); 
+  ssd1306.begin(SSD1306_SWITCHCAPVCC, SSD1306_I2C_ADDR);
   // initialize display
   ssd1306.setRotation(ROT_90);
   ssd1306.display();
@@ -433,12 +433,12 @@ void loop() {
     // New position? (for the map)
     if (lat != prevLat || lng != prevLng) {
       if (posListHead == NULL) {
-        posListHead = (Pos *) calloc(1, sizeof(Pos)); 
+        posListHead = (Pos *) calloc(1, sizeof(Pos));
         posListHead->next = NULL;
         posListHead->lat = lat;
         posListHead->lng = lng;
       } else {
-        Pos * newPos = (Pos *) calloc(1, sizeof(Pos)); 
+        Pos * newPos = (Pos *) calloc(1, sizeof(Pos));
         newPos->next = NULL;
         newPos->lat = lat;
         newPos->lng = lng;
@@ -467,7 +467,7 @@ void sendRESTRequest(WiFiClient client, String verb, String url, String protocol
   }
 
   request = String(request + "Connection: close\r\n" + "\r\n");
-  
+
   // Payload ?
   if (payload != NULL && payload.length() > 0) {
     request = String(request + payload);
