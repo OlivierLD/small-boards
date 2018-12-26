@@ -128,9 +128,18 @@ void repaint(int x, int y) {
   yOffset += 8;
 
   char _time[16];
-  dataTime.toCharArray(_time, dataTime.length());
-  sprintf(dataBuffer, "- %s %d -", _time, restStatus); // Data time and REST Status
+  dataTime.toCharArray(_time, dataTime.length() + 1); // Yes, +1 (EOS)
+  sprintf(dataBuffer, "- %s %03d -", _time, restStatus); // Data time and REST Status
   //                  "- XX:XX:XX 200 -"
+#ifdef DEBUG
+  Serial.print(">> dataTime:");
+  Serial.print(dataTime);
+  Serial.print(" (len:");
+  Serial.print(dataTime.length());
+  Serial.print(")");
+  Serial.print(", _time:");
+  Serial.println(_time);
+#endif  
   ssd1306.drawString(1 + x, yOffset + y, dataBuffer);
 
   ssd1306.display();
@@ -281,6 +290,10 @@ void loop() {
       wdir = data[0]["wdir"];
       ws = data[0]["ws"];
       const char * _datetime = data[0]["time"]; // Must be a const. Format is time": "2018-12-26 15:37:25"
+
+      Serial.print("From REST:");
+      Serial.println(_datetime);
+      
       strcpy(datetime, _datetime);
       String dt = String(datetime); // Make it a String
       dataDate = dt.substring(0, dt.indexOf(" "));
