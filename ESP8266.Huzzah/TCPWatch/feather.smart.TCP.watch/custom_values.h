@@ -3,9 +3,9 @@
  */
 
 #ifdef __PI_NET__
-#define _SSID "Pi-Net"
+#define _SSID "RPi-Gateway"
 #define _PASSWORD "raspberrypi"
-#define _HOST "192.168.127.1"
+#define _HOST "192.168.50.10"
 #define _HTTP_PORT 9999
 #endif
 

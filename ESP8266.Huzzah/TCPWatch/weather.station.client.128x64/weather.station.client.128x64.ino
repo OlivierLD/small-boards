@@ -38,7 +38,7 @@
 #define NULL 0
 // #define DEBUG // Uncomment for more Serial output.
 
-#define _SSID "Sonic-00e0"
+#define _SSID "Sonic-00e0_EXT"
 #define _PASSWORD "67369c7831"
 #define _HOST "donpedro.lediouris.net"
 #define _HTTP_PORT 80

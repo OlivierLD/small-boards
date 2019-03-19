@@ -23,9 +23,9 @@
 
 /* ----- Customizable Data ----- */
 // Network and Host Names definitions, customize if necessary
-// #define __PI_NET__       // 192.168.127.1 on Pi-Net
-#undef __PI_NET__
-#define __SONIC_AT_HOME__   // 192.168.42.x on Sonic-00e0
+#define __PI_NET__       // 192.168.50.10 on Pi-Net
+// #undef __PI_NET__
+// #define __SONIC_AT_HOME__   // 192.168.42.x on Sonic-00e0
 // #undef __SONIC_AT_HOME__
 
 #include "custom_values.h" // Contains _SSID, _PASSWORD, _HOST, _HTTP_PORT, used below.

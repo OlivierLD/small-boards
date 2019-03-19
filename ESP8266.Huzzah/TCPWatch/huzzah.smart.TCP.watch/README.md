@@ -53,6 +53,6 @@ The ESP8266 will ping the [NavServer/NMEA.multiplexer](https://github.com/Olivie
 ![Proto](./prototyping.feather.01.jpg)
 
 > Warning!! : When using the `Adafruit SSD1306` library with a `Feather`, the screen's SDA goes to the Feather's `SDA` pin (top right)
-> and the Screen's Clk goes to the Feather's `SCL` pin (the one at the left of `SDA`).
+> and the screen's Clk goes to the Feather's `SCL` pin (the one at the left of `SDA`).
 
 ---

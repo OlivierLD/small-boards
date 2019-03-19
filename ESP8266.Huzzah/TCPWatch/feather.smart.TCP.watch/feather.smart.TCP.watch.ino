@@ -29,7 +29,7 @@
 
 /* ----- Customizable Data ----- */
 // Network and Host Names definitions, customize if necessary
-#define __PI_NET__       // 192.168.127.1 on Pi-Net
+#define __PI_NET__       // 192.168.50.10 on RPi-Gateway
 // #undef __PI_NET__
 
 // #define __SONIC_AT_HOME__   // 192.168.42.x on Sonic-00e0
