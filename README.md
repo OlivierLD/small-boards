@@ -72,7 +72,7 @@ The red led should be dimmed, the board is ready to receive the sketch, you can 
 
 > _Note_: The [Adafruit Feather HUZZAH with ESP8266](https://learn.adafruit.com/adafruit-feather-huzzah-esp8266) has similar capabilities, but automatically uploads your sketches,
 > you do not need to juggle with the `GPIO0` and `Reset` buttons like above. It also does _not_ require an FTDI cable,
-> a regular USB (A to C) does the job.
+> a regular USB (A to C) does the job. It's a very cool little board.
 
 ### Adafruit 5v Trinket
 Programmer: `USBtinyISP`.
