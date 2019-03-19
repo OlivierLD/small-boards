@@ -1,14 +1,16 @@
-# Feather TCP watch!
+# Feather TCP watch.
 <!-- TODO the components reference to the Adafruit site -->
 
 This is probably the smallest of the configurations we talk about around here.
 And the Feather can be fed by a LiPo battery, that makes it autonomous.
 
+> Note: Do look into the code, several comments and options are available.
+
 ### Wiring
 ![Wiring](./TCP.watch.feather.128x32_bb.png)
 
 ### Arduino IDE
-For the Board, user **Adafruit Feather HUZZAH ESP8266**.
+For the Board, use **Adafruit Feather HUZZAH ESP8266**.
 
 ### Screenshots
 

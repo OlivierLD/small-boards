@@ -1,21 +1,27 @@
 /**
-   Simple HTTP webclient REST, for the NavServer,
-   for Feather-Huzzah/ESP8266.
-
-   Main class of what will possibly be the TCP watch.
-
-   Sends REST requests to the NavServer to get navigation data (see REST_REQUEST variable)
-   That one spits out data on the Serial console, and on an oled screen SSD1306 128x32.
-   Ideally stacked on top of the Feather.
-
-   @author Olivier LeDiouris
-
-   Originally inspired by https://learn.adafruit.com/micropython-oled-watch
-
-   Keywords: ESP8266, Feather, Huzzah, NavServer, 128x32 ...
-
-
-   TODO Cleanup in the drawLine and graphics primitives
+  Simple HTTP webclient REST, for the NavServer (logger, runner, etc),
+  for Feather-Huzzah/ESP8266.
+  
+  3 Screens
+  Note: See the WITH_BUTTONS constant in the code.
+       If WITH_BUTTONS is set to true, each button will lead to the associated screen.
+       If WITH_BUTTONS is set to false, display will automatically scroll from screen to screen.
+  Another option would be to use the top button to increment the screen inedx, the bottom one to decrement it, leaving the middle button unused..
+  This would allow more than 3 screens.  
+  
+  Main class of what will possibly be the TCP watch.
+  
+  Sends REST requests to the NavServer to get navigation data (see REST_REQUEST variable)
+  That one spits out data on the Serial console, and on an oled screen SSD1306 128x32.
+  Ideally stacked on top of the Feather.
+  
+  @author Olivier LeDiouris
+  
+  Originally inspired by https://learn.adafruit.com/micropython-oled-watch
+  
+  Keywords: ESP8266, Feather, Huzzah, NavServer, 128x32 ...
+  
+  TODO Cleanup in the drawLine and graphics primitives
 */
 #include <Wire.h>
 #include <ESP8266WiFi.h>
@@ -32,7 +38,7 @@
 #define __PI_NET__       // 192.168.50.10 on RPi-Gateway
 // #undef __PI_NET__
 
-// #define __SONIC_AT_HOME__   // 192.168.42.x on Sonic-00e0
+// #define __SONIC_AT_HOME__   // 192.168.42.x on Sonic-00e0_EXT
 #undef __SONIC_AT_HOME__
 
 #include "custom_values.h" // Contains _SSID, _PASSWORD, _HOST, _HTTP_PORT, used below.
@@ -307,7 +313,7 @@ void repaint() {
     case 2:
       if (charOnly) {
         ssd1306.println("--- Network ---");
-        sprintf(dataBuffer, "Net: %s", SSID);
+        sprintf(dataBuffer, "%s", SSID);
         ssd1306.println(dataBuffer);
         sprintf(dataBuffer, "%02d:%02d:%02d UTC", hour, mins, sec);
         ssd1306.println(dataBuffer);
@@ -319,7 +325,7 @@ void repaint() {
         sprintf(dataBuffer, "%02d:%02d:%02d UTC", hour, mins, sec);
         ssd1306.println(dataBuffer);
         ssd1306.setCursor(40, 10);
-        sprintf(dataBuffer, "Net:%s", SSID);
+        sprintf(dataBuffer, "%s", SSID);
         ssd1306.println(dataBuffer);
       }
       break;
@@ -354,7 +360,7 @@ void setup() {
   pinMode(BUTTON_B, INPUT_PULLUP);
   pinMode(BUTTON_C, INPUT_PULLUP);
 
-  // A banner
+  // A banner, disappears when connected
   ssd1306.setTextSize(2);
   ssd1306.setTextColor(WHITE);
   ssd1306.setCursor(0, 0);
@@ -420,21 +426,40 @@ struct KEYS {
 unsigned long lastDisplay = 0;
 unsigned long lastPing = 0;
 
-const boolean withButtons = false;
+const boolean WITH_BUTTONS = true;
+
+boolean button1 = false;
+boolean button2 = false;
+boolean button3 = false;
 
 void loop() {
-  if (withButtons) {
+  if (WITH_BUTTONS) {
     if (!digitalRead(BUTTON_A)) {
-      screenIndex = 0;
-      Serial.println("Button A");
+      button1 = true; // Pushed
+    } else {
+      if (button1) {  // Released!
+        screenIndex = 0;
+        Serial.println("Button A");
+      }
+      button1 = false;
     }
     if (!digitalRead(BUTTON_B)) {
-      screenIndex = 1;
-      Serial.println("Button B");
+      button2 = true; // Pushed
+    } else {
+      if (button2) {  // Released!
+        screenIndex = 1;
+        Serial.println("Button B");
+      }
+      button2 = false;
     }
     if (!digitalRead(BUTTON_C)) {
-      screenIndex = 2;
-      Serial.println("Button C");
+      button3 = true; // Pushed
+    } else {
+      if (button3) {  // Released!
+        screenIndex = 2;
+        Serial.println("Button C");
+      }
+      button3 = false;
     }
     delay(10);
     yield(); // Send to backgbround, or so.
