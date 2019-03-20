@@ -137,7 +137,7 @@ char* msToTimeStr(long ms) {
 
 const int WIDTH = 128;
 const int HEIGHT = 32;
-const int RADIUS = 16;
+const int RADIUS = (HEIGHT / 2);
 
 void drawLine(int fromX, int fromY, int toX, int toY) {
   int deltaX = (toX - fromX);
