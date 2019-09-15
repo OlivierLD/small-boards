@@ -8,7 +8,6 @@
    RST Button: top right
    HOME Button: the big one with M5 on it
 
-   A Client for a NavServer
    Use the HOME button to scroll through screens.
 
    Inspired by https://m5stack.hackster.io/Ahork/m5stickc-for-pilot-hue-daf304
@@ -18,7 +17,7 @@
 const char* SSID = "Sonic-00e0_EXT";        // your network SSID (name)
 const char* PASSWORD = "67369c7831";        // your network password
 const char * SERVER_NAME = "192.168.42.13"; // For REST requests, Nav Server
-// IPAddress server(192, 168, 42, 13);
+// IPAddress server(192, 168, 42, 13);       
 const int SERVER_PORT = 5678;               // Server port
 
 const String LAT_PREFIX = "LAT=";
@@ -27,6 +26,16 @@ const String BSP_PREFIX = "BSP=";
 const String SOG_PREFIX = "SOG=";
 const String COG_PREFIX = "COG=";
 const String DATE_PREFIX = "DATE=";
+const String UTC_YEAR_PREFIX =  "YEAR=";
+const String UTC_MONTH_PREFIX = "MONTH=";
+const String UTC_DAY_PREFIX =   "DAY=";
+const String UTC_HOURS_PREFIX = "HOUR=";
+const String UTC_MINS_PREFIX =  "MIN=";
+const String UTC_SECS_PREFIX =  "SEC=";
+
+const String SOL_HOURS_PREFIX = "S_HOUR=";
+const String SOL_MINS_PREFIX =  "S_MIN=";
+const String SOL_SECS_PREFIX =  "S_SEC=";
 
 const int NONE = 0;
 const int NS = 1;
@@ -39,20 +48,41 @@ String lng = "";
 String bsp = "";
 String sog = "";
 String cog = "";
-String date = "";
+String date = ""; // Local
+
+String utc_year = "";
+String utc_month = "";
+String utc_day = "";
+
+String utc_hours = "";
+String utc_mins = "";
+String utc_secs = "";
+
+String sol_hours = "";
+String sol_mins = "";
+String sol_secs = "";
 
 const int POS_SCREEN = 0;
 const int BSP_SCREEN = 1;
 const int SOG_SCREEN = 2;
 const int COG_SCREEN = 3;
 const int DATE_SCREEN = 4;
+const int UTC_DATE_SCREEN = 5;
+const int SOLAR_TIME_SCREEN = 6;
+
+const String MONTH[] = {
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"  
+};
 
 int screens[] = {
   POS_SCREEN,
   BSP_SCREEN,
   SOG_SCREEN,
   COG_SCREEN,
-  DATE_SCREEN
+  DATE_SCREEN,
+  UTC_DATE_SCREEN,
+  SOLAR_TIME_SCREEN
 };
 int currentScreen = POS_SCREEN;
 
@@ -117,6 +147,12 @@ void loop() {
     case DATE_SCREEN:
       displayDate();
       break;
+    case UTC_DATE_SCREEN:
+      displayUTCDate();
+      break;
+    case SOLAR_TIME_SCREEN:
+      displaySolarTime();
+      break;
     default:
       break;
   }
@@ -129,7 +165,7 @@ void displayPos() {
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(WHITE);
   M5.Lcd.setTextSize(2);
-  M5.Lcd.print("Position\n" + decToSex(lat.toFloat(), NS) + "\n" + decToSex(lng.toFloat(), EW));
+  M5.Lcd.print("Position\n" + decToSex(lat.toFloat(), NS) + "\n" + decToSex(lng.toFloat(), EW));  
 }
 
 void displayBsp() {
@@ -138,7 +174,7 @@ void displayBsp() {
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(WHITE);
   M5.Lcd.setTextSize(3);
-  M5.Lcd.print("BSP\n" + bsp + " kts");
+  M5.Lcd.print("BSP\n" + bsp + " kts");  
 }
 
 void displaySog() {
@@ -147,7 +183,7 @@ void displaySog() {
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(WHITE);
   M5.Lcd.setTextSize(3);
-  M5.Lcd.print("SOG\n" + sog + " kts");
+  M5.Lcd.print("SOG\n" + sog + " kts");  
 }
 
 void displayCog() {
@@ -156,7 +192,7 @@ void displayCog() {
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(WHITE);
   M5.Lcd.setTextSize(3);
-  M5.Lcd.print("COG\n" + cog);
+  M5.Lcd.print("COG\n" + cog);  
 }
 
 void displayDate() {
@@ -165,7 +201,47 @@ void displayDate() {
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(WHITE);
   M5.Lcd.setTextSize(2);
-  M5.Lcd.print("Date\n" + date);
+  M5.Lcd.print("Date\n" + date);  
+}
+
+void displayUTCDate() {
+  M5.Lcd.setRotation( 3 );
+  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.setCursor(0, 10);
+  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setTextSize(2);
+  String utc = " - ";
+  if (utc_year.length() > 0 &&
+      utc_month.length() > 0 &&
+      utc_day.length() > 0 &&
+      utc_hours.length() > 0 &&
+      utc_mins.length() > 0 &&
+      utc_secs.length() > 0) {
+        utc = String(utc_year.toInt()) + "-" +
+              MONTH[utc_month.toInt() - 1] + "-" +
+              String(utc_day.toInt()) + "\n" +
+              String(utc_hours.toInt()) + ":" +
+              String(utc_mins.toInt()) + ":" +
+              String(utc_secs.toInt());
+  }
+  M5.Lcd.print("UTC Date\n" + utc);  
+}
+
+void displaySolarTime() {
+  M5.Lcd.setRotation( 3 );
+  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.setCursor(0, 10);
+  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setTextSize(3);
+  String solar = " - ";
+  if (sol_hours.length() > 0 &&
+      sol_mins.length() > 0 &&
+      sol_secs.length() > 0) {
+        solar = String(sol_hours.toInt()) + ":" +
+                String(sol_mins.toInt()) + ":" +
+                String(sol_secs.toInt());
+  }
+  M5.Lcd.print("Solar\n" + solar);  
 }
 
 String extractFromCache(String cache, String prefix) {
@@ -183,12 +259,12 @@ String extractFromCache(String cache, String prefix) {
     }
   } else {
     Serial.println("No " + prefix);
-  }
+  }    
   return data;
 }
 /*
  * Data is like that:
- *
+ * 
 BSP=0.00
 LAT=37.748850
 LNG=-122.506937
@@ -218,6 +294,18 @@ void getData() {
   sog =  extractFromCache(cache, SOG_PREFIX);
   cog =  extractFromCache(cache, COG_PREFIX);
   date = extractFromCache(cache, DATE_PREFIX);
+
+  utc_year = extractFromCache(cache, UTC_YEAR_PREFIX);
+  utc_month = extractFromCache(cache, UTC_MONTH_PREFIX);
+  utc_day = extractFromCache(cache, UTC_DAY_PREFIX);
+
+  utc_hours = extractFromCache(cache, UTC_HOURS_PREFIX);
+  utc_mins = extractFromCache(cache, UTC_MINS_PREFIX);
+  utc_secs = extractFromCache(cache, UTC_SECS_PREFIX);
+
+  sol_hours = extractFromCache(cache, SOL_HOURS_PREFIX);
+  sol_mins = extractFromCache(cache, SOL_MINS_PREFIX);
+  sol_secs = extractFromCache(cache, SOL_SECS_PREFIX);
 }
 
 String decToSex(double val, int type) {
@@ -263,10 +351,10 @@ String makeRequest(String verb, String request) {
       Serial.println("\tConnected!");
     }
     // Make a HTTP/REST request:
-    String restRequest =
+    String restRequest = 
               verb + " " + request + " HTTP/1.1\r\n" +
-              "Host: " + SERVER_NAME + ":" + String(SERVER_PORT) + "\r\n" +
-              "Connection: close\r\n" +
+              "Host: " + SERVER_NAME + ":" + String(SERVER_PORT) + "\r\n" + 
+              "Connection: close\r\n" + 
               // "Accept: text/plain;charset=UTF-8\r\n" +
               "\r\n"; //  + body + "\r\n";
     if (DEBUG) {
@@ -288,7 +376,7 @@ String makeRequest(String verb, String request) {
     if (DEBUG) {
       Serial.print(line); // debug
     }
-    response = response + "\n" + line;
+    response = response + "\n" + line; 
   }
   if (DEBUG) {
     Serial.println("\tDone reading response");
