@@ -1,26 +1,26 @@
 /**
   Simple HTTP webclient REST, for the NavServer (logger, runner, etc),
   for Feather-Huzzah/ESP8266.
-  
+
   3 Screens
   Note: See the WITH_BUTTONS constant in the code.
        If WITH_BUTTONS is set to true, each button will lead to the associated screen.
        If WITH_BUTTONS is set to false, display will automatically scroll from screen to screen.
   Another option would be to use the top button to increment the screen inedx, the bottom one to decrement it, leaving the middle button unused..
-  This would allow more than 3 screens.  
-  
+  This would allow more than 3 screens.
+
   Main class of what will possibly be the TCP watch.
-  
+
   Sends REST requests to the NavServer to get navigation data (see REST_REQUEST variable)
   That one spits out data on the Serial console, and on an oled screen SSD1306 128x32.
   Ideally stacked on top of the Feather.
-  
+
   @author Olivier LeDiouris
-  
+
   Originally inspired by https://learn.adafruit.com/micropython-oled-watch
-  
+
   Keywords: ESP8266, Feather, Huzzah, NavServer, 128x32 ...
-  
+
   TODO Cleanup in the drawLine and graphics primitives
 */
 #include <Wire.h>
@@ -40,6 +40,10 @@
 
 // #define __SONIC_AT_HOME__   // 192.168.42.x on Sonic-00e0_EXT
 #undef __SONIC_AT_HOME__
+
+// #define __SAN_JUAN__
+#undef __SAN_JUAN__
+
 
 #include "custom_values.h" // Contains _SSID, _PASSWORD, _HOST, _HTTP_PORT, used below.
 
@@ -93,7 +97,7 @@ Adafruit_SSD1306 ssd1306 = Adafruit_SSD1306(128, 32, &Wire);
 
 // Data from REST server
 float bsp, lat, lng, sog;
-int cog, year, month, day, hour, mins, sec;
+int cog, year, month, day, hour, mins, sec, sHour, sMin, sSec;
 String date;
 
 const int NS = 1;
@@ -298,6 +302,8 @@ void repaint() {
         ssd1306.println(dataBuffer);
         sprintf(dataBuffer, "COG: %d", cog);
         ssd1306.println(dataBuffer);
+        sprintf(dataBuffer, "%02d:%02d:%02d Sol", sHour, sMin, sSec);
+        ssd1306.println(dataBuffer);
       } else {
         // Draw compass
         drawHeading(cog);
@@ -307,6 +313,9 @@ void repaint() {
         ssd1306.println(dataBuffer);
         ssd1306.setCursor(40, 10);
         sprintf(dataBuffer, "COG: %d", cog);
+        ssd1306.println(dataBuffer);
+        ssd1306.setCursor(40, 20);
+        sprintf(dataBuffer, "%02d:%02d:%02d Sol", sHour, sMin, sSec);
         ssd1306.println(dataBuffer);
       }
       break;
@@ -421,6 +430,9 @@ struct KEYS {
   const String HOUR = "HOUR";
   const String MIN = "MIN";
   const String SEC = "SEC";
+  const String S_HOUR = "S_HOUR";
+  const String S_MIN = "S_MIN";
+  const String S_SEC = "S_SEC";
 } keys;
 
 unsigned long lastDisplay = 0;
@@ -533,6 +545,12 @@ void loop() {
           mins = value.toInt();
         } else if (key == keys.SEC) {
           sec = value.toInt();
+        } else if (key == keys.S_HOUR) {
+          sHour = value.toInt();
+        } else if (key == keys.S_MIN) {
+          sMin = value.toInt();
+        } else if (key == keys.S_SEC) {
+          sSec = value.toInt();
         }
       }
     }

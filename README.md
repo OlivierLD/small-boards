@@ -95,3 +95,8 @@ Use a USB-A to USB-C (male-male) cable.
 
 Beside that, the `Photon` uses its own web-based IDE, at [https://build.particle.io](https://build.particle.io).
 The code is similar to what's used above. It also comes with a free access to an IoT server.
+
+### M5StickC
+See <http://m5edu.com/Product/m5stick-c-micro-core/>
+
+Very cool, and very cheap.
