@@ -3,7 +3,7 @@
 #include <M5StickC.h>
 
 /*
-   Make REST requests
+   Make REST requests - It's a client for the NavServer
    ------------------
    RST Button: top right
    HOME Button: the big one with M5 on it
@@ -11,6 +11,8 @@
    Use the HOME button to scroll through screens.
 
    Inspired by https://m5stack.hackster.io/Ahork/m5stickc-for-pilot-hue-daf304
+
+   Some doc for M5.lcd at http://forum.m5stack.com/topic/41/lesson-1-1-lcd-graphics
 */
 
 // change values below to fit your settings
