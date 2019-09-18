@@ -43,6 +43,9 @@ const int NONE = 0;
 const int NS = 1;
 const int EW = 2;
 
+int backgroundColor = BLACK; // TODO More colors
+int foregroundColor = WHITE;
+
 const boolean DEBUG = false;
 
 String lat = "";
@@ -161,56 +164,66 @@ void loop() {
   delay(1000);
 }
 
+void flipColors() {
+  if (foregroundColor == BLACK) {
+      foregroundColor = WHITE;
+      backgroundColor = BLACK;
+  } else {
+      foregroundColor = BLACK;
+      backgroundColor = WHITE;
+  }
+}
+
 void displayPos() {
   M5.Lcd.setRotation( 3 );
-  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
-  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(2);
   M5.Lcd.print("Position\n" + decToSex(lat.toFloat(), NS) + "\n" + decToSex(lng.toFloat(), EW));  
 }
 
 void displayBsp() {
   M5.Lcd.setRotation( 3 );
-  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
-  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(3);
   M5.Lcd.print("BSP\n" + bsp + " kts");  
 }
 
 void displaySog() {
   M5.Lcd.setRotation( 3 );
-  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
-  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(3);
   M5.Lcd.print("SOG\n" + sog + " kts");  
 }
 
 void displayCog() {
   M5.Lcd.setRotation( 3 );
-  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
-  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(3);
   M5.Lcd.print("COG\n" + cog);  
 }
 
 void displayDate() {
   M5.Lcd.setRotation( 3 );
-  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
-  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(2);
   M5.Lcd.print("Date\n" + date);  
 }
 
 void displayUTCDate() {
   M5.Lcd.setRotation( 3 );
-  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
-  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(2);
   String utc = " - ";
   if (utc_year.length() > 0 &&
@@ -231,9 +244,9 @@ void displayUTCDate() {
 
 void displaySolarTime() {
   M5.Lcd.setRotation( 3 );
-  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
-  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(3);
   String solar = " - ";
   if (sol_hours.length() > 0 &&
@@ -286,6 +299,7 @@ RMC_OK=OK
  */
 void getData() {
   String cache = makeRequest("GET", "/mux/cache?option=txt");
+  flipColors();
   if (DEBUG) {
     Serial.println(cache);
   }
