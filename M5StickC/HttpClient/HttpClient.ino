@@ -2,6 +2,8 @@
 #include <WiFi.h>
 #include <M5StickC.h>
 
+#include "Colors.h"
+
 /*
    Make REST requests - It's a client for the NavServer
    ------------------
@@ -43,8 +45,8 @@ const int NONE = 0;
 const int NS = 1;
 const int EW = 2;
 
-int backgroundColor = BLACK; // TODO More colors
-int foregroundColor = WHITE;
+int backgroundColor = M5_BLACK; // TODO More colors
+int foregroundColor = M5_WHITE;
 
 const boolean DEBUG = false;
 
@@ -165,12 +167,12 @@ void loop() {
 }
 
 void flipColors() {
-  if (foregroundColor == BLACK) {
-      foregroundColor = WHITE;
-      backgroundColor = BLACK;
+  if (foregroundColor == M5_BLACK) {
+      foregroundColor = M5_WHITE;
+      backgroundColor = M5_BLACK;
   } else {
-      foregroundColor = BLACK;
-      backgroundColor = WHITE;
+      foregroundColor = M5_BLACK;
+      backgroundColor = M5_WHITE;
   }
 }
 

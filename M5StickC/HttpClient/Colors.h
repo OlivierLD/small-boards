@@ -1,0 +1,11 @@
+#define M5_PINK      0xfd79
+#define M5_RED       0xe8e4
+#define M5_ORANGE    0xfbe4
+#define M5_YELLOW    0xff80
+#define M5_GREEN     0x2589
+#define M5_BLUE      0x51d
+#define M5_DARK_BLUE 0x3a59
+#define M5_VIOLET    0xa254
+#define M5_GRAY      0x7bef
+#define M5_BLACK     0x0000
+#define M5_WHITE     0xffff
