@@ -20,7 +20,7 @@
 // change values below to fit your settings
 const char* SSID = "Sonic-00e0_EXT";        // your network SSID (name)
 const char* PASSWORD = "67369c7831";        // your network password
-const char * SERVER_NAME = "192.168.42.13"; // For REST requests, Nav Server
+const char * SERVER_NAME = "192.168.42.37"; // For REST requests, Nav Server
 // IPAddress server(192, 168, 42, 13);       
 const int SERVER_PORT = 5678;               // Server port
 
@@ -125,11 +125,12 @@ void loop() {
     Serial.println("Home button LOW");
     // Increment screen index
     currentScreen += 1;
-    if (currentScreen > ((sizeof(screens) / sizeof(int)) - 1)) {
+    int screenArraySize = (sizeof(screens) / sizeof(int)); // Size of an Array...
+    if (currentScreen > (screenArraySize - 1)) { 
       currentScreen = 0;
     }
     if (DEBUG) {
-      Serial.println("Screen index is now " + String(currentScreen) + "/" + String((sizeof(screens) / sizeof(int))));
+      Serial.println("Screen index is now " + String(currentScreen) + "/" + String(screenArraySize));
     }
     delay(100);
   }
@@ -167,12 +168,12 @@ void loop() {
 }
 
 void flipColors() {
-  if (foregroundColor == M5_BLACK) {
+  if (foregroundColor == M5_WHITE) {
+      foregroundColor = M5_ORANGE;
+      backgroundColor = M5_DARK_BLUE;
+  } else {
       foregroundColor = M5_WHITE;
       backgroundColor = M5_BLACK;
-  } else {
-      foregroundColor = M5_BLACK;
-      backgroundColor = M5_WHITE;
   }
 }
 
