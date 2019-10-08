@@ -18,9 +18,12 @@
 */
 
 // change values below to fit your settings
-const char* SSID = "Sonic-00e0_EXT";        // your network SSID (name)
-const char* PASSWORD = "67369c7831";        // your network password
-const char * SERVER_NAME = "192.168.42.37"; // For REST requests, Nav Server
+//const char* SSID = "Sonic-00e0_EXT";        // your network SSID (name)
+//const char* PASSWORD = "67369c7831";        // your network password
+//const char * SERVER_NAME = "192.168.42.37"; // For REST requests, Nav Server
+const char* SSID = "RPi-Gateway";           // your network SSID (name)
+const char* PASSWORD = "raspberrypi";       // your network password
+const char * SERVER_NAME = "192.168.50.10"; // For REST requests, Nav Server
 // IPAddress server(192, 168, 42, 13);       
 const int SERVER_PORT = 5678;               // Server port
 
@@ -252,12 +255,16 @@ void displaySolarTime() {
   M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(3);
   String solar = " - ";
+//  char solar[16];
   if (sol_hours.length() > 0 &&
       sol_mins.length() > 0 &&
       sol_secs.length() > 0) {
         solar = String(sol_hours.toInt()) + ":" +
                 String(sol_mins.toInt()) + ":" +
                 String(sol_secs.toInt());
+//        sprintf(solar, "%02d:%02d:%02d", sol_hours.toInt(), sol_mins.toInt(), sol_secs.toInt());        
+//  } else {
+//    sprintf(solar, " - ");
   }
   M5.Lcd.print("Solar\n" + solar);  
 }
@@ -301,7 +308,12 @@ S_SEC=27
 RMC_OK=OK
  */
 void getData() {
+  Serial.println("\nMaking request...");
   String cache = makeRequest("GET", "/mux/cache?option=txt");
+  Serial.println("Request came back:");
+  Serial.println("-----------");
+  Serial.println(cache);
+  Serial.println("-----------");
   flipColors();
   if (DEBUG) {
     Serial.println(cache);
