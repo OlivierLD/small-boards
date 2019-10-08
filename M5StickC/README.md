@@ -16,7 +16,7 @@ Example: Client for the Nav Server (`HttpClient.ino`)
 ```C
 const char* SSID = "RPi-Gateway";           // your network SSID (name)
 const char* PASSWORD = "raspberrypi";       // your network password
-const char * SERVER_NAME = "192.168.50.10"; // For REST requests, Nav Server
+const char* SERVER_NAME = "192.168.50.10";  // For REST requests, Nav Server
 ```
 
-Upload the sketch on the `M5Stcik-C`, and you're good to go!
+Upload the sketch on the `M5Stcik-C`, and you're good to go! You have debug messages in the `Serial` console.

@@ -20,10 +20,10 @@
 // change values below to fit your settings
 //const char* SSID = "Sonic-00e0_EXT";        // your network SSID (name)
 //const char* PASSWORD = "67369c7831";        // your network password
-//const char * SERVER_NAME = "192.168.42.37"; // For REST requests, Nav Server
+//const char* SERVER_NAME = "192.168.42.37";  // For REST requests, Nav Server
 const char* SSID = "RPi-Gateway";           // your network SSID (name)
 const char* PASSWORD = "raspberrypi";       // your network password
-const char * SERVER_NAME = "192.168.50.10"; // For REST requests, Nav Server
+const char* SERVER_NAME = "192.168.50.10";  // For REST requests, Nav Server
 // IPAddress server(192, 168, 42, 13);       
 const int SERVER_PORT = 5678;               // Server port
 
