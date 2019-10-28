@@ -17,7 +17,7 @@
 // char dataBuffer[256];
 
 RESTHelper::RESTHelper(boolean simulate) {
-  simulating = simulate;
+  simulating = simulate; // See RESTHelper.h
 }
 
 RESTHelper::Response RESTHelper::makeRESTRequest(String host, int port, String url, String verb, String payload) {
