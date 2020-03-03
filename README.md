@@ -18,7 +18,7 @@ _Universal_, but there are at least 3 versions: A, B, C...:
 ![USBs](./img/usbs.png)
 
 ## Install the Arduino IDE on the Raspberry PI
-> _Note_: The Ardiuno IDE is also available on other platforms (MacOS, Windows, many Linux distributions).
+> _Note_: The Arduino IDE is also available on other platforms (MacOS, Windows, many Linux distributions).
 
 - Go to [arduino.cc](https://www.arduino.cc/) -> Software
 - Download the last version for Linux ARM
