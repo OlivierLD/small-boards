@@ -1,4 +1,4 @@
-## Small Boards
+## Small Boards (MicroControllers)
 We will talk here about the way to develop code for those small PCBs, as well as about the different ways to communicate with them, from other machines.
 
 Several possibilities are available, among them:
@@ -43,13 +43,18 @@ For Arduino Uno, use board `Arduino/Genuino Uno`.
 Programmer: `AVRISP mkII`
 
 ### Arduino Mini
-Use a [CP2104](https://www.adafruit.com/product/3309) connector and a USB-A to USB-C (male-male) cable.
+Use a [CP2104](https://www.adafruit.com/product/3309) connector, itself using a USB-A to USB-C (male-male) cable.
 
 ![Arduino Mini](./img/Arduino.Mini.png)
 
 Programmer: `AVRISP mkII`
 
 For Arduino Pro Mini, use board `Arduino Pro or Pro Mini`, Processor `ATmega328P (3.3V, 8MHz)`, even for 5 volts version.
+
+### Arduino Nano (33 BLE Sense in my case)
+Use a USB-A to USB-C (male-male) cable.
+
+Programmer: `AVRISP mkII`.
 
 ### ESP8266 (Adafruit Huzzah)
 Programmer: `AVRISP mkII`.
@@ -83,7 +88,7 @@ In the Arduino IDE, got to `File > Preferences`, and add a URL in `Boards Manage
 ```
 Use a USB-A to USB-C (male-male) cable.
 
-![Arduino Uno](./img/Trinket.png)
+![Adafruit Trinket](./img/Trinket.png)
 
 To upload a sketch:
 - Press the button on the Trinket - verify you see the red LED pulse. This means it is ready to receive data.
