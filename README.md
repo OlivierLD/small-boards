@@ -56,6 +56,14 @@ Use a USB-A to USB-C (male-male) cable.
 
 Programmer: `AVRISP mkII`.
 
+### SparkFun Edge
+Cheap, TensorFlow compatible... Keep posted.
+
+Keep an eye on what you need to connect, and to upload (Serial Basic, like [CP2104](https://www.adafruit.com/product/3309))...
+
+See [here](https://www.sparkfun.com/products/15170)
+
+
 ### ESP8266 (Adafruit Huzzah)
 Programmer: `AVRISP mkII`.
 
