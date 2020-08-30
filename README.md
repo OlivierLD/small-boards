@@ -113,3 +113,16 @@ The code is similar to what's used above. It also comes with a free access to an
 See <http://m5edu.com/Product/m5stick-c-micro-core/>
 
 Very cool, and very cheap.
+
+### Adafruit Circuit Playground Express
+- Use a USB-A to USB-C (male-male) cable.
+- <https://www.adafruit.com/product/3333>, <https://learn.adafruit.com/adafruit-circuit-playground-express?view=all>
+
+### Adafruit Clue
+- Use a USB-A to USB-C (male-male) cable.
+- See [here](./AdafruitClue/README.md)
+
+---
+
+## To keep an eye on...
+- [MicroBlocks](http://microblocks.fun/)
