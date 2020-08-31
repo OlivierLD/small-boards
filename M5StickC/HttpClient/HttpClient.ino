@@ -8,7 +8,7 @@
    Make REST requests - It's a client for the NavServer
    ------------------
    RST Button: top right
-   HOME Button: the big one with M5 on it
+   HOME Button: the big one with M5 written on it
 
    Use the HOME button to scroll through screens.
 
@@ -122,10 +122,11 @@ void setup() {
 void loop() {
 
   getData();
-  String display ;
-  // change active screen
+  String display;
+  
+  // Home Button: Change active screen
   if (digitalRead(M5_BUTTON_HOME) == LOW) {
-    Serial.println("Home button LOW");
+    Serial.println(">>> Home button LOW");
     // Increment screen index
     currentScreen += 1;
     int screenArraySize = (sizeof(screens) / sizeof(int)); // Size of an Array...
@@ -133,15 +134,17 @@ void loop() {
       currentScreen = 0;
     }
     if (DEBUG) {
-      Serial.println("Screen index is now " + String(currentScreen) + "/" + String(screenArraySize));
+      Serial.println(">>> Screen index is now " + String(currentScreen) + "/" + String(screenArraySize));
     }
     delay(100);
   }
 
+  // Reset Button: not used
   if (digitalRead(M5_BUTTON_RST) == LOW) {
     Serial.println(">>> RST button LOW");
     Serial.println(">>> Do nothing");
   }
+  
   switch (currentScreen) {
     case POS_SCREEN:
       displayPos();
