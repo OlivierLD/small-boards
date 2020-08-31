@@ -6,6 +6,12 @@ Several possibilities are available, among them:
 - I2C
     - About I2C, see how to use those small boards as I<sup><small>2</small></sup>C slaves [here](https://github.com/OlivierLD/raspberry-coffee/blob/master/I2C.SPI/src/i2c/comm/README.md).
 - In some cases (i.e. when the PCB has WiFi capabilities), REST over HTTP, TCP, can be used too.
+- The Arduino IDE might very well be an asset
+  - like that
+  ```
+  sudo apt-get update && sudo apt-get upgrade
+  sudo apt-get install arduino
+  ```
 
 We will also talk - as a reminder - about the way to upload and run sketches on those boards. They do not all follow the same "protocol"...
 

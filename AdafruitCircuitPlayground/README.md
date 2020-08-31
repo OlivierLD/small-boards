@@ -1,4 +1,5 @@
 # Adafruit Circuit Playground
+- Doc [here](https://learn.adafruit.com/adafruit-circuit-playground-express?view=all)
 - Recent versions of Mac OS will not see this board (ah crap!)
 - No problem from a Raspberry Pi
     - But Mu (python editor) has problems running on Rasbpian-Buster...
