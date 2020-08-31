@@ -24,3 +24,9 @@ const char* SERVER_NAME = "192.168.50.10";  // For REST requests, Nav Server
 ```
 
 Upload the sketch on the `M5Stcik-C`, and you're good to go! You have debug messages in the `Serial` console.
+
+### Apple...
+Apple did it again. On the last OS (Catalina), the serial port where the M5Stick-C is connected cannot be unsignedto upload a new sketch. Again, use a Raspberry Pi, and you'll be just fine.
+
+## TODO
+- `?option=txt`: Add Atm Press, Hum, MTA
