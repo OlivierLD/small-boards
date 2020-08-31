@@ -29,14 +29,16 @@ Then (in 2017)
  $ tar -xvf arduino-1.8.5-linuxarm.tar.xz
  $ sudo mv arduino-1.8.5 /opt
  $ cd /opt/arduino-1.8.5
- $ ./install.sh
+ $ [sudo] ./install.sh
 ```
 
-Better (2020)
+or, version `2:1.0.5`
 ```bash
 sudo apt-get update && sudo apt-get upgrade
 sudo apt-get install arduino
 ```
+
+> Note : first approach (`1.8.x`) should be preferred.
 
 ### Arduino Uno
 Use a USB-A to USB-B (male-male) cable.
