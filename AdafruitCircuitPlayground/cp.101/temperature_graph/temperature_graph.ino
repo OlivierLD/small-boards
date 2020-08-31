@@ -1,7 +1,7 @@
 #include <Adafruit_CircuitPlayground.h>
 
 /**
- * Disply using the Graph (Tools > Serial Plotter)
+ * Display using the Graph (Tools > Serial Plotter)
  */
 float tempC, tempF;
 
