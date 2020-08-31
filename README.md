@@ -6,12 +6,6 @@ Several possibilities are available, among them:
 - I2C
     - About I2C, see how to use those small boards as I<sup><small>2</small></sup>C slaves [here](https://github.com/OlivierLD/raspberry-coffee/blob/master/I2C.SPI/src/i2c/comm/README.md).
 - In some cases (i.e. when the PCB has WiFi capabilities), REST over HTTP, TCP, can be used too.
-- The Arduino IDE might very well be an asset
-  - like that
-  ```
-  sudo apt-get update && sudo apt-get upgrade
-  sudo apt-get install arduino
-  ```
 
 We will also talk - as a reminder - about the way to upload and run sketches on those boards. They do not all follow the same "protocol"...
 
@@ -30,13 +24,18 @@ _Universal_, but there are at least 3 versions: A, B, C...:
 - Download the last version for Linux ARM
 
 Then (in 2017)
-
 ```bash
  $ cd ~/Downloads
  $ tar -xvf arduino-1.8.5-linuxarm.tar.xz
  $ sudo mv arduino-1.8.5 /opt
  $ cd /opt/arduino-1.8.5
  $ ./install.sh
+```
+
+Better (2020)
+```bash
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install arduino
 ```
 
 ### Arduino Uno
