@@ -44,6 +44,10 @@ const String SOL_HOURS_PREFIX = "S_HOUR=";
 const String SOL_MINS_PREFIX =  "S_MIN=";
 const String SOL_SECS_PREFIX =  "S_SEC=";
 
+const String BARO_PREFIX = "BARO=";
+const String TEMP_PREFIX = "TEMP=";
+const String HUM_PREFIX =  "HUM=";
+
 const int NONE = 0;
 const int NS = 1;
 const int EW = 2;
@@ -72,6 +76,10 @@ String sol_hours = "";
 String sol_mins = "";
 String sol_secs = "";
 
+String hum = "";
+String baro = "";
+String temp = "";
+
 const int POS_SCREEN = 0;
 const int BSP_SCREEN = 1;
 const int SOG_SCREEN = 2;
@@ -79,6 +87,7 @@ const int COG_SCREEN = 3;
 const int DATE_SCREEN = 4;
 const int UTC_DATE_SCREEN = 5;
 const int SOLAR_TIME_SCREEN = 6;
+const int ATM_SCREEN = 7;
 
 const String MONTH[] = {
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -92,7 +101,8 @@ int screens[] = {
   COG_SCREEN,
   DATE_SCREEN,
   UTC_DATE_SCREEN,
-  SOLAR_TIME_SCREEN
+  SOLAR_TIME_SCREEN,
+  ATM_SCREEN
 };
 int currentScreen = POS_SCREEN;
 
@@ -167,6 +177,9 @@ void loop() {
     case SOLAR_TIME_SCREEN:
       displaySolarTime();
       break;
+    case ATM_SCREEN:
+      displayAtmData();
+      break;
     default:
       break;
   }
@@ -190,6 +203,15 @@ void displayPos() {
   M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(2);
   M5.Lcd.print("Position\n" + decToSex(lat.toFloat(), NS) + "\n" + decToSex(lng.toFloat(), EW));  
+}
+
+void displayAtmData() {
+  M5.Lcd.setRotation( 3 );
+  M5.Lcd.fillScreen(backgroundColor);
+  M5.Lcd.setCursor(0, 10);
+  M5.Lcd.setTextColor(foregroundColor);
+  M5.Lcd.setTextSize(2);
+  M5.Lcd.print("Baro " + baro + " mb\n" + "Air Temp " + temp + "C\n" + "Hum " + hum + "%");    
 }
 
 void displayBsp() {
@@ -309,6 +331,9 @@ S_HOUR=16
 S_MIN=40
 S_SEC=27
 RMC_OK=OK
+BARO=1013.6
+TEMP=23.4
+HUM=50.2
  */
 void getData() {
   Serial.println("\nMaking request...");
@@ -340,6 +365,10 @@ void getData() {
   sol_hours = extractFromCache(cache, SOL_HOURS_PREFIX);
   sol_mins = extractFromCache(cache, SOL_MINS_PREFIX);
   sol_secs = extractFromCache(cache, SOL_SECS_PREFIX);
+
+  baro = extractFromCache(cache, BARO_PREFIX);
+  temp = extractFromCache(cache, TEMP_PREFIX);
+  hum = extractFromCache(cache, HUM_PREFIX);  
 }
 
 String decToSex(double val, int type) {
