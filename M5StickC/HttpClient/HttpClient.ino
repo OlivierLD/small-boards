@@ -139,8 +139,8 @@ void loop() {
   }
 
   if (digitalRead(M5_BUTTON_RST) == LOW) {
-    Serial.println("RST button LOW");
-    Serial.println("Do nothing");
+    Serial.println(">>> RST button LOW");
+    Serial.println(">>> Do nothing");
   }
   switch (currentScreen) {
     case POS_SCREEN:

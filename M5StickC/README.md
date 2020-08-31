@@ -1,6 +1,10 @@
 ## M5Stick-C
 - See <http://m5edu.com/Product/m5stick-c-micro-core/>
 - See <http://forum.m5stack.com/topic/41/lesson-1-1-lcd-graphics>
+- Arduino libs instructions [here](https://www.instructables.com/id/How-to-Program-ESP32-M5Stack-StickC-With-Arduino-I/)
+- And [here](https://docs.m5stack.com/#/en/quick_start/m5stickc/m5stickc_quick_start_with_arduino_Windows?id=_3-install-m5stack-library)
+  - Use board `EPS32 Arduino` > `M5Stick-C`
+  - Use Upload Speed `115200`
 
 Hostname is `espressif`.
 
