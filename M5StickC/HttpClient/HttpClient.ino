@@ -211,7 +211,7 @@ void displayAtmData() {
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(2);
-  M5.Lcd.print("Baro " + baro + " mb\n" + "Air Temp " + temp + " C\n" + "Hum " + hum + "%");    
+  M5.Lcd.print("Baro " + baro + " mb\n" + "Air " + temp + " C\n" + "Hum " + hum + "%");    
 }
 
 void displayBsp() {
