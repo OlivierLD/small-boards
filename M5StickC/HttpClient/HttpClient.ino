@@ -55,7 +55,7 @@ const int EW = 2;
 int backgroundColor = M5_BLACK; // TODO More colors
 int foregroundColor = M5_WHITE;
 
-const boolean DEBUG = false;
+const boolean DEBUG = true;
 
 String lat = "";
 String lng = "";
