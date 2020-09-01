@@ -24,7 +24,7 @@
 const char* SSID = "RPi-Gateway";           // your network SSID (name)
 const char* PASSWORD = "raspberrypi";       // your network password
 const char* SERVER_NAME = "192.168.50.10";  // For REST requests, Nav Server
-// IPAddress server(192, 168, 42, 13);       
+// IPAddress server(192, 168, 42, 13);
 const int SERVER_PORT = 5678;               // Server port
 
 const String LAT_PREFIX = "LAT=";
@@ -91,7 +91,7 @@ const int ATM_SCREEN = 7;
 
 const String MONTH[] = {
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"  
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
 int screens[] = {
@@ -133,14 +133,14 @@ void loop() {
 
   getData();
   String display;
-  
+
   // Home Button: Change active screen
   if (digitalRead(M5_BUTTON_HOME) == LOW) {
     Serial.println(">>> Home button LOW");
     // Increment screen index
     currentScreen += 1;
     int screenArraySize = (sizeof(screens) / sizeof(int)); // Size of an Array...
-    if (currentScreen > (screenArraySize - 1)) { 
+    if (currentScreen > (screenArraySize - 1)) {
       currentScreen = 0;
     }
     if (DEBUG) {
@@ -154,7 +154,7 @@ void loop() {
     Serial.println(">>> RST button LOW");
     Serial.println(">>> Do nothing");
   }
-  
+
   switch (currentScreen) {
     case POS_SCREEN:
       displayPos();
@@ -183,7 +183,7 @@ void loop() {
     default:
       break;
   }
-  delay(1000);
+  delay(200); // Was 1000
 }
 
 void flipColors() {
@@ -202,7 +202,7 @@ void displayPos() {
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(2);
-  M5.Lcd.print("Position\n" + decToSex(lat.toFloat(), NS) + "\n" + decToSex(lng.toFloat(), EW));  
+  M5.Lcd.print("Position\n" + decToSex(lat.toFloat(), NS) + "\n" + decToSex(lng.toFloat(), EW));
 }
 
 void displayAtmData() {
@@ -211,7 +211,7 @@ void displayAtmData() {
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(2);
-  M5.Lcd.print("Baro " + baro + " mb\n" + "Air " + temp + " C\n" + "Hum " + hum + "%");    
+  M5.Lcd.print("Baro " + baro + "\n" + "Air " + temp + " C\n" + "Hum " + hum + " %");
 }
 
 void displayBsp() {
@@ -220,7 +220,7 @@ void displayBsp() {
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(3);
-  M5.Lcd.print("BSP\n" + bsp + " kts");  
+  M5.Lcd.print("BSP\n" + bsp + " kts");
 }
 
 void displaySog() {
@@ -229,7 +229,7 @@ void displaySog() {
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(3);
-  M5.Lcd.print("SOG\n" + sog + " kts");  
+  M5.Lcd.print("SOG\n" + sog + " kts");
 }
 
 void displayCog() {
@@ -238,7 +238,7 @@ void displayCog() {
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(3);
-  M5.Lcd.print("COG\n" + cog);  
+  M5.Lcd.print("COG\n" + cog);
 }
 
 void displayDate() {
@@ -247,7 +247,7 @@ void displayDate() {
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(2);
-  M5.Lcd.print("Date\n" + date);  
+  M5.Lcd.print("Local Date-Time\n" + date);
 }
 
 void displayUTCDate() {
@@ -270,7 +270,7 @@ void displayUTCDate() {
               String(utc_mins.toInt()) + ":" +
               String(utc_secs.toInt());
   }
-  M5.Lcd.print("UTC Date\n" + utc);  
+  M5.Lcd.print("UTC Date\n" + utc);
 }
 
 void displaySolarTime() {
@@ -287,11 +287,11 @@ void displaySolarTime() {
         solar = String(sol_hours.toInt()) + ":" +
                 String(sol_mins.toInt()) + ":" +
                 String(sol_secs.toInt());
-//        sprintf(solar, "%02d:%02d:%02d", sol_hours.toInt(), sol_mins.toInt(), sol_secs.toInt());        
+//        sprintf(solar, "%02d:%02d:%02d", sol_hours.toInt(), sol_mins.toInt(), sol_secs.toInt());
 //  } else {
 //    sprintf(solar, " - ");
   }
-  M5.Lcd.print("Solar\n" + solar);  
+  M5.Lcd.print("Solar\n" + solar);
 }
 
 String extractFromCache(String cache, String prefix) {
@@ -309,12 +309,12 @@ String extractFromCache(String cache, String prefix) {
     }
   } else {
     Serial.println("No " + prefix);
-  }    
+  }
   return data;
 }
 /*
  * Data is like that:
- * 
+ *
 BSP=0.00
 LAT=37.748850
 LNG=-122.506937
@@ -352,7 +352,7 @@ void getData() {
   bsp =  extractFromCache(cache, BSP_PREFIX);
   sog =  extractFromCache(cache, SOG_PREFIX);
   cog =  extractFromCache(cache, COG_PREFIX);
-  date = extractFromCache(cache, DATE_PREFIX);
+  date = extractFromCache(cache, DATE_PREFIX); // TODO Break on Date / Time
 
   utc_year = extractFromCache(cache, UTC_YEAR_PREFIX);
   utc_month = extractFromCache(cache, UTC_MONTH_PREFIX);
@@ -368,7 +368,7 @@ void getData() {
 
   baro = extractFromCache(cache, BARO_PREFIX);
   temp = extractFromCache(cache, TEMP_PREFIX);
-  hum = extractFromCache(cache, HUM_PREFIX);  
+  hum = extractFromCache(cache, HUM_PREFIX);
 }
 
 String decToSex(double val, int type) {
@@ -414,10 +414,10 @@ String makeRequest(String verb, String request) {
       Serial.println("\tConnected!");
     }
     // Make a HTTP/REST request:
-    String restRequest = 
+    String restRequest =
               verb + " " + request + " HTTP/1.1\r\n" +
-              "Host: " + SERVER_NAME + ":" + String(SERVER_PORT) + "\r\n" + 
-              "Connection: close\r\n" + 
+              "Host: " + SERVER_NAME + ":" + String(SERVER_PORT) + "\r\n" +
+              "Connection: close\r\n" +
               // "Accept: text/plain;charset=UTF-8\r\n" +
               "\r\n"; //  + body + "\r\n";
     if (DEBUG) {
@@ -439,7 +439,7 @@ String makeRequest(String verb, String request) {
     if (DEBUG) {
       Serial.print(line); // debug
     }
-    response = response + "\n" + line; 
+    response = response + "\n" + line;
   }
   if (DEBUG) {
     Serial.println("\tDone reading response");
