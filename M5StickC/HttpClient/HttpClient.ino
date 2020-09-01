@@ -126,12 +126,18 @@ void setup() {
   Serial.println("\nConnected to wifi");
 
   pinMode(M5_BUTTON_HOME, INPUT);
-  pinMode(M5_BUTTON_RST, INPUT);
+  pinMode(M5_BUTTON_RST, INPUT); // for the example. Not used.
 }
 
 void loop() {
 
+  if (DEBUG) {
+    Serial.println("Getting data...");
+  }
   getData();
+  if (DEBUG) {
+    Serial.println("Got the data!");
+  }
   String display;
 
   // Home Button: Change active screen
