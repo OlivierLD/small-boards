@@ -8,6 +8,10 @@
 
 Hostname is `espressif`.
 
+Buttons:
+![Buttons](./M5.03.jpg)
+
+
 Example: Client for the Nav Server (`HttpClient.ino`)
 
 |    B & W            |    Colors           |
