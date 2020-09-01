@@ -247,7 +247,7 @@ void displayDate() {
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(2);
-  M5.Lcd.print("Local Date-Time\n" + date);
+  M5.Lcd.print("Date (local)\n" + date);
 }
 
 void displayUTCDate() {
