@@ -194,11 +194,11 @@ void loop() {
 
 void flipColors() {
   if (foregroundColor == M5_WHITE) {
-      foregroundColor = M5_ORANGE;
-      backgroundColor = M5_DARK_BLUE;
+    foregroundColor = M5_BLACK;
+    backgroundColor = M5_BLUE;
   } else {
-      foregroundColor = M5_WHITE;
-      backgroundColor = M5_BLACK;
+    foregroundColor = M5_WHITE;
+    backgroundColor = M5_BLACK;
   }
 }
 
@@ -248,12 +248,32 @@ void displayCog() {
 }
 
 void displayDate() {
+  String brokenDate = date;
+  date.trim();
+  if (date.length() > 0) {
+    // Serial.print("Displaying "); Serial.println(date);
+    // break at 3rd index of ' '
+    int i;
+    int thirdIndex = 0;
+    int nbBlank = 0;
+    for (i = 0; i < date.length(); i++) {
+      if (date.charAt(i) == ' ') {
+        nbBlank += 1;
+        if (nbBlank == 3) {
+          thirdIndex = i;
+          break;
+        }
+      }
+    }
+    // Serial.print("3rd blank at "); Serial.println(thirdIndex);
+    brokenDate.setCharAt(thirdIndex, '\n');
+  }
   M5.Lcd.setRotation( 3 );
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(2);
-  M5.Lcd.print("Date (local)\n" + date);
+  M5.Lcd.print("Date (local)\n" + brokenDate);
 }
 
 void displayUTCDate() {
@@ -269,12 +289,12 @@ void displayUTCDate() {
       utc_hours.length() > 0 &&
       utc_mins.length() > 0 &&
       utc_secs.length() > 0) {
-        utc = String(utc_year.toInt()) + "-" +
-              MONTH[utc_month.toInt() - 1] + "-" +
-              String(utc_day.toInt()) + "\n" +
-              String(utc_hours.toInt()) + ":" +
-              String(utc_mins.toInt()) + ":" +
-              String(utc_secs.toInt());
+    utc = String(utc_year.toInt()) + "-" +
+          MONTH[utc_month.toInt() - 1] + "-" +
+          String(utc_day.toInt()) + "\n" +
+          String(utc_hours.toInt()) + ":" +
+          String(utc_mins.toInt()) + ":" +
+          String(utc_secs.toInt());
   }
   M5.Lcd.print("UTC Date\n" + utc);
 }
@@ -286,16 +306,16 @@ void displaySolarTime() {
   M5.Lcd.setTextColor(foregroundColor);
   M5.Lcd.setTextSize(3);
   String solar = " - ";
-//  char solar[16];
+  //  char solar[16];
   if (sol_hours.length() > 0 &&
       sol_mins.length() > 0 &&
       sol_secs.length() > 0) {
-        solar = String(sol_hours.toInt()) + ":" +
-                String(sol_mins.toInt()) + ":" +
-                String(sol_secs.toInt());
-//        sprintf(solar, "%02d:%02d:%02d", sol_hours.toInt(), sol_mins.toInt(), sol_secs.toInt());
-//  } else {
-//    sprintf(solar, " - ");
+    solar = String(sol_hours.toInt()) + ":" +
+            String(sol_mins.toInt()) + ":" +
+            String(sol_secs.toInt());
+    //        sprintf(solar, "%02d:%02d:%02d", sol_hours.toInt(), sol_mins.toInt(), sol_secs.toInt());
+    //  } else {
+    //    sprintf(solar, " - ");
   }
   M5.Lcd.print("Solar\n" + solar);
 }
@@ -319,28 +339,28 @@ String extractFromCache(String cache, String prefix) {
   return data;
 }
 /*
- * Data is like that:
- *
-BSP=0.00
-LAT=37.748850
-LNG=-122.506937
-SOG=0.33
-COG=306
-DATE=Sep 14, 2019 5:46:03 PM
-YEAR=2019
-MONTH=9
-DAY=15
-HOUR=0
-MIN=46
-SEC=3
-S_HOUR=16
-S_MIN=40
-S_SEC=27
-RMC_OK=OK
-BARO=1013.6
-TEMP=23.4
-HUM=50.2
- */
+   Data is like that:
+
+  BSP=0.00
+  LAT=37.748850
+  LNG=-122.506937
+  SOG=0.33
+  COG=306
+  DATE=Sep 14, 2019 5:46:03 PM
+  YEAR=2019
+  MONTH=9
+  DAY=15
+  HOUR=0
+  MIN=46
+  SEC=3
+  S_HOUR=16
+  S_MIN=40
+  S_SEC=27
+  RMC_OK=OK
+  BARO=1013.6
+  TEMP=23.4
+  HUM=50.2
+*/
 void getData() {
   Serial.println("\nMaking request...");
   String cache = makeRequest("GET", "/mux/cache?option=txt");
@@ -401,7 +421,9 @@ String decToSex(double val, int type) {
       s += "E ";
     }
   }
-  s += (String(i) + " "); // "°");
+  String sep = " ";
+  // sep.setCharAt(0,  0x60); // "°");
+  s += (String(i) + sep);
   char decimal[16];
   sprintf(decimal, "%2.2f'", dec);
   s += decimal;
@@ -421,11 +443,11 @@ String makeRequest(String verb, String request) {
     }
     // Make a HTTP/REST request:
     String restRequest =
-              verb + " " + request + " HTTP/1.1\r\n" +
-              "Host: " + SERVER_NAME + ":" + String(SERVER_PORT) + "\r\n" +
-              "Connection: close\r\n" +
-              // "Accept: text/plain;charset=UTF-8\r\n" +
-              "\r\n"; //  + body + "\r\n";
+      verb + " " + request + " HTTP/1.1\r\n" +
+      "Host: " + SERVER_NAME + ":" + String(SERVER_PORT) + "\r\n" +
+      "Connection: close\r\n" +
+      // "Accept: text/plain;charset=UTF-8\r\n" +
+      "\r\n"; //  + body + "\r\n";
     if (DEBUG) {
       Serial.println(restRequest);
     }
