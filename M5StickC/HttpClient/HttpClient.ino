@@ -194,8 +194,8 @@ void loop() {
 
 void flipColors() {
   if (foregroundColor == M5_WHITE) {
-    foregroundColor = M5_ORANGE;
-    backgroundColor = M5_DARK_BLUE;
+    foregroundColor = M5_BLACK;
+    backgroundColor = M5_BLUE;
   } else {
     foregroundColor = M5_WHITE;
     backgroundColor = M5_BLACK;
@@ -421,7 +421,9 @@ String decToSex(double val, int type) {
       s += "E ";
     }
   }
-  s += (String(i) + " "); // "°");
+  String sep = " ";
+  // sep.setCharAt(0,  0x60); // "°");
+  s += (String(i) + sep);
   char decimal[16];
   sprintf(decimal, "%2.2f'", dec);
   s += decimal;
