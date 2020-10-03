@@ -36,9 +36,10 @@ void timercallback() {
 
 void setup() {
   Serial.begin(115200);
+  Serial.println("----------------------------");
   Serial.println("On its way!");
 
-  // enable NFC pins  
+  // enable NFC pins
   if ((NRF_UICR->NFCPINS & UICR_NFCPINS_PROTECT_Msk) == (UICR_NFCPINS_PROTECT_NFC << UICR_NFCPINS_PROTECT_Pos)) {
     Serial.println("Fix NFC pins");
     NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Wen << NVMC_CONFIG_WEN_Pos;
@@ -50,7 +51,7 @@ void setup() {
     Serial.println("Done");
     NVIC_SystemReset();
   }
-  
+
   pinMode(WHITE_LED, OUTPUT);
   digitalWrite(WHITE_LED, LOW);
 
@@ -62,7 +63,7 @@ void setup() {
   arcada.displayBegin();
   Serial.println("Arcada display begin");
 
-  for (int i=0; i<250; i+=10) {
+  for (int i = 0; i < 250; i += 10) {
     arcada.setBacklight(i);
     delay(1);
   }
@@ -70,15 +71,17 @@ void setup() {
   arcada.display->setCursor(0, 0);
   arcada.display->setTextWrap(true);
   arcada.display->setTextSize(2);
-  
+
   /********** Check MIC */
   PDM.onReceive(onPDMdata);
   if (!PDM.begin(1, 16000)) {
     Serial.println("**Failed to start PDM!");
+  } else {
+    Serial.println("PDM Ok");
   }
-  
+
   /********** Check QSPI manually */
-  if (!Arcada_QSPI_Flash.begin()){
+  if (!Arcada_QSPI_Flash.begin()) {
     Serial.println("Could not find flash on QSPI bus!");
     arcada.display->setTextColor(ARCADA_RED);
     arcada.display->println("QSPI Flash FAIL");
@@ -89,8 +92,8 @@ void setup() {
     arcada.display->setTextColor(ARCADA_GREEN);
     arcada.display->print("QSPI JEDEC: 0x"); arcada.display->println(jedec, HEX);
   }
-  
-   /********** Check filesystem next */
+
+  /********** Check filesystem next */
   if (!arcada.filesysBegin()) {
     Serial.println("Failed to load filesys");
     arcada.display->setTextColor(ARCADA_YELLOW);
@@ -124,7 +127,7 @@ void setup() {
     arcada.display->setTextColor(ARCADA_GREEN);
   }
   arcada.display->println("LSM6DS33 ");
-  
+
   /********** Check LIS3MDL */
   if (!lis3mdl.begin_I2C()) {
     Serial.println("No LIS3MDL found");
@@ -158,23 +161,24 @@ void setup() {
   buttons = last_buttons = 0;
   arcada.timerCallback(1000, timercallback);
   arcada.display->setTextWrap(false);
+  Serial.println("----------------------------");
 }
 
 
 void loop() {
   arcada.display->setTextColor(ARCADA_WHITE, ARCADA_BLACK);
   arcada.display->setCursor(0, 100);
-  
+
   arcada.display->print("Temp: ");
   arcada.display->print(bmp280.readTemperature());
   arcada.display->print(" C");
   arcada.display->println("         ");
-  
+
   arcada.display->print("Baro: ");
-  arcada.display->print(bmp280.readPressure()/100);
+  arcada.display->print(bmp280.readPressure() / 100);
   arcada.display->print(" hPa");
   arcada.display->println("         ");
-  
+
   arcada.display->print("Humid: ");
   arcada.display->print(sht30.readHumidity());
   arcada.display->print(" %");
@@ -182,7 +186,7 @@ void loop() {
 
   uint16_t r, g, b, c;
   //wait for color data to be ready
-  while(! apds9960.colorDataReady()) {
+  while (! apds9960.colorDataReady()) {
     delay(5);
   }
   apds9960.getColorData(&r, &g, &b, &c);
@@ -208,7 +212,7 @@ void loop() {
   arcada.display->print(",");
   arcada.display->print(gyro.gyro.z, 1);
   arcada.display->println("         ");
-  
+
   arcada.display->print("Mag:");
   arcada.display->print(mag.magnetic.x, 1);
   arcada.display->print(",");
@@ -222,16 +226,16 @@ void loop() {
   arcada.display->print("Mic: ");
   arcada.display->print(pdm_vol);
   arcada.display->println("      ");
-    
-  Serial.printf("Drawing %d NeoPixels\n", arcada.pixels.numPixels());  
-  for(int32_t i=0; i< arcada.pixels.numPixels(); i++) {
-     arcada.pixels.setPixelColor(i, Wheel(((i * 256 / arcada.pixels.numPixels()) + j*5) & 255));
+
+  Serial.printf("Drawing %d NeoPixels\n", arcada.pixels.numPixels()); // UNDER the board
+  for (int32_t i = 0; i < arcada.pixels.numPixels(); i++) {
+    arcada.pixels.setPixelColor(i, Wheel(((i * 256 / arcada.pixels.numPixels()) + j * 5) & 255));
   }
   arcada.pixels.show();
   j++;
 
   uint8_t pressed_buttons = arcada.readButtons();
-  
+
   if (pressed_buttons & ARCADA_BUTTONMASK_A) {
     Serial.println("BUTTON A");
     tone(ARCADA_AUDIO_OUT, 4000, 100);
@@ -251,14 +255,14 @@ void loop() {
 // Input a value 0 to 255 to get a color value.
 // The colours are a transition r - g - b - back to r.
 uint32_t Wheel(byte WheelPos) {
-  if(WheelPos < 85) {
-   return arcada.pixels.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
-  } else if(WheelPos < 170) {
-   WheelPos -= 85;
-   return arcada.pixels.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+  if (WheelPos < 85) {
+    return arcada.pixels.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+  } else if (WheelPos < 170) {
+    WheelPos -= 85;
+    return arcada.pixels.Color(255 - WheelPos * 3, 0, WheelPos * 3);
   } else {
-   WheelPos -= 170;
-   return arcada.pixels.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+    WheelPos -= 170;
+    return arcada.pixels.Color(0, WheelPos * 3, 255 - WheelPos * 3);
   }
 }
 
@@ -272,7 +276,7 @@ volatile int samplesRead;// number of samples read
 int32_t getPDMwave(int32_t samples) {
   minwave = 30000;
   maxwave = -30000;
-  
+
   while (samples > 0) {
     if (!samplesRead) {
       yield();
@@ -287,7 +291,7 @@ int32_t getPDMwave(int32_t samples) {
     // clear the read count
     samplesRead = 0;
   }
-  return maxwave-minwave;  
+  return maxwave - minwave;
 }
 
 
