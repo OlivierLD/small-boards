@@ -1,3 +1,6 @@
+/**
+ * Adafruit CLUE tests.
+ */
 #include <Adafruit_Arcada.h>
 #include <Adafruit_SPIFlash.h>
 #include <Adafruit_Sensor.h>
@@ -21,7 +24,7 @@ extern Adafruit_FlashTransport_QSPI flashTransport;
 extern Adafruit_SPIFlash Arcada_QSPI_Flash;
 
 uint32_t buttons, last_buttons;
-uint8_t j = 0;  // neopixel counter for rainbow
+uint8_t j = 0;  // neopixel counter for rainbow (UNDER the board)
 
 // Check the timer callback, this function is called every millisecond!
 volatile uint16_t milliseconds = 0;
@@ -58,7 +61,7 @@ void setup() {
   Serial.println("Hello! Arcada Clue test");
   if (!arcada.arcadaBegin()) {
     Serial.print("Failed to begin");
-    while (1);
+    while (1); // Oops
   }
   arcada.displayBegin();
   Serial.println("Arcada display begin");
@@ -161,7 +164,7 @@ void setup() {
   buttons = last_buttons = 0;
   arcada.timerCallback(1000, timercallback);
   arcada.display->setTextWrap(false);
-  Serial.println("----------------------------");
+  Serial.println("-------- END of SETUP -----------");
 }
 
 
@@ -185,7 +188,7 @@ void loop() {
   arcada.display->println("         ");
 
   uint16_t r, g, b, c;
-  //wait for color data to be ready
+  // Wait for color data to be ready
   while (! apds9960.colorDataReady()) {
     delay(5);
   }
@@ -220,6 +223,7 @@ void loop() {
   arcada.display->print(",");
   arcada.display->print(mag.magnetic.z, 1);
   arcada.display->println("         ");
+  // TODO Calculate heading
 
   uint32_t pdm_vol = getPDMwave(256);
   Serial.print("PDM volume: "); Serial.println(pdm_vol);
@@ -238,7 +242,7 @@ void loop() {
 
   if (pressed_buttons & ARCADA_BUTTONMASK_A) {
     Serial.println("BUTTON A");
-    tone(ARCADA_AUDIO_OUT, 4000, 100);
+    tone(ARCADA_AUDIO_OUT, 4000, 100); // Play sound
   } else {
     tone(ARCADA_AUDIO_OUT, 0);
   }
@@ -254,6 +258,7 @@ void loop() {
 
 // Input a value 0 to 255 to get a color value.
 // The colours are a transition r - g - b - back to r.
+// Called in a for loop, above.
 uint32_t Wheel(byte WheelPos) {
   if (WheelPos < 85) {
     return arcada.pixels.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
@@ -270,8 +275,8 @@ uint32_t Wheel(byte WheelPos) {
 /*****************************************************************/
 
 int16_t minwave, maxwave;
-short sampleBuffer[256];// buffer to read samples into, each sample is 16-bits
-volatile int samplesRead;// number of samples read
+short sampleBuffer[256];  // buffer to read samples into, each sample is 16-bits
+volatile int samplesRead; // number of samples read
 
 int32_t getPDMwave(int32_t samples) {
   minwave = 30000;

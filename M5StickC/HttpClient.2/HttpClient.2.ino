@@ -3,7 +3,7 @@
 #include <M5StickC.h>
 
 /*
-   Make HTTP requests
+   Make HTTP requests to wifitest.adafruit.com.
    ------------------
    RST Button: top right
 */
@@ -42,11 +42,11 @@ void makeRequest(String verb, String request) {
   Serial.println("Connecting...");
   if (client.connect(SERVER_NAME, SERVER_PORT)) {
     Serial.println("Connected!");
-    // Make a HTTP/REST request:
-    String restRequest = 
+    // Make a HTTP/REST reques, cannot be more explicit! :
+    String restRequest =
               verb + " " + request + " HTTP/1.1\r\n" +
-              "Host: " + SERVER_NAME + ":" + String(SERVER_PORT) + "\r\n" + 
-              "Connection: close\r\n" + 
+              "Host: " + SERVER_NAME + ":" + String(SERVER_PORT) + "\r\n" +
+              "Connection: close\r\n" +
               "\r\n"; //  + body + "\r\n";
     Serial.println(restRequest);
     client.print(restRequest);
