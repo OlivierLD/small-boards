@@ -6,6 +6,8 @@ Adafruit_Arcada arcada;
 /**
    Graphical Building Blocks for a Compass.
    Will be later on used to display the heading on an Adafruit CLUE
+   CLUE screen 240x240
+   Doc at https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives
 */
 void setup(void) {
   Serial.begin(9600);
@@ -29,19 +31,16 @@ void setup(void) {
   cls();
 }
 
+int heading = 0;
+
 void loop() {
-
-  int heading = 0;
-  // Loop 0..360
-  while (true) {
-    for (heading = 0; heading < 360; heading++) {
-      displayNeedle(-heading);
-      displayHeading(heading);
-      delay(1000);
-    }
-
+  displayNeedle(heading);
+  displayHeading(heading);
+  delay(1000);
+  heading += 1;
+  if (heading >= 360) {
+    heading = 0;
   }
-
 }
 
 // Local functions.
@@ -53,6 +52,8 @@ float toRadians(float deg) {
   return deg * (PI / 180.0);
 }
 
+char buffer[512];
+
 void displayNeedle(int north) {
   int centerX = arcada.display->width() / 2;
   int centerY = arcada.display->height() / 2;
@@ -63,25 +64,26 @@ void displayNeedle(int north) {
   arcada.display->fillCircle(centerX, centerY, radius, ARCADA_RED);
   arcada.display->drawCircle(centerX, centerY, radius, ARCADA_WHITE);
   // Needle points. 0,0 is the top-left
-  int northTipX = centerX + (int)(radius * cos(toRadians(north)));
-  int northTipY = centerY - (int)(radius * sin(toRadians(north)));
-  int midBottomLeftX = centerX + (int)(needleBaseWidth * cos(toRadians(north - 90)));
-  int midBottomLeftY = centerY - (int)(needleBaseWidth * sin(toRadians(north - 90)));
-  int midBottomRightX = centerX + (int)(needleBaseWidth * cos(toRadians(north + 90)));
-  int midBottomRightY = centerY - (int)(needleBaseWidth * sin(toRadians(north + 90)));
+  int northTipX = centerX + (int)(radius * sin(toRadians(north)));
+  int northTipY = centerY - (int)(radius * cos(toRadians(north)));
+  int midBottomLeftX = centerX + (int)(needleBaseWidth * sin(toRadians(north - 90)));
+  int midBottomLeftY = centerY - (int)(needleBaseWidth * cos(toRadians(north - 90)));
+  int midBottomRightX = centerX + (int)(needleBaseWidth * sin(toRadians(north + 90)));
+  int midBottomRightY = centerY - (int)(needleBaseWidth * cos(toRadians(north + 90)));
 
-  int southTipX = centerX + (int)(radius * cos(toRadians(north + 180)));
-  int southTipY = centerY - (int)(radius * sin(toRadians(north + 180)));
+  int southTipX = centerX + (int)(radius * sin(toRadians(north + 180)));
+  int southTipY = centerY - (int)(radius * cos(toRadians(north + 180)));
 
   arcada.display->fillTriangle(northTipX, northTipY, midBottomLeftX, midBottomLeftY, midBottomRightX, midBottomRightY, ARCADA_YELLOW);
   arcada.display->drawTriangle(southTipX, southTipY, midBottomLeftX, midBottomLeftY, midBottomRightX, midBottomRightY, ARCADA_YELLOW);
 
-  char buffer[512];
-  sprintf(buffer, "w:%d, h:%d, heading: %d, North: [%d, %d], South: [%d, %d]", 
-          arcada.display->width(), arcada.display->height(),
-          north, northTipX, northTipY, southTipX, southTipY);
-  
-  Serial.println(buffer);
+  if (north % 30 == 0) {
+    sprintf(buffer, "w:%d, h:%d, radius: %d, heading: %d, North: [%d, %d], South: [%d, %d]", 
+            arcada.display->width(), arcada.display->height(), radius,
+            north, northTipX, northTipY, southTipX, southTipY);
+    
+    Serial.println(buffer);
+  }
 }
 
 void displayHeading(int heading) {

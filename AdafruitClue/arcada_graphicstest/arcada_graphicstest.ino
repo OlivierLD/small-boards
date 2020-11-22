@@ -3,6 +3,7 @@ Adafruit_Arcada arcada;
 
 /**
    From the Ardafruit Arcada git repoo.
+   Doc at https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives
 */
 float p = 3.1415926;
 
@@ -39,9 +40,25 @@ void setup(void) {
   delay(4000);
 
   // a single pixel
-  Serial.println("Single green pixel, in the middle");
+  Serial.println("Pixels...");
+  arcada.display->drawPixel(10, 50, ARCADA_RED);
+  arcada.display->setCursor(12, 50);
+  arcada.display->setTextColor(ARCADA_RED);
+  arcada.display->setTextSize(1);
+  arcada.display->println("[10, 50]");
+
   arcada.display->drawPixel(arcada.display->width() / 2, arcada.display->height() / 2, ARCADA_GREEN);
-  delay(500);
+  arcada.display->setCursor(122, 120);
+  arcada.display->setTextColor(ARCADA_GREEN);
+  arcada.display->setTextSize(1);
+  arcada.display->println("[120, 120]");
+
+  arcada.display->drawPixel(arcada.display->width() - 10, arcada.display->height() - 50, ARCADA_YELLOW);
+  arcada.display->setCursor(232, 190);
+  arcada.display->setTextColor(ARCADA_YELLOW);
+  arcada.display->setTextSize(1);
+  arcada.display->println("[230, 190]");
+  delay(5000);
 
   // line draw test
   Serial.println("Test lines");
