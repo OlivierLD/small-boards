@@ -2,27 +2,28 @@
 Adafruit_Arcada arcada;
 
 /**
- * From the Ardafruit Arcada git repoo.
- */
+   From the Ardafruit Arcada git repoo.
+*/
 float p = 3.1415926;
 
 void setup(void) {
   Serial.begin(9600);
-  
-  while (!Serial) {
-    delay(100); // wait for serial port to connect. Needed for native USB
-  }
+
+  // wait for serial port to connect. Needed for native USB
+  //  while (!Serial) {
+  //    delay(100);
+  //  }
   Serial.println("Hello! Arcada TFT Test, be prepared.");
 
   // Start TFT and fill black
-  if (!arcada.arcadaBegin()) {  
+  if (!arcada.arcadaBegin()) {
     Serial.println("Failed to begin");
     while (1);
   }
   // Start
   Serial.println("Initializing Arcada...");
   arcada.displayBegin();
-  
+
   // Turn on backlight
   arcada.setBacklight(255);
 
@@ -39,7 +40,7 @@ void setup(void) {
 
   // a single pixel
   Serial.println("Single green pixel, in the middle");
-  arcada.display->drawPixel(arcada.display->width()/2, arcada.display->height()/2, ARCADA_GREEN);
+  arcada.display->drawPixel(arcada.display->width() / 2, arcada.display->height() / 2, ARCADA_GREEN);
   delay(500);
 
   // line draw test
@@ -73,9 +74,9 @@ void setup(void) {
   testroundrects();
   delay(500);
 
-//  Serial.println("Circles");
-//  testCircles();
-//  delay(5000);
+    Serial.println("- Circles - 2");
+    testCircles();
+    delay(5000);
 
   Serial.println("Triangles");
   testtriangles();
@@ -87,7 +88,7 @@ void setup(void) {
 
   Serial.println("Done with the demo");
   arcada.display->fillScreen(ARCADA_BLACK);
-  arcada.display->setCursor(0, 30);
+  arcada.display->setCursor(10, 30);
   arcada.display->setTextColor(ARCADA_YELLOW);
   arcada.display->setTextSize(2);
   arcada.display->println("End of Demo.");
@@ -105,42 +106,42 @@ void loop() { // Just blinks after the setup has been run.
 // Local functions.
 void testlines(uint16_t color) {
   arcada.display->fillScreen(ARCADA_BLACK);
-  for (int16_t x=0; x < arcada.display->width(); x+=6) {
-    arcada.display->drawLine(0, 0, x, arcada.display->height()-1, color);
+  for (int16_t x = 0; x < arcada.display->width(); x += 6) {
+    arcada.display->drawLine(0, 0, x, arcada.display->height() - 1, color);
     delay(0);
   }
-  for (int16_t y=0; y < arcada.display->height(); y+=6) {
-    arcada.display->drawLine(0, 0, arcada.display->width()-1, y, color);
-    delay(0);
-  }
-
-  arcada.display->fillScreen(ARCADA_BLACK);
-  for (int16_t x=0; x < arcada.display->width(); x+=6) {
-    arcada.display->drawLine(arcada.display->width()-1, 0, x, arcada.display->height()-1, color);
-    delay(0);
-  }
-  for (int16_t y=0; y < arcada.display->height(); y+=6) {
-    arcada.display->drawLine(arcada.display->width()-1, 0, 0, y, color);
+  for (int16_t y = 0; y < arcada.display->height(); y += 6) {
+    arcada.display->drawLine(0, 0, arcada.display->width() - 1, y, color);
     delay(0);
   }
 
   arcada.display->fillScreen(ARCADA_BLACK);
-  for (int16_t x=0; x < arcada.display->width(); x+=6) {
-    arcada.display->drawLine(0, arcada.display->height()-1, x, 0, color);
+  for (int16_t x = 0; x < arcada.display->width(); x += 6) {
+    arcada.display->drawLine(arcada.display->width() - 1, 0, x, arcada.display->height() - 1, color);
     delay(0);
   }
-  for (int16_t y=0; y < arcada.display->height(); y+=6) {
-    arcada.display->drawLine(0, arcada.display->height()-1, arcada.display->width()-1, y, color);
+  for (int16_t y = 0; y < arcada.display->height(); y += 6) {
+    arcada.display->drawLine(arcada.display->width() - 1, 0, 0, y, color);
     delay(0);
   }
 
   arcada.display->fillScreen(ARCADA_BLACK);
-  for (int16_t x=0; x < arcada.display->width(); x+=6) {
-    arcada.display->drawLine(arcada.display->width()-1, arcada.display->height()-1, x, 0, color);
+  for (int16_t x = 0; x < arcada.display->width(); x += 6) {
+    arcada.display->drawLine(0, arcada.display->height() - 1, x, 0, color);
     delay(0);
   }
-  for (int16_t y=0; y < arcada.display->height(); y+=6) {
-    arcada.display->drawLine(arcada.display->width()-1, arcada.display->height()-1, 0, y, color);
+  for (int16_t y = 0; y < arcada.display->height(); y += 6) {
+    arcada.display->drawLine(0, arcada.display->height() - 1, arcada.display->width() - 1, y, color);
+    delay(0);
+  }
+
+  arcada.display->fillScreen(ARCADA_BLACK);
+  for (int16_t x = 0; x < arcada.display->width(); x += 6) {
+    arcada.display->drawLine(arcada.display->width() - 1, arcada.display->height() - 1, x, 0, color);
+    delay(0);
+  }
+  for (int16_t y = 0; y < arcada.display->height(); y += 6) {
+    arcada.display->drawLine(arcada.display->width() - 1, arcada.display->height() - 1, 0, y, color);
     delay(0);
   }
 }
@@ -154,40 +155,40 @@ void testdrawtext(char *text, uint16_t color) {
 
 void testfastlines(uint16_t color1, uint16_t color2) {
   arcada.display->fillScreen(ARCADA_BLACK);
-  for (int16_t y=0; y < arcada.display->height(); y+=5) {
+  for (int16_t y = 0; y < arcada.display->height(); y += 5) {
     arcada.display->drawFastHLine(0, y, arcada.display->width(), color1);
   }
-  for (int16_t x=0; x < arcada.display->width(); x+=5) {
+  for (int16_t x = 0; x < arcada.display->width(); x += 5) {
     arcada.display->drawFastVLine(x, 0, arcada.display->height(), color2);
   }
 }
 
 void testdrawrects(uint16_t color) {
   arcada.display->fillScreen(ARCADA_BLACK);
-  for (int16_t x=0; x < arcada.display->width(); x+=6) {
-    arcada.display->drawRect(arcada.display->width()/2 -x/2, arcada.display->height()/2 -x/2 , x, x, color);
+  for (int16_t x = 0; x < arcada.display->width(); x += 6) {
+    arcada.display->drawRect(arcada.display->width() / 2 - x / 2, arcada.display->height() / 2 - x / 2 , x, x, color);
   }
 }
 
 void testfillrects(uint16_t color1, uint16_t color2) {
   arcada.display->fillScreen(ARCADA_BLACK);
-  for (int16_t x=arcada.display->width()-1; x > 6; x-=6) {
-    arcada.display->fillRect(arcada.display->width()/2 -x/2, arcada.display->height()/2 -x/2 , x, x, color1);
-    arcada.display->drawRect(arcada.display->width()/2 -x/2, arcada.display->height()/2 -x/2 , x, x, color2);
+  for (int16_t x = arcada.display->width() - 1; x > 6; x -= 6) {
+    arcada.display->fillRect(arcada.display->width() / 2 - x / 2, arcada.display->height() / 2 - x / 2 , x, x, color1);
+    arcada.display->drawRect(arcada.display->width() / 2 - x / 2, arcada.display->height() / 2 - x / 2 , x, x, color2);
   }
 }
 
 void testfillcircles(uint8_t radius, uint16_t color) {
-  for (int16_t x=radius; x < arcada.display->width(); x+=radius*2) {
-    for (int16_t y=radius; y < arcada.display->height(); y+=radius*2) {
+  for (int16_t x = radius; x < arcada.display->width(); x += radius * 2) {
+    for (int16_t y = radius; y < arcada.display->height(); y += radius * 2) {
       arcada.display->fillCircle(x, y, radius, color);
     }
   }
 }
 
 void testdrawcircles(uint8_t radius, uint16_t color) {
-  for (int16_t x=0; x < arcada.display->width()+radius; x+=radius*2) {
-    for (int16_t y=0; y < arcada.display->height()+radius; y+=radius*2) {
+  for (int16_t x = 0; x < arcada.display->width() + radius; x += radius * 2) {
+    for (int16_t y = 0; y < arcada.display->height() + radius; y += radius * 2) {
       arcada.display->drawCircle(x, y, radius, color);
     }
   }
@@ -197,16 +198,16 @@ void testtriangles() {
   arcada.display->fillScreen(ARCADA_BLACK);
   int color = 0xF800;
   int t;
-  int w = arcada.display->width()/2;
-  int x = arcada.display->height()-1;
+  int w = arcada.display->width() / 2;
+  int x = arcada.display->height() - 1;
   int y = 0;
   int z = arcada.display->width();
-  for(t = 0 ; t <= 15; t++) {
+  for (t = 0 ; t <= 15; t++) {
     arcada.display->drawTriangle(w, y, y, x, z, x, color);
-    x-=4;
-    y+=4;
-    z-=4;
-    color+=100;
+    x -= 4;
+    y += 4;
+    z -= 4;
+    color += 100;
   }
 }
 
@@ -215,43 +216,37 @@ void testroundrects() {
   int color = 100;
   int i;
   int t;
-  for(t = 0 ; t <= 4; t+=1) {
+  for (t = 0 ; t <= 4; t += 1) {
     int x = 0;
     int y = 0;
-    int w = arcada.display->width()-2;
-    int h = arcada.display->height()-2;
-    for(i = 0 ; i <= 16; i+=1) {
+    int w = arcada.display->width() - 2;
+    int h = arcada.display->height() - 2;
+    for (i = 0 ; i <= 16; i += 1) {
       arcada.display->drawRoundRect(x, y, w, h, 5, color);
-      x+=2;
-      y+=3;
-      w-=4;
-      h-=6;
-      color+=1100;
+      x += 2;
+      y += 3;
+      w -= 4;
+      h -= 6;
+      color += 1100;
     }
-    color+=100;
+    color += 100;
   }
   delay(1500);
 }
 
 void testCircles() {
-  arcada.display->fillScreen(ARCADA_BLACK);
+  arcada.display->fillScreen(ARCADA_BLACK); // CLS
   int color = 100;
   int i;
   int t;
 
   int centerX = arcada.display->width() / 2;
   int centerY = arcada.display->height() / 2;
-  int radius = min(centerX, centerY);
-  
-  for (t=0; t<=4; t+=1) { // TODO See if there is a "circle" function...
-    arcada.display->drawRoundRect(centerX - (radius - (t * 10)), 
-                              centerY - (radius - (t * 10)), 
-                              2 * radius, 
-                              2 * radius, 
-                              radius, 
-                              color);
-    radius -= 10;                              
-  }
+  int radius = min(centerX, centerY) * 0.9;
+
+
+  arcada.display->drawCircle(centerX, centerY, radius, ARCADA_WHITE);
+  arcada.display->fillCircle(centerX, centerY, radius, ARCADA_RED);
   delay(1500);
 }
 
