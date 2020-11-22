@@ -50,13 +50,13 @@ void cls() {
 }
 
 float toRadians(float deg) {
-  return deg / (PI / 180.0);
+  return deg * (PI / 180.0);
 }
 
 void displayNeedle(int north) {
   int centerX = arcada.display->width() / 2;
   int centerY = arcada.display->height() / 2;
-  int radius = min(centerX, centerY) * 0.9;
+  int radius = (int)(min(centerX, centerY) * 0.9);
   int needleBaseWidth = 20;
 
   // Rose background  
@@ -75,12 +75,19 @@ void displayNeedle(int north) {
 
   arcada.display->fillTriangle(northTipX, northTipY, midBottomLeftX, midBottomLeftY, midBottomRightX, midBottomRightY, ARCADA_YELLOW);
   arcada.display->drawTriangle(southTipX, southTipY, midBottomLeftX, midBottomLeftY, midBottomRightX, midBottomRightY, ARCADA_YELLOW);
+
+  char buffer[512];
+  sprintf(buffer, "w:%d, h:%d, heading: %d, North: [%d, %d], South: [%d, %d]", 
+          arcada.display->width(), arcada.display->height(),
+          north, northTipX, northTipY, southTipX, southTipY);
+  
+  Serial.println(buffer);
 }
 
 void displayHeading(int heading) {
   //  arcada.display->fillScreen(ARCADA_BLACK);
   arcada.display->setTextWrap(false);
-  arcada.display->setCursor(5, 30);
+  arcada.display->setCursor(100, 50);
   arcada.display->setTextColor(ARCADA_BLUE);
   arcada.display->setTextSize(2);
   arcada.display->print(heading);
