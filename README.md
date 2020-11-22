@@ -40,6 +40,10 @@ sudo apt-get install arduino
 
 > Note : first approach (`1.8.x`) should be preferred.
 
+#### A note for Mac users
+Apple did it again, they messed with the USB and Serial ports...
+If the serial port your Arduino (or else) suddenly and un-expectedly disappears, try [this](https://www.mblock.cc/docs/run-makeblock-ch340-ch341-on-mac-os-sierra/).
+
 ### Arduino Uno
 Use a USB-A to USB-B (male-male) cable.
 

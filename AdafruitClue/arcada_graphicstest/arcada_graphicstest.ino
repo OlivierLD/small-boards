@@ -8,6 +8,10 @@ float p = 3.1415926;
 
 void setup(void) {
   Serial.begin(9600);
+  
+  while (!Serial) {
+    delay(100); // wait for serial port to connect. Needed for native USB
+  }
   Serial.println("Hello! Arcada TFT Test, be prepared.");
 
   // Start TFT and fill black
@@ -34,7 +38,7 @@ void setup(void) {
   delay(4000);
 
   // a single pixel
-  Serial.println("Single pixel, in the middle");
+  Serial.println("Single green pixel, in the middle");
   arcada.display->drawPixel(arcada.display->width()/2, arcada.display->height()/2, ARCADA_GREEN);
   delay(500);
 
@@ -56,15 +60,22 @@ void setup(void) {
   testfillrects(ARCADA_YELLOW, ARCADA_MAGENTA);
   delay(500);
 
-  Serial.println("More graphics");
+  Serial.println("More graphics:");
   arcada.display->fillScreen(ARCADA_BLACK);
+  Serial.println("- Fill circles:");
   testfillcircles(10, ARCADA_BLUE);
+  delay(1000);
+  Serial.println("- Draw circles:");
   testdrawcircles(10, ARCADA_WHITE);
-  delay(500);
+  delay(5000);
 
-  Serial.println("Round rectangels");
+  Serial.println("Round rectangles");
   testroundrects();
   delay(500);
+
+//  Serial.println("Circles");
+//  testCircles();
+//  delay(5000);
 
   Serial.println("Triangles");
   testtriangles();
@@ -75,6 +86,12 @@ void setup(void) {
   delay(500);
 
   Serial.println("Done with the demo");
+  arcada.display->fillScreen(ARCADA_BLACK);
+  arcada.display->setCursor(0, 30);
+  arcada.display->setTextColor(ARCADA_YELLOW);
+  arcada.display->setTextSize(2);
+  arcada.display->println("End of Demo.");
+
   delay(1000);
 }
 
@@ -213,6 +230,29 @@ void testroundrects() {
     }
     color+=100;
   }
+  delay(1500);
+}
+
+void testCircles() {
+  arcada.display->fillScreen(ARCADA_BLACK);
+  int color = 100;
+  int i;
+  int t;
+
+  int centerX = arcada.display->width() / 2;
+  int centerY = arcada.display->height() / 2;
+  int radius = min(centerX, centerY);
+  
+  for (t=0; t<=4; t+=1) { // TODO See if there is a "circle" function...
+    arcada.display->drawRoundRect(centerX - (radius - (t * 10)), 
+                              centerY - (radius - (t * 10)), 
+                              2 * radius, 
+                              2 * radius, 
+                              radius, 
+                              color);
+    radius -= 10;                              
+  }
+  delay(1500);
 }
 
 void tftPrintTest() {
