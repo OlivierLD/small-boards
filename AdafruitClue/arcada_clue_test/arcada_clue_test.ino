@@ -11,6 +11,8 @@
 #include <Adafruit_BMP280.h>
 #include <PDM.h>
 
+//#include <math.h>
+
 #define WHITE_LED 43
 
 Adafruit_Arcada arcada;
@@ -25,6 +27,8 @@ extern Adafruit_SPIFlash Arcada_QSPI_Flash;
 
 uint32_t buttons, last_buttons;
 uint8_t j = 0;  // neopixel counter for rainbow (UNDER the board)
+
+char buffer[512];
 
 // Check the timer callback, this function is called every millisecond!
 volatile uint16_t milliseconds = 0;
@@ -141,6 +145,15 @@ void setup() {
   }
   arcada.display->print("LIS3MDL ");
 
+  lis3mdl.setPerformanceMode(LIS3MDL_MEDIUMMODE);
+  Serial.print("Performance mode set to: ");
+  switch (lis3mdl.getPerformanceMode()) {
+    case LIS3MDL_LOWPOWERMODE: Serial.println("Low"); break;
+    case LIS3MDL_MEDIUMMODE: Serial.println("Medium"); break;
+    case LIS3MDL_HIGHMODE: Serial.println("High"); break;
+    case LIS3MDL_ULTRAHIGHMODE: Serial.println("Ultra-High"); break;
+  }
+
   /********** Check SHT3x */
   if (!sht30.begin(0x44)) {
     Serial.println("No SHT30 found");
@@ -198,6 +211,13 @@ void loop() {
   arcada.display->println("         ");
 
   sensors_event_t accel, gyro, mag, temp;
+
+  lis3mdl.read();      // get X Y and Z data at once
+  // Then print out the raw data
+  Serial.print("\nLIS3MDL\nX:  "); Serial.print(lis3mdl.x); 
+  Serial.print("  \tY:  "); Serial.print(lis3mdl.y); 
+  Serial.print("  \tZ:  "); Serial.println(lis3mdl.z); 
+  
   lsm6ds33.getEvent(&accel, &gyro, &temp);
   lis3mdl.getEvent(&mag);
   arcada.display->print("Accel:");
@@ -207,6 +227,7 @@ void loop() {
   arcada.display->print(",");
   arcada.display->print(accel.acceleration.z, 1);
   arcada.display->println("         ");
+  
 
   arcada.display->print("Gyro:");
   arcada.display->print(gyro.gyro.x, 1);
@@ -223,7 +244,23 @@ void loop() {
   arcada.display->print(",");
   arcada.display->print(mag.magnetic.z, 1);
   arcada.display->println("         ");
-  // TODO Calculate heading
+  // Calculate heading
+  float magX = mag.magnetic.x; // lis3mdl.x; // 
+  float magY = mag.magnetic.y; // lis3mdl.y; // 
+  // float heading = atan2(magY, magX); // Something is not right here
+  float heading = atan2(magX, magY);
+  if (heading < 0) {
+    heading += (2 * PI);
+  }
+  float headingDegrees = heading * (180.0 / PI);
+
+  sprintf(buffer, "MagX: %f, MagY: %f, => atan2(%f, %f) = Hdg Rad: %f, deg: %f", magX, magY, magY, magX, heading, headingDegrees);
+  Serial.println(buffer);
+  
+  arcada.display->print("Hdg:");
+  arcada.display->print(headingDegrees, 1);
+  //
+  arcada.display->println("         ");
 
   uint32_t pdm_vol = getPDMwave(256);
   Serial.print("PDM volume: "); Serial.println(pdm_vol);

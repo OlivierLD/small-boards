@@ -5,7 +5,8 @@ Adafruit_Arcada arcada;
 
 /**
    Graphical Building Blocks for a Compass.
-   Will be later on used to display the heading on an Adafruit CLUE
+   Will be later on used to display the heading on an Adafruit CLUE.
+   => heading = Math.toDegrees(Math.atan2(magYComp, magXComp));
    CLUE screen 240x240
    Doc at https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives
 */
@@ -34,7 +35,7 @@ void setup(void) {
 int heading = 0;
 
 void loop() {
-  displayNeedle(heading);
+  displayNeedle(-heading);
   displayHeading(heading);
   delay(1000);
   heading += 1;
