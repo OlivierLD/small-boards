@@ -17,7 +17,8 @@ The port for the Raspberry Pi Pico could be like `/dev/tty.usbmodem0000000000001
 $ screen /dev/tty.usbmodem0000000000001 9600
 >>>
 ```
-Type [Ctrl+D] at the prompt:
+Hit `[Return]` if needed to get to the prompt.  
+Type `[Ctrl+D]` at the prompt:
 ```
 >>> 
 MPY: soft reboot
@@ -57,6 +58,7 @@ Press CTRL-A Z for help on special keys
 
 >>> 
 ```
+Hit `[Return]` if needed to get to the prompt.  
 Then, just like above, try that:
 ```
 >>> from machine import Pin
