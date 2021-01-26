@@ -68,6 +68,32 @@ Then, just like above, try that:
 ```
 To exit `minicom`, do a `[Ctrl-A]` then `X`.
 
+#### To flash a Python script on the Pico
+- Use `rshell` (`pip3 install rshell`)
+```
+$ rshell -p /dev/tty.usbmodem0000000000001 --buffer-size 512
+Using buffer-size of 512
+Connecting to /dev/tty.usbmodem0000000000001 (buffer-size 512)...
+Trying to connect to REPL  connected
+Testing if ubinascii.unhexlify exists ... Y
+Retrieving root directories ... 
+Setting time ... Jan 26, 2021 08:43:23
+Evaluating board_name ... pyboard
+Retrieving time epoch ... Jan 01, 1970
+Welcome to rshell. Use Control-D (or the exit command) to exit rshell.
+/Users/olivierlediouris/repos/small-boards/RaspberryPi-Pico/MicroPython> ls /pyboard
+/Users/olivierlediouris/repos/small-boards/RaspberryPi-Pico/MicroPython> cp ./basic_101.py /pyboard/main.py
+/Users/olivierlediouris/repos/small-boards/RaspberryPi-Pico/MicroPython>
+```
+> The command above was done from a Mac, hence the port name `/dev/tty.usbmodem0000000000001`.
+> From a Raspberry Pi, that would be like `/dev/ttyACM0`, from Windows, like `COM4`, etc.
+
+> Notice that the file at the root of the board (in `pyboard`) must be named `main.py`.
+
+After doing the command above, unplug and re-plug the power of the Pico, and
+the script should start (in this case, the led is blinking forever).
+
+ 
 ## CircuitPython
 
 
