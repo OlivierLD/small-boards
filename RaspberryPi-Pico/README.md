@@ -17,6 +17,8 @@ The port for the Raspberry Pi Pico could be like `/dev/tty.usbmodem0000000000001
 $ screen /dev/tty.usbmodem0000000000001 9600
 >>>
 ```
+> Other baud rates work too (like `115200`)
+
 Hit `[Return]` if needed to get to the prompt.  
 Type `[Ctrl+D]` at the prompt:
 ```
@@ -46,7 +48,7 @@ $ sudo apt install minicom
 ```
 then (with the Pico connected, probably on `/dev/ttyACM0`)
 ```
-$ minicom -o -D /dev/ttyACM0
+$ minicom -o -D /dev/ttyACM0 [-b 115200]
 Welcome to minicom 2.7.1
 
 OPTIONS: I18n 
@@ -71,7 +73,7 @@ To exit `minicom`, do a `[Ctrl-A]` then `X`.
 #### To flash a Python script on the Pico
 - Use `rshell` (`pip3 install rshell`)
 ```
-$ rshell -p /dev/tty.usbmodem0000000000001 --buffer-size 512
+$ rshell -p /dev/tty.usbmodem0000000000001 --buffer-size 512 [or more, like 1024]
 Using buffer-size of 512
 Connecting to /dev/tty.usbmodem0000000000001 (buffer-size 512)...
 Trying to connect to REPL  connected
@@ -93,7 +95,16 @@ Welcome to rshell. Use Control-D (or the exit command) to exit rshell.
 After doing the command above, unplug and re-plug the power of the Pico, and
 the script should start (in this case, the led is blinking forever).
 
- 
+### Executing a Python script from the REPL
+- Use `rshell` to copy your script:
+```
+cp log_temp.py /pyboard
+``` 
+- In `screen` or `minicom`, run it like this
+```
+>>> exec(open("log_temp.py").read())
+``` 
+
 ## CircuitPython
 
 
