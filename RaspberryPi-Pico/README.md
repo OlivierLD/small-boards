@@ -109,4 +109,29 @@ cp log_temp.py /pyboard
 
 
 ## C/C++
+Unlike with Python - that has a REPL (**R**ead **E**xecute **P**rint **L**oop), when you write a C program for the Pico, 
+you compile it (as indicated in the doc and examples, with `make -j4`)
+into a `uf2` file, which you will flash the Pico with.
 
+. . .
+```
+dmesg | tail
+[  303.217316] scsi host0: usb-storage 1-1.3:1.0
+[  304.264015] scsi 0:0:0:0: Direct-Access     RPI      RP2              1    PQ: 0 ANSI: 2
+[  304.265615] sd 0:0:0:0: [sda] 262144 512-byte logical blocks: (134 MB/128 MiB)
+[  304.268088] sd 0:0:0:0: [sda] Write Protect is off
+[  304.268104] sd 0:0:0:0: [sda] Mode Sense: 03 00 00 00
+[  304.270537] sd 0:0:0:0: [sda] No Caching mode page found
+[  304.270551] sd 0:0:0:0: [sda] Assuming drive cache: write through
+[  304.282139]  sda: sda1
+[  304.288549] sd 0:0:0:0: [sda] Attached SCSI removable disk
+[  304.295181] sd 0:0:0:0: Attached scsi generic sg0 type 0
+pi@raspberrypi4:~/pico/pico-examples/build/blink $ sudo mkdir -p /mnt/pico
+pi@raspberrypi4:~/pico/pico-examples/build/blink $ sudo mount /dev/sda1 /mnt/pico
+pi@raspberrypi4:~/pico/pico-examples/build/blink $ ls /mnt/pico
+INDEX.HTM  INFO_UF2.TXT
+pi@raspberrypi4:~/pico/pico-examples/build/blink $ sudo cp blink.uf2 /mnt/pico
+pi@raspberrypi4:~/pico/pico-examples/build/blink $ sudo sync
+pi@raspberrypi4:~/pico/pico-examples/build/blink $ ls /mnt/pico
+pi@raspberrypi4:~/pico/pico-examples/build/blink $ sudo umount /mnt/pico
+```

@@ -2,7 +2,9 @@
  * This program blinks morse code on pin 13 of the Arduino (the built-in LED)
  * Turn the VERBOSE define (below) on or off as you wish.
  * 
- * You can use the Serial Console to provide the Strings to translte
+ * You can use the Serial Console to provide the Strings to translate.
+ *
+ * Also available at https://www.tinkercad.com/things/7RGhSjmQfOj-morse-generator/editel
  */
 #define NULL 0
 #define ledPin LED_BUILTIN // or 13...
@@ -21,6 +23,16 @@ typedef struct {
 
 morseCode alphabet[36];
 
+/*
+ * At the end of each line, this is a mnemotechnic method to learn the Morse code (the words are French words...).
+ * - Each word has as many syllables as there are signs in the letter's code
+ * - Each syllable wth an 'o' is a dash
+ * - Other syllables are dots.
+ * Example: V : Ve-ge-ta-tion
+ * -> Four signs
+ * -> Last one is a dash, others are dots
+ * -> V = ..._
+ */
 void initMorseAlphabet() {
   // Letters
   alphabet[0].letter = 'A';  alphabet[0].code = "._";    // Allo
