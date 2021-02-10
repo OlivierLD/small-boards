@@ -135,3 +135,5 @@ pi@raspberrypi4:~/pico/pico-examples/build/blink $ sudo sync
 pi@raspberrypi4:~/pico/pico-examples/build/blink $ ls /mnt/pico
 pi@raspberrypi4:~/pico/pico-examples/build/blink $ sudo umount /mnt/pico
 ```
+
+---
