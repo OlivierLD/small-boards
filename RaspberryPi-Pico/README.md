@@ -10,6 +10,10 @@ Can be programmed several ways.
 
 If `minicom` is not available (like on a Mac), use `screen`.  
 
+- Start the Pico, with the button pushed
+- Drag the `pico_micropyhton_20210121.uf2` on the Pico's "drive"
+- A Serial new port should be available when the copy is done.
+
 ### From a Mac
 The port for the Raspberry Pi Pico could be like `/dev/tty.usbmodem0000000000001`.  
 
