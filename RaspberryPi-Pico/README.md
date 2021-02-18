@@ -7,6 +7,7 @@ Can be programmed several ways.
 ## MicroPython
 - <https://datasheets.raspberrypi.org/pico/sdk/pico_python_sdk.pdf>
 - <https://core-electronics.com.au/tutorials/getting-started-with-raspberry-pi-pico.html>
+- <https://www.twilio.com/blog/programming-raspberry-pi-pico-microcontroller-micropython>
 
 If `minicom` is not available (like on a Mac), use `screen`.  
 
@@ -108,6 +109,25 @@ cp log_temp.py /pyboard
 ```
 >>> exec(open("log_temp.py").read())
 ``` 
+
+### A Note: MicroPython and the Pico Pins
+in a code like that one:
+```python
+from machine import UART, Pin
+
+TX_PIN=16   # Pin(16) = GP16, pin #21. White wire
+RX_PIN=17   # Pin(17) = GP17, pin #22. Green wire
+BAUD_RATE=4800
+
+uart = UART(0, baudrate=BAUD_RATE, tx=Pin(TX_PIN), rx=Pin(RX_PIN), bits=8, parity=None, stop=1)
+. . .
+```
+the pin number used in `Pin(16)` refers to the pin labeled `GP16` in the Raspberry Pi Pico pinout:
+
+![Raspberry Pi Pico pinout](https://www.raspberrypi.org/documentation/pico/getting-started/static/15243f1ffd3b8ee646a1708bf4c0e866/Pico-R3-Pinout.svg
+)
+
+this is the pin #21.
 
 ## CircuitPython
 

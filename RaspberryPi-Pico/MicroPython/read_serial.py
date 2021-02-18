@@ -1,19 +1,14 @@
-# import machine
-from machine import UART
+from machine import UART, Pin
 
-#
-# See https://docs.micropython.org/en/latest/library/machine.UART.html
-# THIS DOES NOT WORK ON THE PICO
-#
+TX_PIN=16   # Pin(16) = GP16, pin #21. White wire
+RX_PIN=17   # Pin(17) = GP17, pin #22. Green wire
+BAUD_RATE=4800
 
-uart = UART(1, 4800)                         # init with given baudrate
-uart.init(4800, bits=8, parity=None, stop=1, tx=1, rx=2) # init with given parameters
+uart = UART(0, baudrate=BAUD_RATE, tx=Pin(TX_PIN), rx=Pin(RX_PIN), bits=8, parity=None, stop=1)
 
-#uart.read(10)       # read 10 characters, returns a bytes object
-#uart.read()         # read all available characters
-#uart.readline()     # read a line
-uart.readinto(buf)  # read and store into the given buffer
-# uart.write('abc')   # write the 3 characters
-
-print("Read: {}".buf)
+while True:
+	# print("Any: {}".format(uart.any()))
+    if uart.any():
+          rcvChar = uart.read(1)  # 1 byte
+          print(rcvChar.decode("ascii"), end="")
 
