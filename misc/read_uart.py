@@ -1,12 +1,12 @@
 #
 # Read UART on Raspberry Pi
 # On the Raspberry Pi, use those pins:
-# - GPIO14 (aka UART0_TXD), pin #8           - green
+# - GPIO14 (aka UART0_TXD), pin #8           - green - Not mandatory, we read only.
 # - GPIO15 (aka UART0_RXD), pin #10          - white
 # - GND, pins #6, 9, 14, 20, 25, 30, 34, 39  - black
 # - 5V, pins #2, 4                           - red
 #
-# run with sudo python3 read_uart.py
+# run with "sudo python3 read_uart.py"
 #
 # make sure "enable_uart=1" in /boot/config.txt
 #
@@ -52,7 +52,7 @@ while keep_looping:
 				nl = True
 			if cr and nl:  # NMEA String completed
 				nmea_string = ba.decode("utf-8")
-				print("NMEA Data: {}".format(nmea_string[:-2]))
+				print("NMEA Data: {}".format(nmea_string[:-2]))  # Drop CR-NL
 				# Reset 
 				ba = b''
 				cr = False
