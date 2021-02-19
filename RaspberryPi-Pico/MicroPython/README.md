@@ -2,7 +2,7 @@
 
 ### Read and log a GPS from the Pico
 
-![Wiring](./Pico_GPS_bb.png)
+![Wiring](./Pico.GPS_bb.png)
 
 The code is in `read_serial.py`.
 
