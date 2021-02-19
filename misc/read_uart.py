@@ -6,23 +6,27 @@
 # - GND, pins #6, 9, 14, 20, 25, 30, 34, 39  - black
 # - 5V, pins #2, 4                           - red
 #
+# run with sudo python3 read_uart.py
+#
 import time
 import serial
                
 ser = serial.Serial(            
      port='/dev/serial0',
-     baudrate = 9600,
+     baudrate = 4800,
      parity=serial.PARITY_NONE,
      stopbits=serial.STOPBITS_ONE,
      bytesize=serial.EIGHTBITS,
      timeout=1
 )
+time.sleep(1)
 
 keep_looping = True
 while keep_looping:
 	try:
-		ser_data = ser.read()
-		print("read from Serial [{}]".format(ser_data))
+		if ser.inWaiting() > 0:
+			ser_data = ser.read()
+			print("read from Serial [{}]".format(ser_data))
 	except KeyboardInterrupt:
 		keep_looping = False
 		break     # Theorically useless
