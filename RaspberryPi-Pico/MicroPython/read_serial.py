@@ -25,11 +25,11 @@ while keep_looping:
 		# print("Any: {}".format(uart.any()))
 	    if uart.any():
 	        	nmea_string = uart.read_line()
-					print("NMEA Data: {}".format(nmea_string)) 
-		            log_file.write(nmea_string)
-		            log_file.flush()
-					# Blink led, to acknowledge
-					led.toggle()
+				print("NMEA Data: {}".format(nmea_string)) 
+	            log_file.write(nmea_string)
+	            log_file.flush()
+				# Blink led, to acknowledge
+				led.toggle()
 
 	except KeyboardInterrupt:
 		keep_looping = False
