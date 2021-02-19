@@ -1,3 +1,12 @@
+#
+# Read a USB GPS (USB-A)
+#
+# Connections/pinout
+# Red  : pin #39 (VSYS)
+# Black: pin #38 (GND)
+# Green: pin #22 (GP17)
+# White: pin #21 (GP16)
+#
 from machine import UART, Pin
 
 TX_PIN=16   # Pin(16) = GP16, pin #21. White wire
