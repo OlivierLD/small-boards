@@ -24,7 +24,7 @@ while keep_looping:
 	    if uart.any():
 	          rcvChar = uart.read(1)  # 1 byte
 	          nmea_string = rcvChar.decode("ascii")
-	          print(nmea_string, end="")
+	          print(nmea_string)   # , end="")
 	          log_file.write(nmea_string)
 	          log_file.flush()
 	except KeyboardInterrupt:
