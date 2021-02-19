@@ -8,11 +8,17 @@
 #
 # run with sudo python3 read_uart.py
 #
+# make sure "enable_uart=1" in /boot/config.txt
+#
 import time
 import serial
                
+CR = b'\r'
+NL = b'\n'
+
 ser = serial.Serial(            
-     port='/dev/serial0',
+     # port='/dev/serial0',
+     port='/dev/ttyACM0',
      baudrate = 4800,
      parity=serial.PARITY_NONE,
      stopbits=serial.STOPBITS_ONE,
@@ -21,11 +27,27 @@ ser = serial.Serial(
 )
 time.sleep(1)
 
+cr = False
+nl = False
+
+ba = b``
 keep_looping = True
 while keep_looping:
 	try:
 		if ser.inWaiting() > 0:
 			ser_data = ser.read()
+			ba += ser_data
+			if cr == False and ser_data == CR:
+				cr = True
+			if cr == True and ser_data == NL:
+				nl = True
+			if cr and nl:  # NMEA String completed
+				nmea_string = ba.decode("utf-8")
+				print("NMEA Data: {}".format(nmea_string))
+				# Reset 
+				ba = b''
+				cr = False
+				nl = False
 			print("read from Serial [{}]".format(ser_data))
 	except KeyboardInterrupt:
 		keep_looping = False
