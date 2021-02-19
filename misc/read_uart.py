@@ -16,10 +16,19 @@ import serial
 CR = b'\r'
 NL = b'\n'
 
+port='/dev/serial0'
+# port='/dev/serial1'
+# port='/dev/ttyS0'
+# port='/dev/ttyACM0'
+# port='/dev/ttyAMA0'
+
+baudrate=9600
+
+print("Reading serial port {}:{}".format(port, baudrate))
+
 ser = serial.Serial(            
-     # port='/dev/serial0',
-     port='/dev/ttyACM0',
-     baudrate = 4800,
+     port=port,
+     baudrate=baudrate,
      parity=serial.PARITY_NONE,
      stopbits=serial.STOPBITS_ONE,
      bytesize=serial.EIGHTBITS,
@@ -30,7 +39,7 @@ time.sleep(1)
 cr = False
 nl = False
 
-ba = b``
+ba = b''
 keep_looping = True
 while keep_looping:
 	try:
@@ -43,12 +52,12 @@ while keep_looping:
 				nl = True
 			if cr and nl:  # NMEA String completed
 				nmea_string = ba.decode("utf-8")
-				print("NMEA Data: {}".format(nmea_string))
+				print("NMEA Data: {}".format(nmea_string[:-2]))
 				# Reset 
 				ba = b''
 				cr = False
 				nl = False
-			print("read from Serial [{}]".format(ser_data))
+			# print("read from Serial [{}]".format(ser_data))
 	except KeyboardInterrupt:
 		keep_looping = False
 		break     # Theorically useless
@@ -57,4 +66,4 @@ while keep_looping:
 
 
 ser.close()
-print("Bye!")
+print("\nBye!")
