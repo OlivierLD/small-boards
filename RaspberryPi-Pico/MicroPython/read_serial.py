@@ -21,21 +21,21 @@ uart = UART(0, baudrate=BAUD_RATE, tx=Pin(TX_PIN), rx=Pin(RX_PIN), bits=8, parit
 
 keep_looping = True
 while keep_looping:
-	try:
-		# print("Any: {}".format(uart.any()))
-	    if uart.any():
-	        	nmea_string = uart.read_line()
-				print("NMEA Data: {}".format(nmea_string)) 
-	            log_file.write(nmea_string)
-	            log_file.flush()
-				# Blink led, to acknowledge
-				led.toggle()
+    try:
+        # print("Any: {}".format(uart.any()))
+        if uart.any():
+                nmea_string = uart.readline().decode("utf-8")
+                print("NMEA Data: {}".format(nmea_string[:-2])) 
+                log_file.write(nmea_string)  # Write it with the CR-NL
+                log_file.flush()
+                # Blink led, to acknowledge
+                led.toggle()
 
-	except KeyboardInterrupt:
-		keep_looping = False
-		break     # Theorically useless
-	except Exception as ex:
-		print("Oops {}".format(ex))
+    except KeyboardInterrupt:
+        keep_looping = False
+        break     # Theorically useless
+    except Exception as ex:
+        print("Oops {}".format(ex))
 
 
 uart.close()
