@@ -9,7 +9,8 @@ The code is in `read_serial.py`.
 Serial port is read, and NMEA Sentences are built.  
 Each completed NMEA Sentence is logged, and the led blinks.
 
-From a Raspberry Pi:
+From a Raspberry Pi, copy the Python script on the board, so they can be executed later on:
+
 ```
 $ rshell -p /dev/ttyACM0 --buffer-size 2048
 Using buffer-size of 2048
@@ -25,9 +26,9 @@ Welcome to rshell. Use Control-D (or the exit command) to exit rshell.
 /home/pi/repos/small-boards/RaspberryPi-Pico/MicroPython> exit
 ```
 
-Then
+Then execute a script:
 ```
-$ minicom -o -D /dev/ttyACM0 -b 11520
+$ minicom -o -D /dev/ttyACM0 -b 115200
 
 Welcome to minicom 2.7.1
 
@@ -67,6 +68,8 @@ NMEA Data: $G,,,,0.00,0.00,190221,,,N*49
 NMEA Data: $,0.00,K,N*32
 . . .
 ```
+> Note: for the sc ript of your choice to be executed when the Pico starts, copy it as `/pyboard/main.py`.
+
 
 After that, you can see/download the log file through `rshell`:
 ```
@@ -76,7 +79,7 @@ $ rshell -p /dev/ttyACM0 --buffer-size 2048
 /home/pi/repos/small-boards/RaspberryPi-Pico/MicroPython> cp /gps_log.nmea .
 /home/pi/repos/small-boards/RaspberryPi-Pico/MicroPython> exit
 ```
-Your file is now availablke locally
+Your file is now available locally
 ```
 $ head gps_log.nmea 
 $GPGGA,235301.094,,,,,0,0,,,M,,M,,*43
