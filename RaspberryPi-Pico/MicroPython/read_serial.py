@@ -38,5 +38,5 @@ while keep_looping:
         print("Oops {}".format(ex))
 
 
-uart.close()
+# uart.close()
 log_file.close()
