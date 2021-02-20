@@ -35,7 +35,7 @@ while keep_looping:
         keep_looping = False
         break     # Theorically useless
     except Exception as ex:
-        print("Oops {}".format(ex))
+        print("Oops {}".format(str(ex)))
 
 
 # uart.close()

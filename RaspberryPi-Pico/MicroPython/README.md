@@ -98,6 +98,9 @@ $GPGSA,A,1,,,,,,,,,,,,,,,*1E
 . . .
 ```
 
+> Note: the Pico has ~1.3Mb of flash memory. You might want to filter the data to log, to save space.
+
+
 #### Energy Consumption
 In this config, the Pico consumes between 0.02 and 0.03 Amps.
 
