@@ -1,10 +1,11 @@
-### Different examples
+# Different examples
 
-### Read and log a GPS from the Pico
+### Read and log GPS data from the Pico
 
 ![Wiring](./Pico.GPS_bb.png)
 
-The code is in `read_serial.py`.
+The code is in `read_serial.py`.  
+Here the GPS is an [Adafruit Ultimate GPS Breakout - 66 channel w/10 Hz updates - Version 3](https://www.adafruit.com/product/746)
 
 Serial port is read, and NMEA Sentences are built.  
 Each completed NMEA Sentence is logged, and the led blinks.
