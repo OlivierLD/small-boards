@@ -103,6 +103,8 @@ $GPGSA,A,1,,,,,,,,,,,,,,,*1E
 
 Works fine from Thonny too:
 
+> Note: In Thonny, I used the menu `Tools` > `Options` > `Interpreter`, and choosed `MicroPython (generic)`/`Board in FS mode - Boared CDC (dev/ttyACM0)`. Updating my Thonny to its last version would probably shoiw what the doc is talking about. Anyway, that works.
+
 ![Thonny](./img/Thonny.png)
 
 #### Energy Consumption
