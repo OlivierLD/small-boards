@@ -68,7 +68,7 @@ NMEA Data: $G,,,,0.00,0.00,190221,,,N*49
 NMEA Data: $,0.00,K,N*32
 . . .
 ```
-> Note: for the sc ript of your choice to be executed when the Pico starts, copy it as `/pyboard/main.py`.
+> Note: for the script of your choice to be executed when the Pico starts, copy it as `/pyboard/main.py`.
 
 
 After that, you can see/download the log file through `rshell`:
