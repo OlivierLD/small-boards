@@ -96,7 +96,7 @@ $GPGSA,A,1,,,,,,,,,,,,,,,*1E
 . . .
 ```
 
-#### Consumption
+#### Energy Consumption
 In this config, the Pico consumes between 0.02 and 0.03 Amps.
 
 ---
