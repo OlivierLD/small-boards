@@ -26,8 +26,9 @@ while keep_looping:
         if uart.any():
                 nmea_string = uart.readline().decode("utf-8")
                 print("NMEA Data: {}".format(nmea_string[:-2])) 
-                log_file.write(nmea_string)  # Write it with the CR-NL
-                log_file.flush()
+                if (nmea_string.startswith("$GPRMC")):  # Filter
+	                log_file.write(nmea_string)  # Write it with the CR-NL
+	                log_file.flush()
                 # Blink led, to acknowledge
                 led.toggle()
 
