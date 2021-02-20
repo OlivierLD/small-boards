@@ -1,5 +1,7 @@
 # Different examples
 
+Good blog post at <https://www.raspberrypi.org/blog/raspberry-pi-pico-balloon-tracker/>.
+
 ### Read and log GPS data from the Pico
 
 ![Wiring](./Pico.GPS_bb.png)
