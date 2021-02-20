@@ -9,7 +9,7 @@ The code is in `read_serial.py`.
 Serial port is read, and NMEA Sentences are built.  
 Each completed NMEA Sentence is logged, and the led blinks.
 
-From a Raspberry Pi, copy the Python script on the board, so they can be executed later on:
+From a Raspberry Pi, copy the Python scripts on the board, so they can be executed later on:
 
 ```
 $ rshell -p /dev/ttyACM0 --buffer-size 2048
