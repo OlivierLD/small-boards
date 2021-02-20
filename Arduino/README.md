@@ -32,3 +32,6 @@ Here the GPS is an [Adafruit Ultimate GPS Breakout - 66 channel w/10 Hz updates 
 07:50:54.425 -> $GPGSA,A,1,,,,,,,,,,,,,,$GPGGA,235953.800,,,,,0,0,,,M,,M,,*4B
 . . .
 ```
+
+#### Energy Consumption
+In this config, the Pico consumes between 0.04 and 0.06 Amps.
