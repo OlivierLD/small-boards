@@ -34,9 +34,11 @@ while keep_looping:
 
     except KeyboardInterrupt:
         keep_looping = False
+        print("Exiting at user's request")
         break     # Theorically useless
     except Exception as ex:
         print("Oops {}".format(str(ex)))
+        print(ex)
 
 
 # uart.close()

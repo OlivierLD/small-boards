@@ -4,7 +4,7 @@ Good blog post at <https://www.raspberrypi.org/blog/raspberry-pi-pico-balloon-tr
 
 ### Read and log GPS data from the Pico
 
-![Wiring](./Pico.GPS_bb.png)
+![Wiring](./fritzing/Pico.GPS_bb.png)
 
 The code is in `read_serial.py`.  
 Here the GPS is an [Adafruit Ultimate GPS Breakout - 66 channel w/10 Hz updates - Version 3](https://www.adafruit.com/product/746)
@@ -100,6 +100,10 @@ $GPGSA,A,1,,,,,,,,,,,,,,,*1E
 
 > Note: the Pico has ~1.3Mb of flash memory. You might want to filter the data to log, to save space.
 
+
+Works fine from Thonny too:
+
+![Thonny](./img/Thonny.png)
 
 #### Energy Consumption
 In this config, the Pico consumes between 0.02 and 0.03 Amps.
