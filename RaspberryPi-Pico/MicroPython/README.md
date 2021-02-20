@@ -95,3 +95,8 @@ $GPGGA,235303.094,,,,,0,0,,,M,,M,,*41
 $GPGSA,A,1,,,,,,,,,,,,,,,*1E
 . . .
 ```
+
+#### Consumption
+In this config, the Pico consumes between 0.02 and 0.03 Amps.
+
+---
