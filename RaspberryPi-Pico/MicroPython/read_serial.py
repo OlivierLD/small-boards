@@ -27,8 +27,8 @@ while keep_looping:
                 nmea_string = uart.readline().decode("utf-8")
                 print("NMEA Data: {}".format(nmea_string[:-2])) 
                 if (nmea_string.startswith("$GPRMC")):  # Filter
-	                log_file.write(nmea_string)  # Write it with the CR-NL
-	                log_file.flush()
+                    log_file.write(nmea_string)         # Write it with the CR-NL
+                    log_file.flush()
                 # Blink led, to acknowledge
                 led.toggle()
 
@@ -36,14 +36,16 @@ while keep_looping:
         keep_looping = False
         print("Exiting at user's request")
         break     # Theorically useless
+    except OSError as oserr:
+        if str(oserr) == "28":   # errno.ENOSPC:
+            print("Drive is full, exiting.")
+            keep_looping = False
+        else:
+            print("OSError ?? [{}]".format(str(oserr)))
     except Exception as ex:
-    	print("Exception {}:".format(ex.__class__.__name__))
-    	if ex.errno == errno.ENOSPC:
-    		print("Drive is full, exiting.")
-    		keep_looping = False
-    	else:	
-	        print("Oops {}".format(str(ex)))
-	        print(ex)
+        print("Exception: {}".format(ex.__class__.__name__))
+        print("[{}]".format(str(ex)))
+        print(ex)
 
 # uart.close()
 log_file.close()
