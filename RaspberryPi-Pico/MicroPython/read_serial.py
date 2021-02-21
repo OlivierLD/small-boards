@@ -47,7 +47,7 @@ while keep_looping:
         		    now = "{}-{}-{} {}:{}:{} UTC".format(ddmmyy[0:2], ddmmyy[2:4], ddmmyy[4:6], utc[0:2], utc[2:4], utc[4:6])
         		except Exception as ex:
         			pass
-            print("Drive is full, exiting{}.".format((" at " + now) if now !+ None else ""))
+            print("Drive is full, exiting{}.".format((" at " + now) if now != None else ""))
             keep_looping = False
         else:
             print("OSError ?? [{}]".format(str(oserr)))
