@@ -52,7 +52,7 @@ while keep_looping:
 				nl = True
 			if cr and nl:  # NMEA String completed
 				nmea_string = ba.decode("utf-8")
-				print("NMEA Data: {}".format(nmea_string[:-2]))  # Drop CR-NL
+				print("NMEA Data: {}".format(nmea_string[:-2]))  # Drop CR-LF
 				# Reset 
 				ba = b''
 				cr = False
