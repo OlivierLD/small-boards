@@ -2,6 +2,10 @@
 
 Good blog post at <https://www.raspberrypi.org/blog/raspberry-pi-pico-balloon-tracker/>.
 
+Good tutorials:
+- <https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico>
+- <https://dronebotworkshop.com/pi-pico/>
+
 ### Read and log GPS data from the Pico
 
 ![Wiring](./fritzing/Pico.GPS_bb.png)
@@ -98,7 +102,7 @@ $GPGSA,A,1,,,,,,,,,,,,,,,*1E
 . . .
 ```
 
-> Note: the Pico has ~1.3Mb of flash memory. You might want to filter the data to log, to save space.
+> Note: the Pico has ~1.3Mb of flash memory. You might want to filter the data to log, to save space (the `read_serial.py` script filters on `RMC` strings).
 
 
 Works fine from Thonny too:
