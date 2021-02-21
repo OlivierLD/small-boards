@@ -37,9 +37,12 @@ while keep_looping:
         print("Exiting at user's request")
         break     # Theorically useless
     except Exception as ex:
-        print("Oops {}".format(str(ex)))
-        print(ex)
-
+    	if e.errno == errno.ENOSPC:
+    		print("Drive is full, exiting.")
+    		keep_looping = False
+    	else:	
+	        print("Oops {}".format(str(ex)))
+	        print(ex)
 
 # uart.close()
 log_file.close()
