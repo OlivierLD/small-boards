@@ -35,6 +35,7 @@ while keep_looping:
     except KeyboardInterrupt:
         keep_looping = False
         print("Exiting at user's request")
+        led.value(0)   # Switch led off
         break     # Theorically useless
     except OSError as oserr:
         if str(oserr) == "28":   # errno.ENOSPC:
