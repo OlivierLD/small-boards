@@ -15,22 +15,28 @@ TX_PIN=16   # Pin(16) = GP16, pin #21. Green wire - Not required
 RX_PIN=17   # Pin(17) = GP17, pin #22. White wire
 BAUD_RATE=9600
 
-log_file = open("gps_log.nmea", "w")
+FILE_PATH = "gps_log.nmea"
+
+log_file = open(FILE_PATH, "w")
 
 uart = UART(0, baudrate=BAUD_RATE, tx=Pin(TX_PIN), rx=Pin(RX_PIN), bits=8, parity=None, stop=1)
 
 nb_rec = 0;
+log_size = 0;
 keep_looping = True
 while keep_looping:
     try:
         # print("Any: {}".format(uart.any()))
         if uart.any():
                 nmea_string = uart.readline().decode("utf-8")
+                print("NMEA Data: {}".format(nmea_string[:-2])) 
                 if (nmea_string.startswith("$GPRMC")):  # Filter
-                    log_file.write(nmea_string)         # Write it with the CR-NL
+                    nb_char_written = log_file.write(nmea_string)         # Write it with the CR-NL
                     log_file.flush()
+                    log_size += nb_char_written
                     nb_rec += 1
-                print("NMEA Data ({} rec): {}".format(nb_rec, nmea_string[:-2])) 
+                    size = -1
+                    print("\t>> {} record(s) in the log ({:,} bytes)".format(nb_rec, log_size)) 
                 # Blink led, to acknowledge
                 led.toggle()
 
