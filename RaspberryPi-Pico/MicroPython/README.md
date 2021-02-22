@@ -114,4 +114,7 @@ Works fine from Thonny too:
 #### Energy Consumption
 In this config, the Pico consumes between 0.02 and 0.03 Amps.
 
+#### Further
+To parse NMEA data in Python, see [this](https://github.com/OlivierLD/oliv-ai/tree/master/JupyterNotebooks/nmea)
+
 ---
