@@ -74,6 +74,14 @@ NMEA Data: $GPGSA,A,1,,,,,,,,,,,,,,,*1E
 NMEA Data: $G,,,,0.00,0.00,190221,,,N*49
 NMEA Data: $,0.00,K,N*32
 . . .
+NMEA Data: $GPGSA,A,3,18,13,23,20,15,29,26,,,,,,1.72,1.45,0.92*0E
+NMEA Data: $GPRMC,071145.000,A,3744.9360,N,12230.4213,W,0.39,20.56,220221,,,D*4B
+	>> 19814 record(s) in the log (1,418,518 bytes)
+NMEA Data: $GPVTG,20.56,T,,M,0.39,N,0.73,K,$GPGGA,071146.000,3744.9359,N,12230.4212,W,2,7,1.45,9.0,M,-25.5,M,0000,0000*6C
+NMEA Data: $GPGSA,A,3,18,13,23,20,15,29,26,,,,,,1.72,1.45,0.92*0E
+NMEA Data: $GPRMC,071146.000,A,3744.9359,N,12230.4212,W,0.42,20.56,220221,,,D*4F
+Drive is full, exiting.
+
 ```
 > Note: for the script of your choice to be executed when the Pico starts, copy it as `/pyboard/main.py`.
 
@@ -86,23 +94,27 @@ $ rshell -p /dev/ttyACM0 --buffer-size 2048
 /home/pi/repos/small-boards/RaspberryPi-Pico/MicroPython> cp /gps_log.nmea .
 /home/pi/repos/small-boards/RaspberryPi-Pico/MicroPython> exit
 ```
-Your file is now available locally
+Your file is now available locally, for procesing if needed
 ```
 $ head gps_log.nmea 
-$GPGGA,235301.094,,,,,0,0,,,M,,M,,*43
-$GPGSA,A,1,,,,,,,,,,,,,,,*1E
-$GPRMC,235301.094,V,,,,,0.00,0.00,190221,,,N*4F
-$GPVTG,0.00,T,,M,0.00,N,0.00,K,N*32
-$GPGGA,235302.094,,,,,0,0,,,M,,M,,*40
-$GPGSA,A,1,,,,,,,,,,,,,,,*1E
-$GPRMC,235302.094,V,,,,,0.00,0.00,190221,,,N*4C
-$GPVTG,0.00,T,,M,0.00,N,0.00,K,N*32
-$GPGGA,235303.094,,,,,0,0,,,M,,M,,*41
-$GPGSA,A,1,,,,,,,,,,,,,,,*1E
+$GPRMC,014132.000,A,3745.0115,N,12230.4638,W,1.54,280.74,220221,,,A*7A
+$GPRMC,014133.000,A,3745.0114,N,12230.4639,W,1.49,283.92,220221,,,A*7C
+$GPRMC,014134.000,A,3745.0116,N,12230.4643,W,2.67,286.20,220221,,,A*77
+$GPRMC,014135.000,A,3745.0119,N,12230.4648,W,3.62,288.48,220221,,,A*76
+$GPRMC,014136.000,A,3745.0123,N,12230.4655,W,3.84,291.10,220221,,,A*7D
+$GPRMC,014137.000,A,3745.0122,N,12230.4655,W,2.44,293.56,220221,,,A*70
+$GPRMC,014138.000,A,3745.0122,N,12230.4654,W,1.70,318.61,220221,,,A*7C
+$GPRMC,014139.000,A,3745.0118,N,12230.4650,W,0.76,290.12,220221,,,A*72
+$GPRMC,014140.000,A,3745.0116,N,12230.4648,W,1.17,323.42,220221,,,A*71
 . . .
 ```
 
-> Note: the Pico has ~1.3Mb of flash memory. You might want to filter the data to log, to save space (the `read_serial.py` script filters on `RMC` strings).
+> Note: the Pico has ~1.3Mb of flash memory. You might want to filter the data to log, to save space (the `read_serial.py` script filters on `RMC` strings), or even impose an iterval between recordings.
+
+With a filter on `RMC` (no minimum interval), I was able to log about 5:30 hours of data.
+```
+From 22-02-21 01:41:32 UTC to 22-02-21 07:11:45 UTC
+```
 
 
 Works fine from Thonny too:
