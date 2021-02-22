@@ -140,5 +140,10 @@ Very cool, and very cheap. Has wireless network access.
 
 ---
 
+### Read a Serial Port
+- See [here](./SERIAL.md).
+
+---
+
 ## To keep an eye on...
 - [MicroBlocks](http://microblocks.fun/)
