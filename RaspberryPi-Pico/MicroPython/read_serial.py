@@ -35,7 +35,6 @@ while keep_looping:
                     log_file.flush()
                     log_size += nb_char_written
                     nb_rec += 1
-                    size = -1
                     print("\t>> {} record(s) in the log ({:,} bytes)".format(nb_rec, log_size)) 
                 # Blink led, to acknowledge
                 led.toggle()
