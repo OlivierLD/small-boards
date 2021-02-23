@@ -5,13 +5,20 @@
 /*
    Just a basic HTTP GET test.
    Make HTTP requests to wifitest.adafruit.com.
+
+   Do display the Serial Monitor when runiing this one.
    ------------------
    RST Button: top right
- */
+
+   All displays are rotated with M5.Lcd.setRotation(1);
+   Change that if you're left-handed or right-handed...
+
+   M5.lcd apis: https://github.com/m5stack/m5-docs/blob/master/docs/en/api/lcd.md
+*/
 
 // change values below to fit your settings
 const char* SSID = "Sonic-00e0_EXT";        // your network SSID (name)
-const char* PASSWORD = "67369cxxx31";        // your network password
+const char* PASSWORD = "67369c7831";        // your network password
 const char* SERVER_NAME = "wifitest.adafruit.com";  // For REST requests
 const int SERVER_PORT = 80;
 
@@ -24,6 +31,8 @@ void setup() {
   M5.begin();
   Serial.begin(9600);
 
+  M5.Lcd.setRotation(1);
+
   status = WiFi.begin(SSID, PASSWORD);
   // Wait for connection
   while (WiFi.status() != WL_CONNECTED) {
@@ -32,10 +41,15 @@ void setup() {
     Serial.print(".");
   }
 
-  M5.Lcd.printf("Connected to wifi");
-  Serial.println("\nConnected to wifi");
+  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.setCursor(0, 10);
+  M5.Lcd.printf(" HttpClient2 Connected to wifi");
+  Serial.println("\nHttpClient2 Connected to wifi");
 
   pinMode(M5_BUTTON_RST, INPUT);
+
+  M5.Lcd.printf("\n\n HttpClient2 Press Reset Button to make a request.");
+  Serial.println("\nHttpClient2 Press Reset Button to make a request.");
 }
 
 void makeRequest(String verb, String request) {
@@ -45,14 +59,14 @@ void makeRequest(String verb, String request) {
     Serial.println("Connected!");
     // Make a HTTP/REST reques, cannot be more explicit! :
     String restRequest =
-              verb + " " + request + " HTTP/1.1\r\n" +
-              "Host: " + SERVER_NAME + ":" + String(SERVER_PORT) + "\r\n" +
-              "Connection: close\r\n" +
-              "\r\n"; //  + body + "\r\n";
+      verb + " " + request + " HTTP/1.1\r\n" +
+      "Host: " + SERVER_NAME + ":" + String(SERVER_PORT) + "\r\n" +
+      "Connection: close\r\n" +
+      "\r\n"; //  + body + "\r\n";
     Serial.println(restRequest);
     client.print(restRequest);
   } else {
-    Serial.println("Not connected...");
+    Serial.println("nHttpClient2: Not connected...");
   }
 
   delay(500);
@@ -69,6 +83,14 @@ void makeRequest(String verb, String request) {
     client.stop();
   }
   Serial.println("\tDone making request");
+
+//  M5.Lcd.setRotation(1);
+  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.setCursor(0, 10);
+  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setTextSize(1);
+  M5.Lcd.print(" Done reading response");
+  // M5.Lcd.printf(" Done reading response");
 }
 
 void loop() {
@@ -78,13 +100,13 @@ void loop() {
   if (digitalRead(M5_BUTTON_RST) == LOW) {
     Serial.println("RST button LOW");
 
-    display = "Making request...";
+    display = " HTTP request...";
 
-    M5.Lcd.setRotation( 3 );
+//    M5.Lcd.setRotation(1);
     M5.Lcd.fillScreen(BLACK);
     M5.Lcd.setCursor(0, 10);
     M5.Lcd.setTextColor(WHITE);
-    M5.Lcd.setTextSize(3);
+    M5.Lcd.setTextSize(1);
     M5.Lcd.print(display);
 
     makeRequest("GET", "/testwifi/index.html");

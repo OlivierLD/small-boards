@@ -56,8 +56,8 @@ void setup() {
     Serial.print(".");
   }
 
-  M5.Lcd.printf(" Connected to wifi");
-  Serial.println("\nConnected to wifi");
+  M5.Lcd.printf(" RawHttpClient: Connected to wifi");
+  Serial.println("\nRawHttpClient: Connected to wifi");
 
   // for the example. Not used.
   pinMode(M5_BUTTON_HOME, INPUT);
@@ -100,7 +100,7 @@ void getData() {
   int eoh = cache.indexOf(endOfHeaders);
   String payload = "";
   if (eoh == -1) {
-    Serial.println("No EndOfHeaders found");
+    Serial.println("RawHttpClient: No EndOfHeaders found");
     return;
   } else {
     payload = cache.substring(eoh + endOfHeaders.length());
