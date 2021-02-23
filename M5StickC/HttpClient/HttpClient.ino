@@ -7,6 +7,8 @@
 /*
    Make REST requests - It's a client for the NavServer
    ------------------
+   NavServer, see https://github.com/OlivierLD/raspberry-coffee/tree/master/NMEA-mux-WebUI/small-server-extended
+   ------------------
    RST Button: top right
    HOME Button: the big one with M5 written on it
 
@@ -19,7 +21,7 @@
 
 // change values below to fit your settings
 //const char* SSID = "Sonic-00e0_EXT";        // your network SSID (name)
-//const char* PASSWORD = "67369c7831";        // your network password
+//const char* PASSWORD = "67369cxxx31";        // your network password
 //const char* SERVER_NAME = "192.168.42.37";  // For REST requests, Nav Server
 const char* SSID = "RPi-Gateway";           // your network SSID (name)
 const char* PASSWORD = "raspberrypi";       // your network password
@@ -55,7 +57,7 @@ const int EW = 2;
 int backgroundColor = M5_BLACK; // TODO More colors
 int foregroundColor = M5_WHITE;
 
-const boolean DEBUG = true;
+const boolean DEBUG = true;  // Display messages in the Serial Monitoir if set to true.
 
 String lat = "";
 String lng = "";
@@ -453,7 +455,7 @@ String makeRequest(String verb, String request) {
     }
     client.print(restRequest);
   } else {
-    Serial.println("Not connected...");
+    Serial.println("NavServer: Not connected...");
   }
 
   delay(500);

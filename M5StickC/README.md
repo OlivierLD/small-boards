@@ -9,6 +9,9 @@
   - Use board `EPS32 Arduino` > `M5Stick-C`
   - Use Upload Speed `115200`
 
+
+  - Many [Cool examples](https://github.com/tanakamasayuki/M5StickC-examples)
+
 Hostname is `espressif`.
 
 Buttons:
