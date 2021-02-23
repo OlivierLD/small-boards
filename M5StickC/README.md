@@ -22,7 +22,7 @@ Example: Client for the Nav Server (`HttpClient.ino`)
 | ![One](./M5.01.jpg) | ![Two](./M5.02.jpg) |
 
 #### To fit your environment
-- You need a `NavServer` or an `NMEA.multiplexer` to be available, possibly emitting its own network (aka hotspot), as explained [here](https://github.com/OlivierLD/raspberry-coffee/tree/master/NMEA.mux.WebUI), [here](https://github.com/OlivierLD/raspberry-coffee/blob/master/NMEA.mux.WebUI/small.server.extended/README.md), and around...
+- You need a `NavServer` or an `NMEA.multiplexer` to be available, possibly emitting its own network (aka hotspot), as explained [here](https://github.com/OlivierLD/raspberry-coffee/tree/master/NMEA-mux-WebUI), [here](https://github.com/OlivierLD/raspberry-coffee/blob/master/NMEA-mux-WebUI/small-server-extended/README.md), and around...
 - Modify the sketch's code appropriately, in my case:
 ```C
 const char* SSID = "RPi-Gateway";           // your network SSID (name)
