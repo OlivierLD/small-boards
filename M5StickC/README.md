@@ -10,7 +10,7 @@
   - Use Upload Speed `115200`
 - Many [Cool examples](https://github.com/tanakamasayuki/M5StickC-examples)
 
-Hostname is `espressif`.
+Hostname is `espressif` (as seen from `fing`).
 
 Buttons:
 ![Buttons](./M5.03.jpg)
