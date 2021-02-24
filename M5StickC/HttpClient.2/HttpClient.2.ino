@@ -40,9 +40,9 @@ void setup() {
   status = WiFi.begin(SSID, PASSWORD);
   // Wait for connection
   while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
     M5.Lcd.printf(".");
     Serial.print(".");
+    delay(500);
   }
 
   M5.Lcd.fillScreen(BLACK);
@@ -102,10 +102,10 @@ void makeRequest(String verb, String request) {
   M5.Lcd.setTextSize(1);
   String mess = " Done reading response\n See the Serial Monitor..."; 
   if (content.length() > 0) {
-    mess += ("\n\n" + content);
+    content.trim();
+    mess += ("\n\n\"" + content + "\"");
   }
   M5.Lcd.print(mess);
-  // M5.Lcd.printf(" Done reading response");
 }
 
 void loop() {
