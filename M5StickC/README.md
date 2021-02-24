@@ -8,8 +8,6 @@
 - And [here](https://docs.m5stack.com/#/en/quick_start/m5stickc/m5stickc_quick_start_with_arduino_Windows?id=_3-install-m5stack-library)
   - Use board `EPS32 Arduino` > `M5Stick-C`
   - Use Upload Speed `115200`
-
-
   - Many [Cool examples](https://github.com/tanakamasayuki/M5StickC-examples)
 
 Hostname is `espressif`.

@@ -110,7 +110,7 @@ void makeRequest(String verb, String request) {
 
 void loop() {
 
-  String display ;
+  String display;
   // change active lamp
   if (digitalRead(M5_BUTTON_RST) == LOW) {
     Serial.println("RST button LOW");
@@ -124,7 +124,6 @@ void loop() {
     M5.Lcd.print(display);
 
     makeRequest("GET", "/testwifi/index.html");
-
     delay(100);
   }
 
