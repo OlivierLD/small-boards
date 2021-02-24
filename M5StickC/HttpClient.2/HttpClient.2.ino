@@ -89,7 +89,7 @@ void makeRequest(String verb, String request) {
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(WHITE);
   M5.Lcd.setTextSize(1);
-  M5.Lcd.print(" Done reading response");
+  M5.Lcd.print(" Done reading response\n See the Serial Monitor...");
   // M5.Lcd.printf(" Done reading response");
 }
 
@@ -100,7 +100,7 @@ void loop() {
   if (digitalRead(M5_BUTTON_RST) == LOW) {
     Serial.println("RST button LOW");
 
-    display = " HTTP request...";
+    display = " Making HTTP request...";
 
 //    M5.Lcd.setRotation(1);
     M5.Lcd.fillScreen(BLACK);
