@@ -10,7 +10,7 @@
    ------------------
    RST Button: top right
 
-   All displays are rotated with M5.Lcd.setRotation(1);
+   All displays are rotated with M5.Lcd.setRotation(ROT_180);
    Change that if you're left-handed or right-handed...
 
    M5.lcd apis: https://github.com/m5stack/m5-docs/blob/master/docs/en/api/lcd.md
@@ -22,6 +22,10 @@ const char* PASSWORD = "67369c7831";        // your network password
 const char* SERVER_NAME = "wifitest.adafruit.com";  // For REST requests
 const int SERVER_PORT = 80;
 
+#define ROT_0   1
+#define ROT_90  2
+#define ROT_180 3
+#define ROT_270 4
 
 int status = WL_IDLE_STATUS;
 
@@ -31,7 +35,7 @@ void setup() {
   M5.begin();
   Serial.begin(9600);
 
-  M5.Lcd.setRotation(1);
+  M5.Lcd.setRotation(ROT_180);
 
   status = WiFi.begin(SSID, PASSWORD);
   // Wait for connection
@@ -71,10 +75,18 @@ void makeRequest(String verb, String request) {
 
   delay(500);
 
+  boolean inBody = false;
+  String content = "";
   while (client.available()) { // Response?
     Serial.println("\tReading response");
     String line = client.readStringUntil('\n');
-    Serial.println(line); // debug
+    if (inBody) {
+      content += (line + " ");
+    }
+    Serial.print("["); Serial.print(line + "]\t("); Serial.print(line.length()); Serial.println(" byte(s))"); // debug
+    if (line.length() == 1) {
+      inBody = true;
+    }
   }
   Serial.println("\tDone reading response");
   // if the server's disconnected, stop the client:
@@ -84,12 +96,15 @@ void makeRequest(String verb, String request) {
   }
   Serial.println("\tDone making request");
 
-//  M5.Lcd.setRotation(1);
   M5.Lcd.fillScreen(BLACK);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(WHITE);
   M5.Lcd.setTextSize(1);
-  M5.Lcd.print(" Done reading response\n See the Serial Monitor...");
+  String mess = " Done reading response\n See the Serial Monitor..."; 
+  if (content.length() > 0) {
+    mess += ("\n\n" + content);
+  }
+  M5.Lcd.print(mess);
   // M5.Lcd.printf(" Done reading response");
 }
 
@@ -102,7 +117,6 @@ void loop() {
 
     display = " Making HTTP request...";
 
-//    M5.Lcd.setRotation(1);
     M5.Lcd.fillScreen(BLACK);
     M5.Lcd.setCursor(0, 10);
     M5.Lcd.setTextColor(WHITE);
