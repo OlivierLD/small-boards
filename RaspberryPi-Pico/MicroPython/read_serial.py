@@ -31,7 +31,7 @@ while keep_looping:
                 nmea_string = uart.readline().decode("utf-8")
                 print("NMEA Data: {}".format(nmea_string[:-2])) 
                 if (nmea_string.startswith("$GPRMC")):  # Filter
-                    nb_char_written = log_file.write(nmea_string)         # Write it with the CR-NL
+                    nb_char_written = log_file.write(nmea_string)  # Write it with the CR-NL
                     log_file.flush()
                     log_size += nb_char_written
                     nb_rec += 1

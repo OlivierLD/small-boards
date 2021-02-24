@@ -17,10 +17,10 @@
 */
 
 // change values below to fit your settings
-const char* SSID = "Sonic-00e0_EXT";        // your network SSID (name)
-const char* PASSWORD = "67369c7831";        // your network password
+const char* SSID        = "Sonic-00e0_EXT";         // your network SSID (name)
+const char* PASSWORD    = "67369c7831";             // your network password
 const char* SERVER_NAME = "wifitest.adafruit.com";  // For REST requests
-const int SERVER_PORT = 80;
+const int SERVER_PORT   = 80;
 
 #define ROT_0   1
 #define ROT_90  2
