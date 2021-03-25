@@ -1,3 +1,7 @@
+#
+# Log Temperature in a file
+# From Raspberry Pi Pico.
+#
 import machine
 import utime
 

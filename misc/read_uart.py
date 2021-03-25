@@ -1,4 +1,6 @@
 #
+# Not strictly "small-board" related. That runs on a Raspberry Pi.
+#
 # Read UART on Raspberry Pi
 # On the Raspberry Pi, use those pins:
 # - GPIO14 (aka UART0_TXD), pin #8           - green - Not mandatory, we read only.
@@ -60,7 +62,7 @@ while keep_looping:
 			# print("read from Serial [{}]".format(ser_data))
 	except KeyboardInterrupt:
 		keep_looping = False
-		break     # Theorically useless
+		break     # Theoretically useless
 	except Exception as ex:
 		print("Oops {}".format(ex))
 

@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>  // See https://www.arduino.cc/en/Reference/softwareSerial
 
 /*
- * GPS Wiring
+ * GPS Wiring, Serial port (USB, refer to the coors below).
  * 
  * White on pin 0 (RX <- 0) Receives from device (like GPS)
  * Green on pin 1 (TX -> 1)
@@ -33,7 +33,8 @@ void loop() {
 //  gps.listen();
   if (gps.available() > 0) {
     char ch = (char)gps.read();
-    Serial.println(ch);
+    Serial.println(ch); 
+    Serial.print(" Ox"); Serial.print(ch < 16 ? "0" : ""); Serial.println(ch, HEX);
   } else {
     delay(1000);
     Serial.println("No GPS data");
