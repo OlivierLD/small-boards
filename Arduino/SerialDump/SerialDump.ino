@@ -22,6 +22,12 @@ SoftwareSerial gps = SoftwareSerial(RX_PIN, TX_PIN);
 #define VERBOSE false
 #define SENTENCE_MAX_LEN 512
 
+#define DETECT_SENTENCE_START 1
+#define DETECT_SENTENCE_END   2
+
+#define DETECTION_OPTION DETECT_SENTENCE_START
+
+
 char sentence[SENTENCE_MAX_LEN];
 int sentenceIdx = 0;
 
@@ -56,16 +62,28 @@ void loop() {
       Serial.print(ch);
       Serial.print(" Ox"); Serial.print(ch < 16 ? "0" : ""); Serial.println(ch, HEX);
     }
-    
-    sentence[sentenceIdx++] = ch;
-//  if (sentenceIdx > 1 && sentence[sentenceIdx - 2] == 0x0D && sentence[sentenceIdx - 1] == 0x0A) { // End of Sentence
-    if (ch == 0x0A) { // End of Sentence
-      String nmea = String(sentence);
-      nmea.trim();
-      Serial.println(nmea);
-      initSentence();
+    if (DETECTION_OPTION == DETECT_SENTENCE_START) {
+      if (ch == '$') { // Start of a sentence
+        if (sentenceIdx > 0) { // There is already a sentence
+          String nmea = String(sentence);
+          nmea.trim();
+          Serial.println(nmea);
+          initSentence();
+        }
+      }
     }
 
+    sentence[sentenceIdx++] = ch;
+
+    if (DETECTION_OPTION == DETECT_SENTENCE_END) {
+      //  if (sentenceIdx > 1 && sentence[sentenceIdx - 2] == 0x0D && sentence[sentenceIdx - 1] == 0x0A) { // End of Sentence
+      if (ch == 0x0A) { // End of Sentence
+        String nmea = String(sentence);
+        nmea.trim();
+        Serial.println(nmea);
+        initSentence();
+      }
+    }
   } else {
     delay(1000);
     if (VERBOSE) {
