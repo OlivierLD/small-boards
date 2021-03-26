@@ -13,6 +13,7 @@
    when uploading the sketch, unplug the 5V from the GPS, and try again.
 
 */
+#include "NMEAParser.h"
 
 #define RX_PIN 0    // White
 #define TX_PIN 1    // Green - Not necessary if you do read only.
@@ -26,27 +27,6 @@ SoftwareSerial gps = SoftwareSerial(RX_PIN, TX_PIN);
 #define DETECT_SENTENCE_END   2
 
 #define DETECTION_OPTION DETECT_SENTENCE_START
-
-// TODO Put this in a .h file ?
-typedef struct DATE_TIME {
-  int year;
-  int month;
-  int day;
-  int hours;
-  int minutes;
-  float seconds;
-} DateTime;
-
-typedef struct RMC {
-  boolean active = false;
-  double longitude;
-  double latitude;
-  double sog;
-  double cog;
-  // Date & Time
-  DateTime utc;
-  double declination;
-} Rmc;
 
 char sentence[SENTENCE_MAX_LEN];
 int sentenceIdx = 0;

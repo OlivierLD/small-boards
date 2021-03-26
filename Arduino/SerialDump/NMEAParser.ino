@@ -1,17 +1,9 @@
 /**
-
-*/
-
-//typedef struct RMC {
-//  double longitude;
-//  double latitude;
-//  double sog;
-//  double cog;
-//  // Date & Time
-//  double declination;
-//} Rmc;
-
-// typedef RMC Rmc;
+ * NMEA Parser.
+ * Implemented Strings:
+ * - RMC
+ */
+#include "NMEAParser.h"
 
 int calculateCheckSum(String sentence) {
   int cs = 0;
