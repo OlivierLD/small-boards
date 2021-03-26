@@ -40,7 +40,7 @@ void setup() {
   if (PARSER_TEST) {
     // Parser tests
     String rmc = "$IIRMC,022136,A,3730.092,N,12228.864,W,00.0,181,141113,15,E,A*1C";
-    // "$IIRMC,144432.086,V,,,,,00.0,0.00,190214,,,N*5F";
+    //           "$IIRMC,144432.086,V,,,,,00.0,0.00,190214,,,N*5F";
 
     boolean valid = isValid(rmc);
     Serial.print("RMC is "); Serial.println(valid ? "valid" : "not valid");

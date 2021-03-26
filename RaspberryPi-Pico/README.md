@@ -124,8 +124,7 @@ uart = UART(0, baudrate=BAUD_RATE, tx=Pin(TX_PIN), rx=Pin(RX_PIN), bits=8, parit
 ```
 the pin number used in `Pin(16)` refers to the pin labeled `GP16` in the Raspberry Pi Pico pinout:
 
-![Raspberry Pi Pico pinout](https://www.raspberrypi.org/documentation/pico/getting-started/static/15243f1ffd3b8ee646a1708bf4c0e866/Pico-R3-Pinout.svg
-)
+![Raspberry Pi Pico pinout](./raspberry-pi-pico-pinout.png)
 
 this is the pin #21.
 
