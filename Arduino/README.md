@@ -1,4 +1,5 @@
 # Arduino (and friends)
+Doc at <https://www.arduino.cc/reference/en/>
 
 ## Arduino, read Serial data
 
