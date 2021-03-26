@@ -28,12 +28,23 @@ SoftwareSerial gps = SoftwareSerial(RX_PIN, TX_PIN);
 #define DETECTION_OPTION DETECT_SENTENCE_START
 
 // TODO Put this in a .h file ?
+typedef struct DATE_TIME {
+  int year;
+  int month;
+  int day;
+  int hours;
+  int minutes;
+  float seconds;
+} DateTime;
+
 typedef struct RMC {
+  boolean active = false;
   double longitude;
   double latitude;
   double sog;
   double cog;
   // Date & Time
+  DateTime utc;
   double declination;
 } Rmc;
 
@@ -55,12 +66,9 @@ void setup() {
     Serial.print("RMC is "); Serial.println(valid ? "valid" : "not valid");
     if (valid) {
       Rmc rmcStruct;
+      initRMC(&rmcStruct);
       parseRMC(rmc, &rmcStruct);
-      Serial.print("Lat:"); Serial.println(rmcStruct.latitude);
-      Serial.print("Lng:"); Serial.println(rmcStruct.longitude);
-      Serial.print("cog:"); Serial.println(rmcStruct.cog);
-      Serial.print("sog:"); Serial.println(rmcStruct.sog);
-      // Etc...
+      dumpRMC(rmcStruct);
     }
   }
   //  pinMode(RX_PIN, INPUT);
@@ -81,6 +89,37 @@ void initSentence() {
   sentenceIdx = 0;
 }
 
+void initRMC(Rmc * rmc) {
+  rmc->active = false;
+  rmc->latitude = 0;
+  rmc->longitude = 0;
+  rmc->sog = 0.0;
+  rmc->cog = 0.0;
+  rmc->utc.day = 0;
+  rmc->utc.month = 0;
+  rmc->utc.year = 0;
+  rmc->utc.hours = 0;
+  rmc->utc.minutes = 0;
+  rmc->utc.seconds = 0;
+}
+
+void dumpRMC(Rmc rmc) {
+  if (rmc.active) {
+    Serial.println("Position:");
+    Serial.print("\tLat:"); Serial.println(rmc.latitude);
+    Serial.print("\tLng:"); Serial.println(rmc.longitude);
+    Serial.println("Velocity:");
+    Serial.print("\tcog:"); Serial.println(rmc.cog);
+    Serial.print("\tsog:"); Serial.println(rmc.sog);
+    Serial.println("Time:");
+    Serial.print("\tUTC:"); Serial.print(rmc.utc.day); Serial.print("-"); Serial.print(rmc.utc.month); Serial.print("-"); Serial.print(rmc.utc.year); Serial.print(" ");
+    Serial.print(rmc.utc.hours); Serial.print(":"); Serial.print(rmc.utc.minutes); Serial.print(":"); Serial.print(rmc.utc.seconds); Serial.println();
+    Serial.print("D:"); Serial.println(rmc.declination);
+  } else {
+    Serial.println("RMC Not Active");
+  }
+}
+
 void loop() {
   //  gps.listen();
   if (gps.available() > 0) {
@@ -96,19 +135,16 @@ void loop() {
           nmea.trim();
           if (nmea.length() > 7) {
             String sentenceId = nmea.substring(3, 6);
-            Serial.print(sentenceId);Serial.print(" -> ");Serial.println(nmea);
+            Serial.print(sentenceId); Serial.print(" -> "); Serial.println(nmea);
             // Parse!
             if (sentenceId.equals("RMC")) {
               boolean valid = isValid(nmea);
-              Serial.print("RMC is "); Serial.println(valid ? "valid" : "not valid");
+//              Serial.print("RMC is "); Serial.println(valid ? "valid" : "not valid");
               if (valid) {
                 Rmc rmcStruct;
+                initRMC(&rmcStruct);
                 parseRMC(nmea, &rmcStruct);
-                Serial.print("Lat:"); Serial.println(rmcStruct.latitude);
-                Serial.print("Lng:"); Serial.println(rmcStruct.longitude);
-                Serial.print("cog:"); Serial.println(rmcStruct.cog);
-                Serial.print("sog:"); Serial.println(rmcStruct.sog);
-                // Etc...
+                dumpRMC(rmcStruct);
               }
             }
           }
