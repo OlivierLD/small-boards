@@ -27,21 +27,48 @@ SoftwareSerial gps = SoftwareSerial(RX_PIN, TX_PIN);
 
 #define DETECTION_OPTION DETECT_SENTENCE_START
 
+// TODO Put this in a .h file ?
+typedef struct RMC {
+  double longitude;
+  double latitude;
+  double sog;
+  double cog;
+  // Date & Time
+  double declination;
+} Rmc;
 
 char sentence[SENTENCE_MAX_LEN];
 int sentenceIdx = 0;
 
+#define PARSER_TEST false
+
 void setup() {
+  Serial.begin(9600);
+  while (!Serial) ;
+
+  if (PARSER_TEST) {
+    // Parser tests
+    String rmc = "$IIRMC,022136,A,3730.092,N,12228.864,W,00.0,181,141113,15,E,A*1C";
+    // "$IIRMC,144432.086,V,,,,,00.0,0.00,190214,,,N*5F";
+
+    boolean valid = isValid(rmc);
+    Serial.print("RMC is "); Serial.println(valid ? "valid" : "not valid");
+    if (valid) {
+      Rmc rmcStruct;
+      parseRMC(rmc, &rmcStruct);
+      Serial.print("Lat:"); Serial.println(rmcStruct.latitude);
+      Serial.print("Lng:"); Serial.println(rmcStruct.longitude);
+      Serial.print("cog:"); Serial.println(rmcStruct.cog);
+      Serial.print("sog:"); Serial.println(rmcStruct.sog);
+      // Etc...
+    }
+  }
   //  pinMode(RX_PIN, INPUT);
   //  pinMode(TX_PIN, OUTPUT);
 
   gps.begin(9600);
   // gps.listen();
 
-  Serial.begin(9600);
-  while (!Serial) {
-    ;
-  }
   Serial.println("Setup completed");
 
   initSentence();
@@ -67,7 +94,24 @@ void loop() {
         if (sentenceIdx > 0) { // There is already a sentence
           String nmea = String(sentence);
           nmea.trim();
-          Serial.println(nmea);
+          if (nmea.length() > 7) {
+            String sentenceId = nmea.substring(3, 6);
+            Serial.print(sentenceId);Serial.print(" -> ");Serial.println(nmea);
+            // Parse!
+            if (sentenceId.equals("RMC")) {
+              boolean valid = isValid(nmea);
+              Serial.print("RMC is "); Serial.println(valid ? "valid" : "not valid");
+              if (valid) {
+                Rmc rmcStruct;
+                parseRMC(nmea, &rmcStruct);
+                Serial.print("Lat:"); Serial.println(rmcStruct.latitude);
+                Serial.print("Lng:"); Serial.println(rmcStruct.longitude);
+                Serial.print("cog:"); Serial.println(rmcStruct.cog);
+                Serial.print("sog:"); Serial.println(rmcStruct.sog);
+                // Etc...
+              }
+            }
+          }
           initSentence();
         }
       }
