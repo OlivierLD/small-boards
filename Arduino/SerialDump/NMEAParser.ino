@@ -148,6 +148,7 @@ void parseRMC(String sentence, Rmc * rmc) {
     }
 
     if (dataArray[10].length() > 0 && dataArray[11].length() > 0) {
+      Serial.print("Decl: ["); Serial.print(dataArray[10]);Serial.print("], [");Serial.print(dataArray[11]);Serial.println("] ");
       rmc->declination = dataArray[10].toDouble();
       if (dataArray[11].equals("W")) {
         rmc->declination *= -1;

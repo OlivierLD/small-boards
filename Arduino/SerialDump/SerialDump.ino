@@ -48,7 +48,7 @@ void setup() {
       Rmc rmcStruct;
       initRMC(&rmcStruct);
       parseRMC(rmc, &rmcStruct);
-      dumpRMC(rmcStruct);
+      dumpRMC(rmcStruct, rmc);
     }
   }
   //  pinMode(RX_PIN, INPUT);
@@ -75,6 +75,7 @@ void initRMC(Rmc * rmc) {
   rmc->longitude = 0;
   rmc->sog = 0.0;
   rmc->cog = 0.0;
+  rmc->declination = 0.0;
   rmc->utc.day = 0;
   rmc->utc.month = 0;
   rmc->utc.year = 0;
@@ -83,8 +84,15 @@ void initRMC(Rmc * rmc) {
   rmc->utc.seconds = 0;
 }
 
-void dumpRMC(Rmc rmc) {
+const String MONTH[] {
+  "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+  "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
+};
+
+void dumpRMC(Rmc rmc, String nmea) {
   if (rmc.active) {
+    Serial.print("\nRMC Sentence:");
+    Serial.println(nmea);
     Serial.println("Position:");
     Serial.print("\tLat:"); Serial.println(rmc.latitude);
     Serial.print("\tLng:"); Serial.println(rmc.longitude);
@@ -92,13 +100,16 @@ void dumpRMC(Rmc rmc) {
     Serial.print("\tcog:"); Serial.println(rmc.cog);
     Serial.print("\tsog:"); Serial.println(rmc.sog);
     Serial.println("Time:");
-    Serial.print("\tUTC:"); Serial.print(rmc.utc.day); Serial.print("-"); Serial.print(rmc.utc.month); Serial.print("-"); Serial.print(rmc.utc.year); Serial.print(" ");
-    Serial.print(rmc.utc.hours); Serial.print(":"); Serial.print(rmc.utc.minutes); Serial.print(":"); Serial.print(rmc.utc.seconds); Serial.println();
+    Serial.print("\tUTC:"); Serial.print(rmc.utc.day < 10 ? "0" : ""); Serial.print(rmc.utc.day); Serial.print("-"); Serial.print(MONTH[rmc.utc.month -1]); Serial.print("-"); Serial.print(rmc.utc.year); Serial.print(" ");
+    Serial.print(rmc.utc.hours < 10 ? "0" : ""); Serial.print(rmc.utc.hours); Serial.print(":"); Serial.print(rmc.utc.minutes < 10 ? "0" : ""); Serial.print(rmc.utc.minutes); Serial.print(":"); Serial.print(rmc.utc.seconds < 10 ? "0" : ""); Serial.print(rmc.utc.seconds); Serial.println();
     Serial.print("D:"); Serial.println(rmc.declination);
   } else {
-    Serial.println("RMC Not Active");
+    Serial.print("\nRMC Not Active: ");
+    Serial.println(nmea);
   }
 }
+
+int nbPoint = 0;
 
 void loop() {
   //  gps.listen();
@@ -115,16 +126,28 @@ void loop() {
           nmea.trim();
           if (nmea.length() > 7) {
             String sentenceId = nmea.substring(3, 6);
-            Serial.print(sentenceId); Serial.print(" -> "); Serial.println(nmea);
+            if (VERBOSE) {
+              Serial.print(sentenceId); Serial.print(" -> "); Serial.println(nmea);
+            }
             // Parse!
             if (sentenceId.equals("RMC")) {
               boolean valid = isValid(nmea);
-//              Serial.print("RMC is "); Serial.println(valid ? "valid" : "not valid");
+              if (VERBOSE) {
+                Serial.print("RMC is "); Serial.println(valid ? "valid" : "not valid");
+              }
               if (valid) {
                 Rmc rmcStruct;
                 initRMC(&rmcStruct);
                 parseRMC(nmea, &rmcStruct);
-                dumpRMC(rmcStruct);
+                dumpRMC(rmcStruct, nmea);
+                nbPoint = 0;
+              }
+            } else {
+              Serial.print(".");
+              nbPoint++;
+              if (nbPoint > 80) {
+                Serial.println();
+                nbPoint = 0;
               }
             }
           }

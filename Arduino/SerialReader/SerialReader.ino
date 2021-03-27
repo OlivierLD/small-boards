@@ -23,9 +23,7 @@ void setup() {
   // gps.listen();
 
   Serial.begin(9600);
-  while (!Serial) {
-    ;
-  }
+  while (!Serial) ;
   Serial.println("Setup completed");
   Serial.println("---------------");
 }
@@ -55,10 +53,10 @@ void loop() {
     if (nmeaSentence.endsWith(END_OF_NMEA)) {
       nmeaSentence.trim();
       if (nmeaSentence.substring(3).startsWith("RMC")) {
-        //        Serial.println("---------------------------------");
+        //Serial.println("---------------------------------");
         Serial.println();
         Serial.println(nmeaSentence);
-        //        Serial.println("---------------------------------");
+        //Serial.println("---------------------------------");
         nbPoint = 0;
       } else {
         //Serial.println(nmeaSentence);
