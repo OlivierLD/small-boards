@@ -12,7 +12,7 @@ led = Pin(25, Pin.OUT)  # Built-in led on Raspberry Pi Pico
 def dash():
     global led
     led(1)
-    time.sleep_ms(500)
+    time.sleep_ms(500)  # time.sleep(0.5) would do it too.
     led(0)
 
 
