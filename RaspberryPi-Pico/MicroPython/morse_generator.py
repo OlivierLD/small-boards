@@ -11,15 +11,17 @@ timer = Timer()
 def dash():
     global led
     led.value(1)
-    time.sleep(0.5)
+    time.sleep_ms(500)
     led.value(0)
+    time.sleep_ms(100)
 
 
 def dot():
     global led
     led.value(1)
-    time.sleep(0.25)
+    time.sleep_ms(250)
     led.value(0)
+    time.sleep_ms(100)
 
 
 def blink_the_led(code):
@@ -76,11 +78,12 @@ to_translate = to_translate.upper()
 for idx in range(0, len(to_translate)):
     letter = to_translate[idx:idx+1]
     if letter in MORSE_CODE:
-      code = MORSE_CODE[letter]
-      print("{} = {}".format(letter, code))
-      blink_the_led(code)
+        code = MORSE_CODE[letter]
+        print("{} = {}".format(letter, code))
+        blink_the_led(code)
     else:
         print("\t{} not in the code".format(letter))
+    time.sleep_ms(200) # between letters
 
 print("Done")
 
