@@ -76,7 +76,8 @@ to_translate = "Hello World"
 to_translate = to_translate.upper()
 
 for idx in range(0, len(to_translate)):
-    letter = to_translate[idx:idx+1]
+    # letter = to_translate[idx:idx+1]
+    letter = to_translate[idx]
     if letter in MORSE_CODE:
         code = MORSE_CODE[letter]
         print("{} = {}".format(letter, code))
