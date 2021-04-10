@@ -5,22 +5,22 @@ import time
 # MicroPython does not support print(f"...")
 print("Using Python version {}".format(sys.version))
 
-led = Pin(25, Pin.OUT)  # Built-in led.
+
+led = Pin(25, Pin.OUT)  # Built-in led on Raspberry Pi Pico
+# led = Pin('Y12')  # To use with https://micropython.org/unicorn/
 
 def dash():
     global led
-    led.value(1)
+    led(1)
     time.sleep_ms(500)
-    led.value(0)
-    time.sleep_ms(100)
+    led(0)
 
 
 def dot():
     global led
-    led.value(1)
+    led(1)
     time.sleep_ms(250)
-    led.value(0)
-    time.sleep_ms(100)
+    led(0)
 
 
 def blink_the_led(code):
@@ -30,6 +30,7 @@ def blink_the_led(code):
             dot()
         elif elem == "_":
             dash()
+        time.sleep_ms(100)  # Between signs
 
 
 MORSE_CODE = {
