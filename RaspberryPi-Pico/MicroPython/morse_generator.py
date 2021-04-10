@@ -1,12 +1,11 @@
-from machine import Pin, Timer
+from machine import Pin
 import sys
 import time
 
 # MicroPython does not support print(f"...")
 print("Using Python version {}".format(sys.version))
 
-led = Pin(25, Pin.OUT)
-timer = Timer()
+led = Pin(25, Pin.OUT)  # Built-in led.
 
 def dash():
     global led
