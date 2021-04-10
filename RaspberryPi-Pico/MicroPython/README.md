@@ -1,5 +1,7 @@
 # Different examples
 
+MicroPython doc at <https://docs.micropython.org/en/latest/index.html>
+
 Good blog post at <https://www.raspberrypi.org/blog/raspberry-pi-pico-balloon-tracker/>.
 
 Good tutorials:
