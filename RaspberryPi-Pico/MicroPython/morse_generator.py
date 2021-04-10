@@ -2,7 +2,8 @@ from machine import Pin, Timer
 import sys
 import time
 
-print(f"Using Python version {sys.version}")
+# MicroPython does not support print(f"...")
+print("Using Python version {}".format(sys.version))
 
 led = Pin(25, Pin.OUT)
 timer = Timer()
@@ -76,10 +77,10 @@ for idx in range(0, len(to_translate)):
     letter = to_translate[idx:idx+1]
     if letter in MORSE_CODE:
       code = MORSE_CODE[letter]
-      print(f"{letter} => {code}")
+      print("{} = {}".format(letter, code))
       blink_the_led(code)
     else:
-        print(f"{letter} not in the code")
+        print("\t{} not in the code".format(letter))
 
 print("Done")
 
