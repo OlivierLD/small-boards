@@ -1,6 +1,6 @@
 # Adafruit Clue
 Points of Interest:
-- Programable with the Arduino IDE
+- Programable with the Arduino IDE and/or CircuitPython (MicroPython)
 - Color screen, push-buttons, many sensors
   - `BME280` - humidity, temperature
   - `LIS3MDL` - triple axis magnetometer
