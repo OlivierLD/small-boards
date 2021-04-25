@@ -1,4 +1,4 @@
-# Adafruit Clue
+# Adafruit CLUE
 Points of Interest:
 - Programable with the Arduino IDE and/or CircuitPython (MicroPython)
 - Color screen, push-buttons, many sensors
