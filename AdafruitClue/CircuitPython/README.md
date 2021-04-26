@@ -2,7 +2,9 @@
 [CircuitPython](https://github.com/adafruit/circuitpython) is a derivative of [MicroPython](https://micropython.org/) designed to simplify experimentation and education on low-cost microcontrollers
 
 
-See <https://learn.adafruit.com/adafruit-clue/circuitpython>
+See 
+- [Adafruit CircuitPython](https://learn.adafruit.com/adafruit-clue/circuitpython)
+- [Circuit Python doc](https://circuitpython.readthedocs.io/projects/clue/en/latest/api.html)
 
 The Mu Editor is a good fit for this CLUE board.
 
