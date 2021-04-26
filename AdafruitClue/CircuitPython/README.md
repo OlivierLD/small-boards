@@ -9,7 +9,7 @@ The Mu Editor is a good fit for this CLUE board.
 Copy the files in the directory into `code.py` (see the doc about that). Save it, and you should see the code running.
 
 
-From `adafruit-circuitpython-bundle-py-20210423`, copy into the `lib` folder:
+From `adafruit-circuitpython-bundle-py-20210423`, copy into the `lib` folder:  
 ![Copy](copy.png)
 
 Then you can run:
