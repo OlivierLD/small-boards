@@ -1,23 +1,8 @@
-## CircuitPython on CLUE
-[CircuitPython](https://github.com/adafruit/circuitpython) is a derivative of [MicroPython](https://micropython.org/) designed to simplify experimentation and education on low-cost microcontrollers
-
-
-See <https://learn.adafruit.com/adafruit-clue/circuitpython>
-
-The Mu Editor is a good fit for this CLUE board.
-
-Copy the files in the directory into `code.py` (see the doc about that). Save it, and you should see the code running.
-
-
-From `adafruit-circuitpython-bundle-py-20210423`, copy into the `lib` folder:
-![Copy](copy.png)
-
-Then you can run:
-```python
 # SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
 # SPDX-License-Identifier: MIT
 
-"""Monitor customisable temperature and humidity ranges, with an optional audible alarm tone."""
+"""Monitor customisable temperature and humidity ranges, 
+   with an optional audible alarm tone."""
 from adafruit_clue import clue
 
 # Set desired temperature range in degrees Celsius.
@@ -33,8 +18,8 @@ alarm_enable = False
 
 clue_display = clue.simple_text_display(text_scale=3, colors=(clue.WHITE,))
 
-clue_display[0].text = "Temperature &"
-clue_display[1].text = "Humidity"
+clue_display[0].text = "Temperature"
+clue_display[1].text = "& Humidity"
 
 while True:
     alarm = False
@@ -43,7 +28,7 @@ while True:
     humidity = clue.humidity
 
     clue_display[3].text = "Temp: {:.1f} C".format(temperature)
-    clue_display[5].text = "Humi: {:.1f} %".format(humidity)
+    clue_display[5].text = "Hum: {:.1f} %".format(humidity)
 
     if temperature < min_temperature:
         clue_display[3].color = clue.BLUE
@@ -68,8 +53,3 @@ while True:
         clue.start_tone(2000)
     else:
         clue.stop_tone()
-```
-
-More soon.
-
----
