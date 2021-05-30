@@ -16,7 +16,15 @@ def read_temperature(sensor: ADC) -> float:
     return temperature
 
 
-while True:
-    temperature = read_temperature(temp_sensor)
-    print("Temperature: {}\272C".format(temperature))
-    utime.sleep(2)
+keep_looping = True
+while keep_looping:
+    try:
+        temperature = read_temperature(temp_sensor)
+        print("Temperature: {}\272C".format(temperature))
+        utime.sleep(2)
+    except KeyboardInterrupt:
+        keep_looping = False
+        print("Exiting at user's request")
+        break     # Theorically useless
+
+print("Done")
