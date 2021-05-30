@@ -1,8 +1,11 @@
 from machine import Pin
 import sys
 import time
-
-# MicroPython does not support print(f"...")
+"""
+Translate a string (hard-coded below)
+into its morse equivalent.
+"""
+# Warning: MicroPython does not support print(f"...")
 print("Using Python version {}".format(sys.version))
 
 ON = 1

@@ -1,5 +1,9 @@
 import machine
 import utime
+"""
+Read the Pico internal temperature sensor
+Print data to stdout
+"""
 
 # Identify the sensor
 temp_sensor = machine.ADC(4)    # machine.ADC_CORE_TEMP)

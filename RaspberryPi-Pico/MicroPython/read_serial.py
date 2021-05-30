@@ -7,6 +7,10 @@
 # Green: pin #22 (GP17)
 # White: pin #21 (GP16)
 #
+"""
+Read a GPS - Connected as explained
+Log GPS Data into a file
+"""
 from machine import UART, Pin
 
 led = Pin(25, Pin.OUT)  # The led
@@ -50,8 +54,8 @@ while keep_looping:
             if (nmea_string.startswith("$GPRMC")):
                 try:
                     # Get the current date-time from RMC sentence
-                    ddmmyy = nmea_sentence[:-3].split(',')[9]
-                    utc = nmea_sentence[:-3].split(',')[1]
+                    ddmmyy = nmea_string[:-3].split(',')[9]
+                    utc = nmea_string[:-3].split(',')[1]
                     now = "{}-{}-{} {}:{}:{} UTC".format(ddmmyy[0:2], ddmmyy[2:4], ddmmyy[4:6], utc[0:2], utc[2:4], utc[4:6])
                 except Exception as ex:
                     pass
