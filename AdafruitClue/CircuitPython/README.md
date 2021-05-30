@@ -1,12 +1,13 @@
 ## CircuitPython on CLUE
 [CircuitPython](https://github.com/adafruit/circuitpython) is a derivative of [MicroPython](https://micropython.org/) designed to simplify experimentation and education on low-cost microcontrollers
 
-
 See 
 - [Adafruit CircuitPython](https://learn.adafruit.com/adafruit-clue/circuitpython)
 - [Circuit Python doc](https://circuitpython.readthedocs.io/projects/clue/en/latest/api.html)
 
-The Mu Editor is a good fit for this CLUE board.
+The Mu Editor is a good fit for this CLUE board.  
+Thonny (already available on a Raspberry Pi) is also a great tool. Good resource [here](https://www.youtube.com/watch?v=_ouzuI_ZPLs).
+
 
 Copy the files in the directory into `code.py` (see the doc about that). Save it, and you should see the code running.
 
@@ -71,6 +72,12 @@ while True:
     else:
         clue.stop_tone()
 ```
+
+## Thonny and Raspberry Pi Pico
+> Note: Thonny is also available ao all other platforms.  
+- <https://www.youtube.com/watch?v=_ouzuI_ZPLs>
+
+
 
 More soon.
 

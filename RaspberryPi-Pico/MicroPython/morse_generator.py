@@ -5,32 +5,35 @@ import time
 # MicroPython does not support print(f"...")
 print("Using Python version {}".format(sys.version))
 
+ON = 1
+OFF = 0
+
 
 led = Pin(25, Pin.OUT)  # Built-in led on Raspberry Pi Pico
 # led = Pin('Y12')  # To use with https://micropython.org/unicorn/
 
-def dash():
+def dash() -> None:
     global led
-    led(1)
+    led(ON)
     time.sleep_ms(500)  # time.sleep(0.5) would do it too.
-    led(0)
+    led(OFF)
 
 
-def dot():
+def dot() -> None:
     global led
-    led(1)
+    led(ON)
     time.sleep_ms(250)
-    led(0)
+    led(OFF)
 
 
-def blink_the_led(code):
+def blink_the_led(code: str) -> None:
     for idx in range(0, len(code)):
         elem = code[idx:idx+1]
         if elem == ".":
             dot()
         elif elem == "-":
             dash()
-        time.sleep_ms(100)  # Between signs
+        time.sleep_ms(100)  # Between signs in a letter
 
 
 MORSE_CODE = {
@@ -84,7 +87,7 @@ for idx in range(0, len(to_translate)):
         blink_the_led(code)
     else:
         print("\t{} not in the code".format(letter))
-    time.sleep_ms(200) # between letters
+    time.sleep_ms(200) # between letters in the text to translate
 
 print("Done")
 

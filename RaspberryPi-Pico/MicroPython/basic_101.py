@@ -7,7 +7,7 @@ led = Pin(25, Pin.OUT)
 timer = Timer()
 
 
-def tick(timer):
+def tick(timer: Timer) -> None:
     global led
     led.toggle()
     print('Toggle LED')

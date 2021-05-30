@@ -47,6 +47,17 @@ To exit `screen`, do a `[Ctrl-a]` then `d`.
 - See <https://pbxbook.com/other/mac-tty.html>
 
 ### From a Raspberry Pi
+
+#### Using Thonny
+- [Good resource](https://www.youtube.com/watch?v=_ouzuI_ZPLs)  
+
+- Plug in your Raspberry Pi Pico to the Raspberry Pi, holding down the `BOOTSEL` button
+- Then Open `Thonny`
+    - In the Menu `Run` > `Select Interpreter`, select `MicroPython (Raspnberry Pi Pico`).
+    - Not mandatory but useful: `View` > `Files`
+
+
+#### Other option
 You will need `minicom`:
 ```
 $ sudo apt install minicom
@@ -119,7 +130,7 @@ TX_PIN=16   # Pin(16) = GP16, pin #21. Green wire
 RX_PIN=17   # Pin(17) = GP17, pin #22. White wire
 BAUD_RATE=9600
 
-uart = UART(0, baudrate=BAUD_RATE, tx=Pin(TX_PIN), rx=Pin(RX_PIN), bits=8, parity=None, stop=1)
+uart = UART(0, baudrate=BAUD_RATE, tx=Pin(TX_PIN), rx=Pi(RX_PIN), bits=8, parity=None, stop=1)
 . . .
 ```
 the pin number used in `Pin(16)` refers to the pin labeled `GP16` in the Raspberry Pi Pico pinout:

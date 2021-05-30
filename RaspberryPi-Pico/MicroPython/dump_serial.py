@@ -1,5 +1,5 @@
 #
-# Read a GPS
+# Read a GPS, spit it out.
 #
 # Connections/pinout
 # Red  : pin #39 (VSYS)

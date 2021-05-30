@@ -1,7 +1,7 @@
 from adafruit_clue import clue
 import math
 #
-# Magnetic Data (Telsa) to Headin, Pitch and Roll in degrees
+# Magnetic Data (Telsa) to Heading, Pitch and Roll in degrees
 #
 clue_display = clue.simple_text_display(text_scale=3, colors=(clue.CYAN,))
 
