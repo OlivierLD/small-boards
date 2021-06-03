@@ -6,7 +6,6 @@ Translate a string (hard-coded below)
 into its morse equivalent.
 """
 # Warning: MicroPython does not support print(f"...")
-print("Using Python version {}".format(sys.version))
 
 ON = 1
 OFF = 0
@@ -78,19 +77,24 @@ MORSE_CODE = {
     "9": "----."
 }
 
-to_translate = "Hello World"
-to_translate = to_translate.upper()
 
-for idx in range(0, len(to_translate)):
-    # letter = to_translate[idx:idx+1]
-    letter = to_translate[idx]
-    if letter in MORSE_CODE:
-        code = MORSE_CODE[letter]
-        print("{} = {}".format(letter, code))
-        blink_the_led(code)
-    else:
-        print("\t{} not in the code".format(letter))
-    time.sleep_ms(200) # between letters in the text to translate
+def translate(to_translate: str) -> None:
+    to_translate = to_translate.upper()
+    for idx in range(0, len(to_translate)):
+        # letter = to_translate[idx:idx+1]
+        letter = to_translate[idx]
+        if letter in MORSE_CODE:
+            code = MORSE_CODE[letter]
+            print("{} = {}".format(letter, code))
+            blink_the_led(code)
+        else:
+            print("\t[{}] not in the code".format(letter))
+        time.sleep_ms(200) # between letters in the text to translate
+        
 
-print("Done")
+if __name__ == '__main__':
+    print("Using Python version {}".format(sys.version))
+    to_translate = "Hello World, 1, 2, 3"
+    translate(to_translate)
+    print("\n\tDone.")
 
