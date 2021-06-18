@@ -16,7 +16,9 @@
    RST Button: top right
    HOME Button: the big one with M5 written on it
 
-   Use the HOME button to scroll through screens.
+   Use the HOME (M5) button to scroll through screens.
+
+   >> Depending on the server config, you could modify the "const int screens" array.
 
    Inspired by https://m5stack.hackster.io/Ahork/m5stickc-for-pilot-hue-daf304
 
@@ -31,7 +33,7 @@ const char* SSID = "RPi-Gateway-SDR";       // your network SSID (name)
 const char* PASSWORD = "raspberrypi";       // your network password
 const char* SERVER_NAME = "192.168.50.10";  // For REST requests, Nav Server
 // IPAddress server(192, 168, 42, 13);
-const int SERVER_PORT = 8888;               // Server port
+const int SERVER_PORT = 8888;               // REST Server port
 
 const String LAT_PREFIX = "LAT=";
 const String LNG_PREFIX = "LNG=";
@@ -100,7 +102,7 @@ const String MONTH[] = {
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
-int screens[] = {
+const int screens[] = {
   POS_SCREEN,
   BSP_SCREEN,
   SOG_SCREEN,
