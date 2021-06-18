@@ -5,7 +5,7 @@
 #include "Colors.h"
 
 /*
-   Make REST requests - It's a client for the NavServer
+   Make REST requests - It's a client for the NavServer << Not TCP, REST !!!!!!
    Adjust the network name (SSID), IP address, and port.
 
    If DEBUG = true, Serial console at 9600 bps.
@@ -26,9 +26,11 @@
 */
 
 // change values below to fit your settings
+// ----------------------------------------
 //const char* SSID = "Sonic-00e0_EXT";        // your network SSID (name)
 //const char* PASSWORD = "67369cxxx31";        // your network password
 //const char* SERVER_NAME = "192.168.42.37";  // For REST requests, Nav Server
+
 const char* SSID = "RPi-Gateway-SDR";       // your network SSID (name)
 const char* PASSWORD = "raspberrypi";       // your network password
 const char* SERVER_NAME = "192.168.50.10";  // For REST requests, Nav Server
@@ -112,8 +114,8 @@ const int SCREENS[] = {
   SOLAR_TIME_SCREEN,
   ATM_SCREEN
 };
-int currentScreenIndex = 0;
-int currentScreen = SCREENS[currentScreenIndex]; // POS_SCREEN; // First screen
+int currentScreenIndex = 0;                      // First screen
+int currentScreen = SCREENS[currentScreenIndex]; // POS_SCREEN; 
 
 int status = WL_IDLE_STATUS;
 
@@ -131,11 +133,13 @@ void setup() {
     Serial.print(".");
   }
 
-  M5.Lcd.printf("Connected to wifi");
-  Serial.println("\nConnected to wifi");
+  M5.Lcd.printf("Connected to wifi\n" + SSID + "\n" + SERVER_NAME + ":" + String(SERVER_PORT));
+  Serial.println("\nConnected to wifi!");
 
   pinMode(M5_BUTTON_HOME, INPUT);
   pinMode(M5_BUTTON_RST, INPUT); // for the example. Not used.
+
+  delay(2000); // Wait 2 seconds
 }
 
 void loop() {
