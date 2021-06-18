@@ -7,7 +7,9 @@
 /*
    Make REST requests - It's a client for the NavServer
    Adjust the network name (SSID), IP address, and port.
-   
+
+   If DEBUG = true, Serial console at 9600 bps.
+
    ------------------
    NavServer, see https://github.com/OlivierLD/raspberry-coffee/tree/master/NMEA-mux-WebUI/small-server-extended
    ------------------
