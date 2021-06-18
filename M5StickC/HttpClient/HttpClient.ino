@@ -6,6 +6,8 @@
 
 /*
    Make REST requests - It's a client for the NavServer
+   Adjust the network name (SSID), IP address, and port.
+   
    ------------------
    NavServer, see https://github.com/OlivierLD/raspberry-coffee/tree/master/NMEA-mux-WebUI/small-server-extended
    ------------------
@@ -23,11 +25,11 @@
 //const char* SSID = "Sonic-00e0_EXT";        // your network SSID (name)
 //const char* PASSWORD = "67369cxxx31";        // your network password
 //const char* SERVER_NAME = "192.168.42.37";  // For REST requests, Nav Server
-const char* SSID = "RPi-Gateway";           // your network SSID (name)
+const char* SSID = "RPi-Gateway-SDR";       // your network SSID (name)
 const char* PASSWORD = "raspberrypi";       // your network password
 const char* SERVER_NAME = "192.168.50.10";  // For REST requests, Nav Server
 // IPAddress server(192, 168, 42, 13);
-const int SERVER_PORT = 5678;               // Server port
+const int SERVER_PORT = 8888;               // Server port
 
 const String LAT_PREFIX = "LAT=";
 const String LNG_PREFIX = "LNG=";
