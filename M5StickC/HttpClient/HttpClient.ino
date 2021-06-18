@@ -65,7 +65,7 @@ const int EW = 2;
 int backgroundColor = M5_BLACK; // TODO More colors
 int foregroundColor = M5_WHITE;
 
-const boolean DEBUG = true;  // Display messages in the Serial Monitoir if set to true.
+const boolean DEBUG = true;  // Display messages in the Serial Monitor if set to true.
 
 String lat = "";
 String lng = "";
@@ -133,8 +133,8 @@ void setup() {
     Serial.print(".");
   }
 
-  M5.Lcd.printf("Connected to wifi\n" + SSID + "\n" + SERVER_NAME + ":" + String(SERVER_PORT));
-  Serial.println("\nConnected to wifi!");
+  M5.Lcd.print("Connected to wifi\n" + String(SSID) + "\n" + String(SERVER_NAME) + ":" + String(SERVER_PORT));
+  Serial.println("\nConnected to wifi!\n" + String(SSID) + "\n" + String(SERVER_NAME) + ":" + String(SERVER_PORT));
 
   pinMode(M5_BUTTON_HOME, INPUT);
   pinMode(M5_BUTTON_RST, INPUT); // for the example. Not used.
