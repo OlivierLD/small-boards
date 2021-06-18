@@ -18,7 +18,7 @@
 
    Use the HOME (M5) button to scroll through screens.
 
-   >> Depending on the server config, you could modify the "const int screens" array.
+   >> Depending on the server config, you could modify the "const int SCREENS[]" array.
 
    Inspired by https://m5stack.hackster.io/Ahork/m5stickc-for-pilot-hue-daf304
 
@@ -102,7 +102,7 @@ const String MONTH[] = {
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
-const int screens[] = {
+const int SCREENS[] = {
   POS_SCREEN,
   BSP_SCREEN,
   SOG_SCREEN,
@@ -112,7 +112,8 @@ const int screens[] = {
   SOLAR_TIME_SCREEN,
   ATM_SCREEN
 };
-int currentScreen = POS_SCREEN;
+int currentScreenIndex = 0;
+int currentScreen = SCREENS[currentScreenIndex]; // POS_SCREEN; // First screen
 
 int status = WL_IDLE_STATUS;
 
@@ -152,13 +153,15 @@ void loop() {
   if (digitalRead(M5_BUTTON_HOME) == LOW) {
     Serial.println(">>> Home button LOW");
     // Increment screen index
-    currentScreen += 1;
-    int screenArraySize = (sizeof(screens) / sizeof(int)); // Size of an Array...
-    if (currentScreen > (screenArraySize - 1)) {
-      currentScreen = 0;
+    currentScreenIndex += 1;
+    int screenArraySize = (sizeof(SCREENS) / sizeof(int)); // Size of an Array...
+    if (currentScreenIndex > (screenArraySize - 1)) {
+      currentScreenIndex = 0;
     }
+    currentScreen = SCREENS[currentScreenIndex];
     if (DEBUG) {
-      Serial.println(">>> Screen index is now " + String(currentScreen) + "/" + String(screenArraySize));
+      Serial.println(">>> Screen index is now " + String(currentScreenIndex) + "/" + String(screenArraySize));
+      Serial.println(">>>     Screen is #" + String(currentScreen));
     }
     delay(100);
   }
