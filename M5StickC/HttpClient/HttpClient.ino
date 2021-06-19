@@ -151,8 +151,9 @@ void setup() {
     }
     
     if (nbTry % 100 == 0) {
-      M5.Lcd.printf("Connecting to " + SSID + "\n");
-      Serial.print("Connecting\n");
+      String mess = "\nConnecting to " + String(SSID); //  + "\n";
+      M5.Lcd.print(mess);
+      Serial.print(mess);
     }
     delay(500);
     M5.Lcd.printf(".");
@@ -164,7 +165,7 @@ void setup() {
   }
 
   M5.Lcd.printf("Connected to wifi.");
-  Serial.println("\nConnected to wifi network " + SSID);
+  Serial.println("\nConnected to wifi network " + String(SSID));
 
   pinMode(M5_BUTTON_HOME, INPUT);
   pinMode(M5_BUTTON_RST, INPUT); // for the example. Not used.
