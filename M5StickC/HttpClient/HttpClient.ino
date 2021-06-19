@@ -4,6 +4,8 @@
 
 #include "Colors.h"
 
+const boolean DEBUG = true;  // Display messages in the Serial Monitor if set to true.
+
 /*
    Make REST requests - It's a client for the NavServer
    Adjust the network name (SSID), IP address, and port.
@@ -22,8 +24,17 @@
 
    Inspired by https://m5stack.hackster.io/Ahork/m5stickc-for-pilot-hue-daf304
 
-   Some doc for M5.lcd at http://forum.m5stack.com/topic/41/lesson-1-1-lcd-graphics
+   Some doc for M5.lcd at http://forum.m5stack.com/topic/41/lesson-1-1-lcd-graphics and
+   https://github.com/m5stack/m5-docs/blob/master/docs/en/api/lcd.md
 */
+
+const int ROT_0   = 0;
+const int ROT_90  = 1;
+const int ROT_180 = 2;
+const int ROT_270 = 3;
+// 4 to 7: reverse and rotate.
+
+const int PREFERRED_ROT = ROT_270;
 
 // change values below to fit your settings
 
@@ -64,8 +75,6 @@ const int EW = 2;
 
 int backgroundColor = M5_BLACK; // TODO More colors
 int foregroundColor = M5_WHITE;
-
-const boolean DEBUG = true;  // Display messages in the Serial Monitor if set to true.
 
 String lat = "";
 String lng = "";
@@ -126,7 +135,7 @@ void setup() {
   Serial.begin(9600);
 
   status = WiFi.begin(SSID, PASSWORD);
-  M5.Lcd.setRotation( 3 ); // Sideways, 270.
+  M5.Lcd.setRotation(PREFERRED_ROT); 
   int nbTry = 0;
   // Wait for connection
   while (WiFi.status() != WL_CONNECTED) {
@@ -233,7 +242,7 @@ void flipColors() {
 }
 
 void displayPos() {
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
@@ -242,7 +251,7 @@ void displayPos() {
 }
 
 void displayAtmData() {
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
@@ -251,7 +260,7 @@ void displayAtmData() {
 }
 
 void displayBsp() {
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
@@ -260,7 +269,7 @@ void displayBsp() {
 }
 
 void displaySog() {
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
@@ -269,7 +278,7 @@ void displaySog() {
 }
 
 void displayCog() {
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
@@ -298,7 +307,7 @@ void displayDate() {
     // Serial.print("3rd blank at "); Serial.println(thirdIndex);
     brokenDate.setCharAt(thirdIndex, '\n');
   }
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
@@ -307,7 +316,7 @@ void displayDate() {
 }
 
 void displayUTCDate() {
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
@@ -330,7 +339,7 @@ void displayUTCDate() {
 }
 
 void displaySolarTime() {
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
