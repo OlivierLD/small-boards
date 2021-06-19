@@ -377,15 +377,17 @@ String extractFromCache(String cache, String prefix) {
   HUM=50.2
 */
 void getData() {
-  Serial.println("\nMaking request...");
-  String cache = makeRequest("GET", "/mux/cache?option=txt");
-  Serial.println("Request came back:");
-  Serial.println("-----------");
-  Serial.println(cache);
-  Serial.println("-----------");
-  flipColors();
   if (DEBUG) {
+    Serial.println("\nMaking request...");
+  }
+  String cache = makeRequest("GET", "/mux/cache?option=txt");
+  flipColors();
+
+  if (DEBUG) {
+    Serial.println("Request came back:");
+    Serial.println("-----------");
     Serial.println(cache);
+    Serial.println("-----------");
   }
 
   lat =  extractFromCache(cache, LAT_PREFIX);
