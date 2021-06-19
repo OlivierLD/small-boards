@@ -26,20 +26,22 @@ const boolean DEBUG = true;  // Display messages in the Serial Monitor if set to
 
    Some doc for M5.lcd at http://forum.m5stack.com/topic/41/lesson-1-1-lcd-graphics and
    https://github.com/m5stack/m5-docs/blob/master/docs/en/api/lcd.md
+
+   Background blinks when data are received.
 */
 
-const int ROT_0   = 0;
+const int ROT_0   = 0; // Default
 const int ROT_90  = 1;
 const int ROT_180 = 2;
 const int ROT_270 = 3;
 // 4 to 7: reverse and rotate.
 
-const int PREFERRED_ROT = ROT_270;
+const int PREFERRED_ROT = ROT_270; // ROT_90 to turn it upside down.
 
 // change values below to fit your settings
 
 //const char* SSID = "Sonic-00e0_EXT";        // your network SSID (name)
-//const char* PASSWORD = "67369cxxx31";        // your network password
+//const char* PASSWORD = "67369cxxx31";       // your network password
 //const char* SERVER_NAME = "192.168.42.37";  // For REST requests, Nav Server
 
 const char* SSID = "RPi-Gateway-SDR";       // your network SSID (name)
@@ -99,6 +101,7 @@ String hum = "";
 String baro = "";
 String temp = "";
 
+// Available displays
 const int POS_SCREEN = 0;
 const int BSP_SCREEN = 1;
 const int SOG_SCREEN = 2;
@@ -113,6 +116,7 @@ const String MONTH[] = {
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
+// Actually used screens (comment unwanted ones)
 const int SCREENS[] = {
   POS_SCREEN,
   BSP_SCREEN,
@@ -147,7 +151,7 @@ void setup() {
     }
     
     if (nbTry % 100 == 0) {
-      M5.Lcd.printf("Connecting\n");
+      M5.Lcd.printf("Connecting to " + SSID + "\n");
       Serial.print("Connecting\n");
     }
     delay(500);
@@ -160,7 +164,7 @@ void setup() {
   }
 
   M5.Lcd.printf("Connected to wifi.");
-  Serial.println("\nConnected to wifi.");
+  Serial.println("\nConnected to wifi network " + SSID);
 
   pinMode(M5_BUTTON_HOME, INPUT);
   pinMode(M5_BUTTON_RST, INPUT); // for the example. Not used.
@@ -197,7 +201,7 @@ void loop() {
   // Reset Button: not used
   if (digitalRead(M5_BUTTON_RST) == LOW) {
     Serial.println(">>> RST button LOW");
-    Serial.println(">>> Do nothing");
+    Serial.println(">>> Doing nothing...");
   }
 
   switch (currentScreen) {
@@ -373,12 +377,12 @@ String extractFromCache(String cache, String prefix) {
       Serial.println("\t" + prefix + data);
     }
   } else {
-    Serial.println("No " + prefix);
+    Serial.println("...No " + prefix + " found.");
   }
   return data;
 }
 /*
-   Data is like that:
+   Data comes back like that:
 
   BSP=0.00
   LAT=37.748850
