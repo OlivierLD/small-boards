@@ -5,7 +5,7 @@
 #include "Colors.h"
 
 /*
-   Make REST requests - It's a client for the NavServer << Not TCP, REST !!!!!!
+   Make REST requests - It's a client for the NavServer
    Adjust the network name (SSID), IP address, and port.
 
    If DEBUG = true, Serial console at 9600 bps.
@@ -26,11 +26,9 @@
 */
 
 // change values below to fit your settings
-// ----------------------------------------
 //const char* SSID = "Sonic-00e0_EXT";        // your network SSID (name)
 //const char* PASSWORD = "67369cxxx31";        // your network password
 //const char* SERVER_NAME = "192.168.42.37";  // For REST requests, Nav Server
-
 const char* SSID = "RPi-Gateway-SDR";       // your network SSID (name)
 const char* PASSWORD = "raspberrypi";       // your network password
 const char* SERVER_NAME = "192.168.50.10";  // For REST requests, Nav Server
@@ -65,7 +63,7 @@ const int EW = 2;
 int backgroundColor = M5_BLACK; // TODO More colors
 int foregroundColor = M5_WHITE;
 
-const boolean DEBUG = true;  // Display messages in the Serial Monitor if set to true.
+const boolean DEBUG = true;  // Display messages in the Serial Monitoir if set to true.
 
 String lat = "";
 String lng = "";
@@ -127,19 +125,26 @@ void setup() {
 
   status = WiFi.begin(SSID, PASSWORD);
   // Wait for connection
+  int nbTry = 0;
   while (WiFi.status() != WL_CONNECTED) {
+    if (nbTry % 100 == 0) {
+      M5.Lcd.printf("Connecting");
+      Serial.print("Connecting");
+    }
     delay(500);
     M5.Lcd.printf(".");
     Serial.print(".");
+    nbTry += 1;
+    if (nbTry >= 100) {
+      nbTry = 0;
+    }
   }
 
-  M5.Lcd.print("Connected to wifi\n" + String(SSID) + "\n" + String(SERVER_NAME) + ":" + String(SERVER_PORT));
-  Serial.println("\nConnected to wifi!\n" + String(SSID) + "\n" + String(SERVER_NAME) + ":" + String(SERVER_PORT));
+  M5.Lcd.printf("Connected to wifi.");
+  Serial.println("\nConnected to wifi.");
 
   pinMode(M5_BUTTON_HOME, INPUT);
   pinMode(M5_BUTTON_RST, INPUT); // for the example. Not used.
-
-  delay(2000); // Wait 2 seconds
 }
 
 void loop() {
@@ -377,17 +382,15 @@ String extractFromCache(String cache, String prefix) {
   HUM=50.2
 */
 void getData() {
-  if (DEBUG) {
-    Serial.println("\nMaking request...");
-  }
+  Serial.println("\nMaking request...");
   String cache = makeRequest("GET", "/mux/cache?option=txt");
+  Serial.println("Request came back:");
+  Serial.println("-----------");
+  Serial.println(cache);
+  Serial.println("-----------");
   flipColors();
-
   if (DEBUG) {
-    Serial.println("Request came back:");
-    Serial.println("-----------");
     Serial.println(cache);
-    Serial.println("-----------");
   }
 
   lat =  extractFromCache(cache, LAT_PREFIX);
