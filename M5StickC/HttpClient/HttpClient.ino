@@ -26,9 +26,11 @@
 */
 
 // change values below to fit your settings
+
 //const char* SSID = "Sonic-00e0_EXT";        // your network SSID (name)
 //const char* PASSWORD = "67369cxxx31";        // your network password
 //const char* SERVER_NAME = "192.168.42.37";  // For REST requests, Nav Server
+
 const char* SSID = "RPi-Gateway-SDR";       // your network SSID (name)
 const char* PASSWORD = "raspberrypi";       // your network password
 const char* SERVER_NAME = "192.168.50.10";  // For REST requests, Nav Server
@@ -124,18 +126,26 @@ void setup() {
   Serial.begin(9600);
 
   status = WiFi.begin(SSID, PASSWORD);
-  // Wait for connection
+  M5.Lcd.setRotation( 3 ); // Sideways, 270.
   int nbTry = 0;
+  // Wait for connection
   while (WiFi.status() != WL_CONNECTED) {
+
+    if (nbTry % 200 == 0) {
+      M5.Lcd.fillScreen(backgroundColor);
+      M5.Lcd.setCursor(0, 10);
+      M5.Lcd.setTextColor(foregroundColor);
+    }
+    
     if (nbTry % 100 == 0) {
-      M5.Lcd.printf("Connecting");
-      Serial.print("Connecting");
+      M5.Lcd.printf("Connecting\n");
+      Serial.print("Connecting\n");
     }
     delay(500);
     M5.Lcd.printf(".");
     Serial.print(".");
     nbTry += 1;
-    if (nbTry >= 100) {
+    if (nbTry >= 1000) {
       nbTry = 0;
     }
   }
