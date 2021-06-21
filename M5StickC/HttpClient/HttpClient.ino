@@ -4,17 +4,18 @@
 
 #include "Colors.h"
 
-const boolean DEBUG = true;  // Display messages in the Serial Monitor if set to true.
+const boolean DEBUG = true;  // Display messages in the Serial Monitor (@9600) if set to true.
 
 /*
    Make REST requests - It's a client for the NavServer
+   ------------------
+   NavServer, see https://github.com/OlivierLD/raspberry-coffee/tree/master/NMEA-mux-WebUI/small-server-extended
+   ------------------
+
    Adjust the network name (SSID), IP address, and port.
 
    If DEBUG = true, Serial console at 9600 bps.
 
-   ------------------
-   NavServer, see https://github.com/OlivierLD/raspberry-coffee/tree/master/NMEA-mux-WebUI/small-server-extended
-   ------------------
    RST Button: top right
    HOME Button: the big one with M5 written on it
 
@@ -162,6 +163,7 @@ void setup() {
     if (nbTry >= 1000) {
       nbTry = 0;
     }
+    flipColors();
   }
 
   M5.Lcd.printf("Connected to wifi.");
@@ -237,9 +239,16 @@ void loop() {
 }
 
 void flipColors() {
+//  if (foregroundColor == M5_WHITE) {
+//    foregroundColor = M5_BLACK;
+//    backgroundColor = M5_BLUE;
+//  } else {
+//    foregroundColor = M5_WHITE;
+//    backgroundColor = M5_BLACK;
+//  }
   if (foregroundColor == M5_WHITE) {
-    foregroundColor = M5_BLACK;
-    backgroundColor = M5_BLUE;
+    foregroundColor = M5_RED;
+    backgroundColor = M5_BLACK;
   } else {
     foregroundColor = M5_WHITE;
     backgroundColor = M5_BLACK;
