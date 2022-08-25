@@ -140,7 +140,7 @@ the pin number used in `Pin(16)` refers to the pin labeled `GP16` in the Raspber
 this is the pin #21.
 
 ## CircuitPython
-
+. . . TODO, flesh it out.
 
 ## C/C++
 Unlike with Python - that has a REPL (**R**ead **E**xecute **P**rint **L**oop), when you write a C program for the Pico, 

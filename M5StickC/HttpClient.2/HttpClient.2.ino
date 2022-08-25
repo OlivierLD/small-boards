@@ -3,18 +3,20 @@
 #include <M5StickC.h>
 
 /*
-   Just a basic HTTP GET test.
-   Make HTTP requests to wifitest.adafruit.com.
-
-   Do display the Serial Monitor when running this one.
-   ------------------
-   RST Button: top right
-
-   All displays are rotated with M5.Lcd.setRotation(ROT_180);
-   Change that if you're left-handed or right-handed...
-
-   M5.lcd apis: https://github.com/m5stack/m5-docs/blob/master/docs/en/api/lcd.md
-*/
+ * For M5StcikC
+ * 
+ * Just a basic HTTP GET test.
+ * Make HTTP requests to wifitest.adafruit.com.
+ *
+ * Do display the Serial Monitor when running this one.
+ * ------------------
+ * RST Button: top right
+ *
+ * All displays are rotated with M5.Lcd.setRotation(ROT_180);
+ * Change that if you're left-handed or right-handed...
+ *
+ * M5.lcd apis: https://github.com/m5stack/m5-docs/blob/master/docs/en/api/lcd.md
+ */
 
 // change values below to fit your settings
 const char* SSID        = "Sonic-00e0_EXT";         // your network SSID (name)

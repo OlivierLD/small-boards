@@ -1,5 +1,5 @@
 /*
- * This program blinks morse code on pin 13 of the Arduino (the built-in LED)
+ * This program blinks morse code on pin 13 of the Arduino (or the built-in LED)
  * Turn the VERBOSE define (below) on or off as you wish.
  * 
  * You can use the Serial Console to provide the Strings to translate.

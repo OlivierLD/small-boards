@@ -163,7 +163,7 @@ void setup() {
     if (nbTry >= 1000) {
       nbTry = 0;
     }
-    flipColors();
+    // flipColors();
   }
 
   M5.Lcd.printf("Connected to wifi.");

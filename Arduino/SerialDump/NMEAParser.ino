@@ -95,7 +95,7 @@ void parseRMC(String sentence, Rmc * rmc) {
     if (!dataArray[2].equals("A")) { // Active/Void
       rmc->active = false;
       // Serial.println("Not Active...");
-      return;
+      return; // TODO could contain Date & Time even is Void.
     }
     rmc->active = true;
     String lat = dataArray[3];
