@@ -13,7 +13,7 @@ We will also talk - as a reminder - about the way to upload and run sketches on 
 Examples of code are provided in the sub-directories of this project.
 
 ###### Universal Serial Bus (USB)
-_Universal_, but there are at least 3 versions: A, B, C..., and each one hs variants (normal, mini, micro,,,):
+_Universal_, but there are at least 3 versions: A, B, C..., and each one has several variants (normal, mini, micro,,,):
 
 ![USBs](./img/usbs.png)
 
