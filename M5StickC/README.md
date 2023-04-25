@@ -1,6 +1,8 @@
-## M5Stick-C
+## [M5Stick-C](https://shop.m5stack.com/products/stick-c)
+Powered by an [ESP32](https://en.wikipedia.org/wiki/ESP32).
+
 - Less than 15 USD (Feb 2021)
-- Programmable with the Arduino IDE
+- Programmable with the Arduino IDE (`*.ino` sketches), or MicroPython.
 - Comes with WiFi (and not only BlueTooth), can connect to the network of your choice (very cool)!
 - See <http://m5edu.com/Product/m5stick-c-micro-core/>
 - See <http://forum.m5stack.com/topic/41/lesson-1-1-lcd-graphics>

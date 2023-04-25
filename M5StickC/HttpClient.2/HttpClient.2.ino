@@ -8,7 +8,7 @@
  * Just a basic HTTP GET test.
  * Make HTTP requests to wifitest.adafruit.com.
  *
- * Do display the Serial Monitor when running this one.
+ * Do display the Serial Monitor console when running this one.
  * ------------------
  * RST Button: top right
  *

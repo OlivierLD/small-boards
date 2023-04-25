@@ -421,7 +421,7 @@ void getData() {
   String cache = makeRequest("GET", "/mux/cache?option=txt");
   flipColors();
   if (DEBUG) {
-    Serial.println("Request came back:");
+    Serial.println("Request's response came back:");
     Serial.println("-----------");
     Serial.println(cache);
     Serial.println("-----------");
@@ -466,9 +466,9 @@ String decToSex(double val, int type) {
     } else if (type == EW) {
       s += "W ";
     }
-  } else {
+  } else { // Val >= 0
     if (type == NONE) {
-      s += "- ";
+      s += "+ ";
     } else if (type == NS) {
       s += "N ";
     } else if (type == EW) {
