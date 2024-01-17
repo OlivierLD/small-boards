@@ -1,5 +1,5 @@
 /*
- * This program blinks morse code on pin 13 of the Arduino (the built-in LED)
+ * This program blinks morse code on pin 13 of the Arduino (or the built-in LED)
  * Turn the VERBOSE define (below) on or off as you wish.
  * 
  * You can use the Serial Console to provide the Strings to translate.
@@ -25,18 +25,19 @@ morseCode alphabet[36];
 
 /*
  * At the end of each line, this is a mnemotechnic method to learn the Morse code (the words are French words...).
+ * - Each word begins with the letter it stands for
  * - Each word has as many syllables as there are signs in the letter's code
  * - Each syllable wth an 'o' is a dash
  * - Other syllables are dots.
  * Example: V : Ve-ge-ta-tion
- * -> Four signs
+ * -> It's a V: it has four signs
  * -> Last one is a dash, others are dots
  * -> V = ..._
  */
 void initMorseAlphabet() {
   // Letters
   alphabet[0].letter = 'A';  alphabet[0].code = "._";    // Allo
-  alphabet[1].letter = 'B';  alphabet[1].code = "_...";  // Bombardement
+  alphabet[1].letter = 'B';  alphabet[1].code = "_...";  // Bombardement / (or Bonaparte)
   alphabet[2].letter = 'C';  alphabet[2].code = "_._.";  // Compte Goutte
   alphabet[3].letter = 'D';  alphabet[3].code = "_..";   // Domaine
   alphabet[4].letter = 'E';  alphabet[4].code = ".";     // Eh!

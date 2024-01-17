@@ -1,13 +1,18 @@
 from machine import Pin, Timer
 import sys
 
+"""
+Basic stuff.
+Blink a LED
+"""
+
 print("Python version {}".format(sys.version))
 
 led = Pin(25, Pin.OUT)
 timer = Timer()
 
 
-def tick(timer):
+def tick(timer: Timer) -> None:
     global led
     led.toggle()
     print('Toggle LED')

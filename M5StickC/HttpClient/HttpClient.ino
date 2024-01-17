@@ -4,30 +4,52 @@
 
 #include "Colors.h"
 
+const boolean DEBUG = true;  // Display messages in the Serial Monitor (@9600) if set to true.
+
 /*
    Make REST requests - It's a client for the NavServer
    ------------------
    NavServer, see https://github.com/OlivierLD/raspberry-coffee/tree/master/NMEA-mux-WebUI/small-server-extended
    ------------------
+
+   Adjust the network name (SSID), IP address, and port.
+
+   If DEBUG = true, Serial console at 9600 bps.
+
    RST Button: top right
    HOME Button: the big one with M5 written on it
 
-   Use the HOME button to scroll through screens.
+   Use the HOME (M5) button to scroll through screens.
+
+   >> Depending on the server config, you could modify the "const int SCREENS[]" array.
 
    Inspired by https://m5stack.hackster.io/Ahork/m5stickc-for-pilot-hue-daf304
 
-   Some doc for M5.lcd at http://forum.m5stack.com/topic/41/lesson-1-1-lcd-graphics
+   Some doc for M5.lcd at http://forum.m5stack.com/topic/41/lesson-1-1-lcd-graphics and
+   https://github.com/m5stack/m5-docs/blob/master/docs/en/api/lcd.md
+
+   Background blinks when data are received.
 */
 
+const int ROT_0   = 0; // Default
+const int ROT_90  = 1;
+const int ROT_180 = 2;
+const int ROT_270 = 3;
+// 4 to 7: reverse and rotate.
+
+const int PREFERRED_ROT = ROT_270; // ROT_90 to turn it upside down.
+
 // change values below to fit your settings
+
 //const char* SSID = "Sonic-00e0_EXT";        // your network SSID (name)
-//const char* PASSWORD = "67369cxxx31";        // your network password
+//const char* PASSWORD = "67369cxxx31";       // your network password
 //const char* SERVER_NAME = "192.168.42.37";  // For REST requests, Nav Server
-const char* SSID = "RPi-Gateway";           // your network SSID (name)
+
+const char* SSID = "RPi-Gateway-SDR";       // your network SSID (name)
 const char* PASSWORD = "raspberrypi";       // your network password
 const char* SERVER_NAME = "192.168.50.10";  // For REST requests, Nav Server
 // IPAddress server(192, 168, 42, 13);
-const int SERVER_PORT = 5678;               // Server port
+const int SERVER_PORT = 8888;               // REST Server port
 
 const String LAT_PREFIX = "LAT=";
 const String LNG_PREFIX = "LNG=";
@@ -57,8 +79,6 @@ const int EW = 2;
 int backgroundColor = M5_BLACK; // TODO More colors
 int foregroundColor = M5_WHITE;
 
-const boolean DEBUG = true;  // Display messages in the Serial Monitoir if set to true.
-
 String lat = "";
 String lng = "";
 String bsp = "";
@@ -82,6 +102,7 @@ String hum = "";
 String baro = "";
 String temp = "";
 
+// Available displays
 const int POS_SCREEN = 0;
 const int BSP_SCREEN = 1;
 const int SOG_SCREEN = 2;
@@ -96,7 +117,8 @@ const String MONTH[] = {
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
-int screens[] = {
+// Actually used screens (comment unwanted ones)
+const int SCREENS[] = {
   POS_SCREEN,
   BSP_SCREEN,
   SOG_SCREEN,
@@ -106,7 +128,8 @@ int screens[] = {
   SOLAR_TIME_SCREEN,
   ATM_SCREEN
 };
-int currentScreen = POS_SCREEN;
+int currentScreenIndex = 0;                      // First screen
+int currentScreen = SCREENS[currentScreenIndex]; // POS_SCREEN; 
 
 int status = WL_IDLE_STATUS;
 
@@ -117,15 +140,34 @@ void setup() {
   Serial.begin(9600);
 
   status = WiFi.begin(SSID, PASSWORD);
+  M5.Lcd.setRotation(PREFERRED_ROT); 
+  int nbTry = 0;
   // Wait for connection
   while (WiFi.status() != WL_CONNECTED) {
+
+    if (nbTry % 200 == 0) {
+      M5.Lcd.fillScreen(backgroundColor);
+      M5.Lcd.setCursor(0, 10);
+      M5.Lcd.setTextColor(foregroundColor);
+    }
+    
+    if (nbTry % 100 == 0) {
+      String mess = "\nConnecting to " + String(SSID); //  + "\n";
+      M5.Lcd.print(mess);
+      Serial.print(mess);
+    }
     delay(500);
     M5.Lcd.printf(".");
     Serial.print(".");
+    nbTry += 1;
+    if (nbTry >= 1000) {
+      nbTry = 0;
+    }
+    // flipColors();
   }
 
-  M5.Lcd.printf("Connected to wifi");
-  Serial.println("\nConnected to wifi");
+  M5.Lcd.printf("Connected to wifi.");
+  Serial.println("\nConnected to wifi network " + String(SSID));
 
   pinMode(M5_BUTTON_HOME, INPUT);
   pinMode(M5_BUTTON_RST, INPUT); // for the example. Not used.
@@ -146,13 +188,15 @@ void loop() {
   if (digitalRead(M5_BUTTON_HOME) == LOW) {
     Serial.println(">>> Home button LOW");
     // Increment screen index
-    currentScreen += 1;
-    int screenArraySize = (sizeof(screens) / sizeof(int)); // Size of an Array...
-    if (currentScreen > (screenArraySize - 1)) {
-      currentScreen = 0;
+    currentScreenIndex += 1;
+    int screenArraySize = (sizeof(SCREENS) / sizeof(int)); // Size of an Array...
+    if (currentScreenIndex > (screenArraySize - 1)) {
+      currentScreenIndex = 0;
     }
+    currentScreen = SCREENS[currentScreenIndex];
     if (DEBUG) {
-      Serial.println(">>> Screen index is now " + String(currentScreen) + "/" + String(screenArraySize));
+      Serial.println(">>> Screen index is now " + String(currentScreenIndex) + "/" + String(screenArraySize));
+      Serial.println(">>>     Screen is #" + String(currentScreen));
     }
     delay(100);
   }
@@ -160,7 +204,7 @@ void loop() {
   // Reset Button: not used
   if (digitalRead(M5_BUTTON_RST) == LOW) {
     Serial.println(">>> RST button LOW");
-    Serial.println(">>> Do nothing");
+    Serial.println(">>> Doing nothing...");
   }
 
   switch (currentScreen) {
@@ -195,9 +239,16 @@ void loop() {
 }
 
 void flipColors() {
+//  if (foregroundColor == M5_WHITE) {
+//    foregroundColor = M5_BLACK;
+//    backgroundColor = M5_BLUE;
+//  } else {
+//    foregroundColor = M5_WHITE;
+//    backgroundColor = M5_BLACK;
+//  }
   if (foregroundColor == M5_WHITE) {
-    foregroundColor = M5_BLACK;
-    backgroundColor = M5_BLUE;
+    foregroundColor = M5_RED;
+    backgroundColor = M5_BLACK;
   } else {
     foregroundColor = M5_WHITE;
     backgroundColor = M5_BLACK;
@@ -205,7 +256,7 @@ void flipColors() {
 }
 
 void displayPos() {
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
@@ -214,7 +265,7 @@ void displayPos() {
 }
 
 void displayAtmData() {
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
@@ -223,7 +274,7 @@ void displayAtmData() {
 }
 
 void displayBsp() {
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
@@ -232,7 +283,7 @@ void displayBsp() {
 }
 
 void displaySog() {
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
@@ -241,7 +292,7 @@ void displaySog() {
 }
 
 void displayCog() {
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
@@ -270,7 +321,7 @@ void displayDate() {
     // Serial.print("3rd blank at "); Serial.println(thirdIndex);
     brokenDate.setCharAt(thirdIndex, '\n');
   }
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
@@ -279,7 +330,7 @@ void displayDate() {
 }
 
 void displayUTCDate() {
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
@@ -302,7 +353,7 @@ void displayUTCDate() {
 }
 
 void displaySolarTime() {
-  M5.Lcd.setRotation( 3 );
+  M5.Lcd.setRotation(PREFERRED_ROT);
   M5.Lcd.fillScreen(backgroundColor);
   M5.Lcd.setCursor(0, 10);
   M5.Lcd.setTextColor(foregroundColor);
@@ -336,12 +387,12 @@ String extractFromCache(String cache, String prefix) {
       Serial.println("\t" + prefix + data);
     }
   } else {
-    Serial.println("No " + prefix);
+    Serial.println("...No " + prefix + " found.");
   }
   return data;
 }
 /*
-   Data is like that:
+   Data comes back like that:
 
   BSP=0.00
   LAT=37.748850
@@ -364,15 +415,16 @@ String extractFromCache(String cache, String prefix) {
   HUM=50.2
 */
 void getData() {
-  Serial.println("\nMaking request...");
+  if (DEBUG) {
+    Serial.println("\nMaking request...");
+  }
   String cache = makeRequest("GET", "/mux/cache?option=txt");
-  Serial.println("Request came back:");
-  Serial.println("-----------");
-  Serial.println(cache);
-  Serial.println("-----------");
   flipColors();
   if (DEBUG) {
+    Serial.println("Request's response came back:");
+    Serial.println("-----------");
     Serial.println(cache);
+    Serial.println("-----------");
   }
 
   lat =  extractFromCache(cache, LAT_PREFIX);
@@ -414,9 +466,9 @@ String decToSex(double val, int type) {
     } else if (type == EW) {
       s += "W ";
     }
-  } else {
+  } else { // Val >= 0
     if (type == NONE) {
-      s += "- ";
+      s += "+ ";
     } else if (type == NS) {
       s += "N ";
     } else if (type == EW) {

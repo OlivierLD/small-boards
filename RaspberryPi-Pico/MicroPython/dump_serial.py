@@ -1,5 +1,5 @@
 #
-# Read a GPS
+# Read a GPS, spit it out.
 #
 # Connections/pinout
 # Red  : pin #39 (VSYS)
@@ -7,6 +7,10 @@
 # Green: pin #22 (GP17)
 # White: pin #21 (GP16)
 #
+"""
+Read a GPS - Connected as explained
+Dump output to terminal
+"""
 from machine import UART, Pin
 
 TX_PIN=16   # Pin(16) = GP16, pin #21. Green wire - Not required

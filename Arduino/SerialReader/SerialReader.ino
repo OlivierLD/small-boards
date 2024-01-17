@@ -23,24 +23,50 @@ void setup() {
   // gps.listen();
 
   Serial.begin(9600);
-  while (!Serial) {
-    ;
-  }
+  while (!Serial) ;
   Serial.println("Setup completed");
+  Serial.println("---------------");
 }
 
 String nmeaSentence = "";
 String END_OF_NMEA = "\r\n";
+String START_OF_NMEA = "$";
+
+int nbPoint = 0;
 
 void loop() {
   //  gps.listen();
   if (gps.available() > 0) {
     char ch = (char)gps.read();
+
+    //    if (ch == '$') { // It happens when the sentence was not finished with \r\n.
+    //      if (nmeaSentence.length() > 0) {
+    //        nmeaSentence.trim();
+    //        Serial.print(">> Early end: ");
+    //        Serial.println(nmeaSentence);
+    //        nmeaSentence = "";
+    //      }
+    //    }
+
     nmeaSentence.concat(ch);
 
     if (nmeaSentence.endsWith(END_OF_NMEA)) {
       nmeaSentence.trim();
-      Serial.println(nmeaSentence);
+      if (nmeaSentence.substring(3).startsWith("RMC")) {
+        //Serial.println("---------------------------------");
+        Serial.println();
+        Serial.println(nmeaSentence);
+        //Serial.println("---------------------------------");
+        nbPoint = 0;
+      } else {
+        //Serial.println(nmeaSentence);
+        Serial.print(".");
+        nbPoint++;
+        if (nbPoint > 80) {
+          Serial.println();
+          nbPoint = 0;
+        }
+      }
       nmeaSentence = "";
     }
     // Serial.println(ch);

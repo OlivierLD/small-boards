@@ -1,6 +1,6 @@
-# Adafruit Clue
+# Adafruit CLUE
 Points of Interest:
-- Programable with the Arduino IDE
+- Programable with the Arduino IDE and/or CircuitPython (MicroPython)
 - Color screen, push-buttons, many sensors
   - `BME280` - humidity, temperature
   - `LIS3MDL` - triple axis magnetometer
@@ -14,7 +14,10 @@ Points of Interest:
 - [Get started](https://learn.adafruit.com/adafruit-clue?view=all)
 
 ## To get started
-- Install libraries `Adafruit nRF52 by Adafruit`, `Adafruit Arcada`
-- Board: `Adafruit nRF52 Boards` > `Adafruit CLUE`
+- Arduino IDE
+  - Install libraries `Adafruit nRF52 by Adafruit`, `Adafruit Arcada`
+  - Board: `Adafruit nRF52 Boards` > `Adafruit CLUE`
+- CircuitPython
+  - <https://learn.adafruit.com/adafruit-clue/circuitpython>
 
 ---
