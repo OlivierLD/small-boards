@@ -1,0 +1,3 @@
+# Dedicated to Python on the Raspberry Pi
+Other possibilities are treated on other repos (TODO the list)...
+
