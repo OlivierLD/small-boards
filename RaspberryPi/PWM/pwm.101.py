@@ -2,7 +2,9 @@
 Control the Brightness of LED using PWM on Raspberry Pi
 Resistor 220 or 230 Ohms on the wiring schema
 requires a 
-python3 -m pip gpiozero.
+$ python3 -m pip gpiozero
+or 
+$ pip3 install gpiozero
 '''
 
 # Complete Project Details: https://RandomNerdTutorials.com/raspberry-pi-pwm-python/
@@ -13,12 +15,17 @@ from time import sleep
 # led = PWMLED(14)  # GPIO14, pin #8
 led = PWMLED(18)  # GPIO18, pin #12
 
+print("First test")
+print("LED fully on")
 led.value = 1   # LED fully on
 sleep(1)
+print("LED half on")
 led.value = 0.5  # LED half-brightness
 sleep(1)
+print("LED fully off")
 led.value = 0    # LED fully off
 sleep(1)
+print("End of first test")
 
 try:
   # fade in and out forever
