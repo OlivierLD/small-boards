@@ -32,16 +32,18 @@ try:
   while True:
     # fade in (0 -> 1)
     for duty_cycle in range(0, 100, 1):
+      print(f"Setting value to {duty_cycle/100.0}")
       led.value = duty_cycle/100.0
       sleep(0.05)
 
     # fade out (1 -> 0)
     for duty_cycle in range(100, 0, -1):
+      print(f"Setting value to {duty_cycle/100.0}")
       led.value = duty_cycle/100.0
       sleep(0.05)
       
 except KeyboardInterrupt:
-  print("Stop the program and turning off the LED")
+  print("Stop the program and turning the LED off")
   led.value = 0
   pass
 
