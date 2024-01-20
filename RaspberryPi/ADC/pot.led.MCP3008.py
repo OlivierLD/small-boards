@@ -1,5 +1,6 @@
 # Complete Project Details: https://RandomNerdTutorials.com/raspberry-pi-analog-inputs-python-mcp3008/
 
+import gpiozero
 from gpiozero import PWMLED, MCP3008
 from time import sleep
 
@@ -15,7 +16,7 @@ print(f"LED is a {type(led)}")
 
 try:
     while True:
-        if(pot.value < 0.001):
+        if (pot.value < 0.001):
             led.value = 0
         else:
             led.value = pot.value
