@@ -6,13 +6,15 @@ from time import sleep
 
 
 MCP3008_CHANNEL: int = 0
-LED_PIN: int = 14
+LED_PIN: int = 18   # 14
 # create an object called pot that refers to MCP3008 channel 0
 pot: gpiozero.spi_devices.MCP3008 = MCP3008(MCP3008_CHANNEL)
 
 # create a PWMLED object called led that refers to GPIO 14
 led: gpiozero.output_devices.PWMLED = PWMLED(LED_PIN)
 # print(f"LED is a {type(led)}")
+
+print(f"For the led, using pin {LED_PIN}, reading MCP3008 channel #{MCP3008_CHANNEL}")
 
 print("-- First test --")
 print("LED fully on")
@@ -28,7 +30,7 @@ print("-- End of first test --")
 
 prev_value: float = -10
 
-print("Entering POT loop")
+print("Entering POT loop. Ctrl-C to exit.")
 try:
     while True:
         if (pot.value < 0.001):
