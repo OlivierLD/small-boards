@@ -13,9 +13,11 @@ import gpiozero
 from gpiozero import PWMLED
 from time import sleep
 
-led: gpiozero.output_devices.PWMLED = PWMLED(14)  # GPIO14, pin #8
-# led: gpiozero.output_devices.PWMLED = PWMLED(18)  # GPIO18, pin #12
+# LED_PIN: int = 14    # GPIO14, pin #8
+LED_PIN: int = 18    # GPIO18, pin #12
+led: gpiozero.output_devices.PWMLED = PWMLED(LED_PIN) 
 
+print(f"For the LED, using pin {LED_PIN}")
 print("-- First test --")
 print("LED fully on")
 led.value = 1   # LED fully on
