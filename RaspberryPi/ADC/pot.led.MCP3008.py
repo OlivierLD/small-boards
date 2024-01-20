@@ -13,8 +13,22 @@ pot: gpiozero.spi_devices.MCP3008 = MCP3008(MCP3008_CHANNEL)
 # create a PWMLED object called led that refers to GPIO 14
 led: gpiozero.output_devices.PWMLED = PWMLED(LED_PIN)
 # print(f"LED is a {type(led)}")
-prev_value: float = 0
 
+print("-- First test --")
+print("LED fully on")
+led.value = 1   # LED fully on
+sleep(5)
+print("LED half on")
+led.value = 0.5  # LED half-brightness
+sleep(5)
+print("LED fully off")
+led.value = 0    # LED fully off
+sleep(5)
+print("-- End of first test --")
+
+prev_value: float = -10
+
+print("Entering POT loop")
 try:
     while True:
         if (pot.value < 0.001):
