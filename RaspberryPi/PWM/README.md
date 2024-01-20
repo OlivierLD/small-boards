@@ -10,8 +10,15 @@
 
 To see the led glow up and down, run:
 ```
-$ python3 pwm.101.py
+$ python3 pwm.01.py
 ```
 `Ctrl-C` will stop the program.
+
+Also try (works the same, with other Python modules)
+```
+$ python3 pwm.02.py
+```
+
+**_Warning_**: all the leds are not the same... I've had wierd blinkings with some (with the exact same setting).
 
 ---
