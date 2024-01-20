@@ -9,11 +9,12 @@ $ pip3 install gpiozero
 
 # Complete Project Details: https://RandomNerdTutorials.com/raspberry-pi-pwm-python/
 
+import gpiozero
 from gpiozero import PWMLED
 from time import sleep
 
 # led = PWMLED(14)  # GPIO14, pin #8
-led = PWMLED(18)  # GPIO18, pin #12
+led: gpiozero.output_devices.PWMLED = PWMLED(18)  # GPIO18, pin #12
 
 print("-- First test --")
 print("LED fully on")

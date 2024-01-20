@@ -10,7 +10,7 @@ Resistor 220 or 230 Ohms on the wiring schema
 import RPi.GPIO as GPIO
 from time import sleep
 
-ledpin = 12				               # PWM pin connected to LED
+ledpin: int = 12				       # PWM pin connected to LED
 GPIO.setwarnings(False)			       # disable warnings
 GPIO.setmode(GPIO.BOARD)		       # set pin numbering system
 GPIO.setup(ledpin, GPIO.OUT)
