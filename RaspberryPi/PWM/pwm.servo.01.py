@@ -32,7 +32,6 @@ while count < numLoops:
     setAngle(0)
     sleep(1)
 
-        
     print("set to 90-deg")
     setAngle(90)
     sleep(1)
@@ -42,6 +41,9 @@ while count < numLoops:
     sleep(1)
     
     count += 1
+
+print("Parking to 90-deg")
+setAngle(90)
 
 pwm.stop()
 GPIO.cleanup()
