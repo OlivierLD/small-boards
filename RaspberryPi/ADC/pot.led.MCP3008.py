@@ -30,6 +30,7 @@ print("-- End of first test --")
 
 prev_value: float = -10
 
+# pot.value goes from 0 to 1, and NOT from 0 to 1024 !!
 print("Entering POT loop. Ctrl-C to exit.")
 try:
     while True:
