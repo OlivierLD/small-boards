@@ -14,6 +14,7 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(SERVO_PIN, GPIO.OUT)
 
 pwm = GPIO.PWM(SERVO_PIN, 50)
+print(f"pwm is a {type(pwm)}")
 pwm.start(0)
 
 def setAngle(angle):
