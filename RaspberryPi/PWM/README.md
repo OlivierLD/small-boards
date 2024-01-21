@@ -25,6 +25,12 @@ $ python3 pwm.02.py
 ## Servos and PWM
 See this <https://www.learnrobotics.org/blog/raspberry-pi-servo-motor/>  
 
+Wiring:
+![With servo](./RPi.servo.PWM_bb.png)
 
+The run 
+```
+$ python3 pwm.servo.01.py
+```
 
 ---

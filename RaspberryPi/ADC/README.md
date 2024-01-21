@@ -5,7 +5,7 @@ First, make sure SPI is enabled (you can also use `raspi-config`)
 $ sudo raspi-config nonint do_spi 0
 ```
 
-## MCP3008 - 8 channel ADC
+## MCP3008 - SPI 8 channel ADC
 Good doc at <https://randomnerdtutorials.com/raspberry-pi-analog-inputs-python-mcp3008/>
 
 > Something to notice:  
@@ -31,5 +31,8 @@ $ python3 pot.led.MCP3008.py
 ```
 The led will glow, according to the value of the potentiometer.
 
-## MPC3002 - 2 channel ADC
+## MPC3002 - SPI 2 channel ADC
 See this: <https://learn.sparkfun.com/tutorials/python-programming-tutorial-getting-started-with-the-raspberry-pi/experiment-3-spi-and-analog-input>
+
+- MCP3002 Datasheet [here](https://www.farnell.com/datasheets/1599363.pdf), and [here](https://ww1.microchip.com/downloads/en/DeviceDoc/21294E.pdf)
+
