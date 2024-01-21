@@ -25,12 +25,24 @@ $ python3 pwm.02.py
 ## Servos and PWM
 See this <https://www.learnrobotics.org/blog/raspberry-pi-servo-motor/>  
 
-Wiring:
+### A simple test, one servo
+We will be using phisical pin #11, aka `GPIO17`. See in the code.  
+This will take 3 diffreent positions (0&deg;, 90&deg;, and 135&deg;), twice, and the park the servo at 90&deg;.
+
+Wiring:  
 ![With servo](./RPi.servo.PWM_bb.png)
 
-The run 
+Then run 
 ```
 $ python3 pwm.servo.01.py
+set to 0-deg
+set to 90-deg
+set to 135-deg
+set to 0-deg
+set to 90-deg
+set to 135-deg
+Parking to 90-deg
+$ 
 ```
 
 ---
