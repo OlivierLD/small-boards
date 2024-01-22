@@ -1,5 +1,5 @@
 # Example Servo Code
-# Control the angle of a Servo Motor with Raspberry Pi
+# Control the angle of a STANDARD Servo Motor
 #
 # Intercative UI
 #
@@ -31,18 +31,18 @@ keep_working: bool =  True
 user_input: str = ""
 
 while keep_working:
-    user_input = input("Servo Angle [0..359] (Q to exit): ")
+    user_input = input("Servo Angle [0..180] (Q to exit): ")
     if user_input.upper() == 'Q':
         print("Exiting at user's request")
         keep_working = False
     else:
         try:
             angle: float = float(user_input.strip())
-            if angle < 0 or angle > 359:
-                print(f"Value between 0 and 359, please. Not {angle}.")
+            if angle < 0 or angle > 180:
+                print(f"Value between 0 and 180, please. Not {angle}.")
             else:
                 print(f"setting servo to {angle}")
-                # TODO: a smooth move ?
+                # TODO: a smooth move, step by step ?
                 setAngle(angle)            
         except Exception as ex:
             print(f"Error converting {user_input} to a decimal number: {ex}")
