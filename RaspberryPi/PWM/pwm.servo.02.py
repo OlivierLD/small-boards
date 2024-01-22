@@ -8,7 +8,7 @@ from time import sleep
 
 
 SERVO_PIN: int = 11   # aka GPIO_17, physical #11
-SMOOTH_MOVE: bool = False
+SMOOTH_MOVE: bool = True
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(SERVO_PIN, GPIO.OUT)
@@ -41,7 +41,7 @@ while keep_working:
         keep_working = False
     else:
         try:
-            angle: float = float(user_input.strip())
+            angle: int = int(user_input.strip())  # Yes, an int. No decimal.
             if angle < 0 or angle > 180:
                 print(f"Value between 0 and 180, please. Not {angle}.")
             else:
