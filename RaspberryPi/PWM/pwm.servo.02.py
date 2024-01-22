@@ -6,10 +6,10 @@
 import RPi.GPIO as GPIO
 from time import sleep
 
-ONE_GLOBAL: int = 1
+ONE_GLOBAL: int      = 1
 RESET_EACH_TIME: int = 2
 
-PWM_OPTION: int = ONE_GLOBAL
+PWM_OPTION: int = RESET_EACH_TIME
 
 SERVO_PIN: int = 11   # aka GPIO_17, physical #11
 
