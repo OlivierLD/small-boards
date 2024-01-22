@@ -8,7 +8,7 @@ from time import sleep
 
 
 SERVO_PIN: int = 11   # aka GPIO_17, physical #11
-SMOOTH_MOVE: bool = True
+SMOOTH_MOVE: bool = False  # True is not a good idea. Try to see why...
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(SERVO_PIN, GPIO.OUT)
