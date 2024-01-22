@@ -24,6 +24,8 @@ def setAngle(angle: float) -> None:
     GPIO.output(SERVO_PIN, False)
     pwm.ChangeDutyCycle(duty)
 
+print("Initializing servo at 90-deg")
+setAngle(90)
 
 keep_working: bool =  True
 user_input: str = ""
@@ -41,15 +43,13 @@ while keep_working:
             else:
                 print(f"setting servo to {angle}")
                 # TODO: a smooth move ?
-                setAngle(angle)
-            
+                setAngle(angle)            
         except Exception as ex:
             print(f"Error converting {user_input} to a decimal number: {ex}")
             pass
 
-    print("Exiting the loop")
-
-print("Parking to 90-deg")
+print("Exiting the loop")
+print("Parking at 90-deg")
 setAngle(90)
 
 pwm.stop()
