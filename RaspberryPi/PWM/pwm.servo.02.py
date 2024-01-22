@@ -35,7 +35,7 @@ while keep_working:
         keep_working = False
     else:
         try:
-            angle: float = float(user_input.trim())
+            angle: float = float(user_input.strip())
             if angle < 0 or angle > 359:
                 print(f"Value between 0 and 359, please. Not {angle}.")
             else:
