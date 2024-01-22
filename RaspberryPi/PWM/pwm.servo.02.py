@@ -6,10 +6,6 @@
 import RPi.GPIO as GPIO
 from time import sleep
 
-ONE_GLOBAL: int      = 1
-RESET_EACH_TIME: int = 2
-
-PWM_OPTION: int = RESET_EACH_TIME
 
 SERVO_PIN: int = 11   # aka GPIO_17, physical #11
 
@@ -18,21 +14,16 @@ GPIO.setup(SERVO_PIN, GPIO.OUT)
 
 pwm: GPIO.PWM = GPIO.PWM(SERVO_PIN, 50)
 # print(f"pwm is a {type(pwm)}")
-if PWM_OPTION == ONE_GLOBAL:
-    pwm.start(0)
+pwm.start(0)
 
 
 def setAngle(angle: float) -> None:
-    if PWM_OPTION == RESET_EACH_TIME:
-        pwm.start(0)
     duty: float = (angle / 18) + 2
     GPIO.output(SERVO_PIN, True)
     pwm.ChangeDutyCycle(duty)
     sleep(0.5)  # ??
     GPIO.output(SERVO_PIN, False)
     pwm.ChangeDutyCycle(duty)
-    if PWM_OPTION == RESET_EACH_TIME:
-        pwm.stop()
 
 print("Initializing servo at 90-deg")
 setAngle(90)
@@ -63,7 +54,6 @@ print("Exiting the loop")
 print("Parking at 90-deg")
 setAngle(90)
 
-if PWM_OPTION == ONE_GLOBAL:
-    pwm.stop()
+pwm.stop()
 GPIO.cleanup()
 print("Bye!")
