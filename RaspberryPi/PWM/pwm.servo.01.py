@@ -1,10 +1,9 @@
 # Example Servo Code
-# Control the angle of a 
-# Servo Motor with Raspberry Pi
-
+# Control the angle of a Servo Motor with Raspberry Pi
+#
 # free for use without warranty
 # www.learnrobotics.org
-
+#
 import RPi.GPIO as GPIO
 from time import sleep
 
@@ -18,8 +17,8 @@ pwm: GPIO.PWM = GPIO.PWM(SERVO_PIN, 50)
 pwm.start(0)
 
 
-def setAngle(angle):
-    duty = angle / 18 + 2
+def setAngle(angle: float) -> None:
+    duty: float = (angle / 18) + 2
     GPIO.output(SERVO_PIN, True)
     pwm.ChangeDutyCycle(duty)
     sleep(1)

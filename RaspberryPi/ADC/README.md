@@ -13,8 +13,44 @@ Good doc at <https://randomnerdtutorials.com/raspberry-pi-analog-inputs-python-m
 > Here - in the Python code - the values are in `[0..1]`.  
 > Something not to forget.
 
+### MCP3008 pin numbering
+![MCP3008](./MCP3008-pin-numbering.png)
+
+| Pin | Symbol | Description |
+|:---:|:------:|:------------|
+| 1 | CH0 | Analog input (channel 0) |
+| 2 | CH1 | Analog input (channel 1) | 
+| 3 | CH2 | Analog input (channel 2) | 
+| 4 | CH3 | Analog input (channel 3) | 
+| 5 | CH4 | Analog input (channel 4) | 
+| 6 | CH5 | Analog input (channel 5) | 
+| 7 | CH6 | Analog input (channel 6) | 
+| 8 | CH7 | Analog input (channel 7) | 
+| 9 | DGND | Digital ground | 
+| 10 | CS/SHDN | Chip select/shutdown pin | 
+| 11 | Din | Serial data in | 
+| 12 | Dout | Serial data out | 
+| 13 | CLK | Serial clock | 
+| 14 | AGND | Analog ground | 
+| 15 | VRef | Reference voltage input | 
+| 16 | VDD | +2.7V to 5.5V power supply |
+
 ### With a potentiometer only
 ![Pot Only](./pot.mcp3008_bb.only.png)
+
+#### Wiring Raspberry Pi - MCP3008
+| MCP3008 | Raspberry Pi |
+|:-------:|:------------:|
+|  #16    | #1 - 3.3V    |
+|  #15    | #1 - 3.3V    |
+|  #14    | #6 - GND     |
+|  #13    | #23 - SCLK   |
+|  #12    | #21 - MISO   |
+|  #11    | #19 - MOSI   |
+|  #10    | #24 - CE0    |
+|  #9     | #6 - GND     |
+
+Using MCP3008 Channel 0 (pin #1)
 
 Then run 
 ```
