@@ -1,4 +1,4 @@
-# Just read the pto value, thnrough the MCP3008
+# Just read the pot value, through the MCP3008
 
 import gpiozero 
 from gpiozero import MCP3008
@@ -14,10 +14,10 @@ prev_value: float = -10
 # Notice: pot.value goes from 0 to 1, and NOT from 0 to 1024 !!
 try:
     while True:
-        if (abs(prev_value - pot.value) > 0.001):
+        if (abs(prev_value - pot.value) > 0.001):  # value has changed
             print(f"Pot. value: {pot.value}")
         prev_value = pot.value
-        # print(f"Pot. value: {pot.value}")  # [0..1024]
+        # print(f"Pot. value: {pot.value}")  # [0..1]
         sleep(0.1)
 except KeyboardInterrupt:
     print("\nBye now!")
