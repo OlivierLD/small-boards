@@ -1,4 +1,5 @@
 # Read pot values from a joystick, through the MCP3008
+# Neutral pos is U/D: 0.5, L/R: 0.5
 
 import gpiozero 
 from gpiozero import MCP3008
@@ -22,7 +23,7 @@ try:
         if (abs(prev_value_left_right - pot_left_right.value) > 0.001):  # value has changed
             print(f"Left-Right value: {pot_left_right.value}")
 
-        prev_value_up_down = pot_up_down.value
+        prev_value_up_down    = pot_up_down.value
         prev_value_left_right = pot_left_right.value
         # print(f"Pot. value: {pot.value}")  # [0..1]
         sleep(0.1)
@@ -30,4 +31,4 @@ except KeyboardInterrupt:
     print("\nBye now!")
     pass
 
-print("Done with MCP3008")
+print("Done with MCP3008 and joystick")
