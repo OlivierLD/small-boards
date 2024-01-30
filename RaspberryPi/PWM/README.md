@@ -1,6 +1,7 @@
 # Pulse Width Modulation (aka PWM)
+For leds, servos...
 
-- See [this](https://passe-coque.com/admin/sql/index.html).
+- See [this](https://randomnerdtutorials.com/raspberry-pi-pwm-python/).
 
 ![Schema](./RasPi.led.png)
 
@@ -27,10 +28,16 @@ See this <https://www.learnrobotics.org/blog/raspberry-pi-servo-motor/>
 
 ### A simple test, one servo
 We will be using phisical pin #11, aka `GPIO17`. See in the code.  
-This will take 3 diffreent positions (0&deg;, 90&deg;, and 135&deg;), twice, and the park the servo at 90&deg;.
+This will take 3 different positions (0&deg;, 90&deg;, and 135&deg;), twice, and the park the servo at 90&deg;.
 
 Wiring:  
 ![With servo](./RPi.servo.PWM_bb.png)
+
+| Servo | Raspberry Pi |
+|:-----:|:------------:|
+| Red   | 5V - #2 or #4|
+| Brown | GND - #9     |
+| Yellow| GPIO17 - #11 |
 
 Basic test: run 
 ```
