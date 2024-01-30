@@ -26,6 +26,7 @@ pwm_left_right: GPIO.PWM = GPIO.PWM(SERVO_LEFT_RIGHT_PIN, 50)
 pwm_up_down.start(0)
 pwm_left_right.start(0)
 
+print("Servos are initialized")
 
 def setAngleUpDown(angle: float) -> None:
     duty: float = (angle / 18) + 2
@@ -45,7 +46,7 @@ def setAngleLeftRight(angle: float) -> None:
 
 # [0..1] to [0..180]
 def adcValueToAngle(value: float) -> int:
-    return int(value * 180)
+    return round(value * 180)
 
 print("Initializing servos at 90-deg")
 servo_current_ud_pos: int = 90
