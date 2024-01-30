@@ -7,15 +7,15 @@
 # Neutral position for both servos: 90 deg, value 0.5
 #
 
-import RPi.GPIO as GPIO
-
 import gpiozero 
 from gpiozero import MCP3008
 from time import sleep
+import RPi.GPIO as GPIO
 
-GPIO.setmode(GPIO.BOARD)
-SERVO_UP_DOWN_PIN: int    = 11   # aka GPIO_17, physical #11
-SERVO_LEFT_RIGHT_PIN: int = 12   # aka GPIO_18, physical #12
+#  GPIO.setmode(GPIO.BOARD) # Not compatible with MCP3008 ?
+GPIO.setmode(GPIO.BCM)
+SERVO_UP_DOWN_PIN: int    = 17   # aka GPIO_17, physical #11
+SERVO_LEFT_RIGHT_PIN: int = 18   # aka GPIO_18, physical #12
 
 GPIO.setup(SERVO_UP_DOWN_PIN, GPIO.OUT)
 GPIO.setup(SERVO_LEFT_RIGHT_PIN, GPIO.OUT)
