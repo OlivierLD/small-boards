@@ -1,9 +1,30 @@
-/**
- * NMEA Parser.
- * Implemented Strings:
- * - RMC
- */
-#include "NMEAParser.h"
+/*
+   NMEA Sentence generation. WiP.
+
+	MTW Water Temperature
+	Structure is
+
+	$xxMTW,+18.0,C*hh
+	       |     |
+	       |     Celsius
+	       Temperature
+
+*/
+// #include "NMEAParser.h"
+
+#define VERBOSE false
+#define SENTENCE_MAX_LEN 512
+
+#define DETECT_SENTENCE_START 1
+#define DETECT_SENTENCE_END   2
+
+#define DETECTION_OPTION DETECT_SENTENCE_START
+
+char sentence[SENTENCE_MAX_LEN];
+int sentenceIdx = 0;
+
+String EOS = "\r\n";
+String receivedSentence = "";
 
 int calculateCheckSum(String sentence) {
   int cs = 0;
@@ -50,112 +71,47 @@ boolean isValid(String sentence) {
   return valid;
 }
 
-int countSep(String str, char separator) {
-  int nbSep = 0;
-  for (int i = 0; i < str.length(); i++) {
-    if (str.charAt(i) == separator) {
-      nbSep += 1;
-    }
-  }
-  return nbSep;
+void setup() {
+    Serial.begin(9600);
+    while (!Serial) ;
+    Serial.print("Setup completed !\n");
+    Serial.print("Enter temperature (Serial input).\n");
 }
 
-void split(String original, char separator, String array[]) {
-  String tempString;
-  int currentSepIndex = -1;
-  int currentArrayIndex = 0;
-  while (true) {
-    int nextIndex = original.indexOf(String(separator), currentSepIndex + 1);
-    if (nextIndex != -1) {
-      String oneElem = original.substring(currentSepIndex + 1, nextIndex);
-      array[currentArrayIndex] = oneElem;
-      currentArrayIndex++;
-      currentSepIndex = nextIndex;
-    } else {
-      String oneElem = original.substring(currentSepIndex + 1);
-//      Serial.print("Last part ("); Serial.print(currentArrayIndex); Serial.print(") "); Serial.println(oneElem);
-      array[currentArrayIndex] = oneElem;
-      break;
-    }
-  }
-}
+void loop() {
 
-void parseRMC(String sentence, Rmc * rmc) {
-  sentence.trim();
-  if (isValid(sentence)) {
-    String toParse = sentence.substring(1, sentence.indexOf("*"));
-    int nbSep = countSep(toParse, ',');
-//    Serial.print("Found "); Serial.print(nbSep); Serial.println(" ','");
-    String dataArray[nbSep + 1];
-    split(toParse, ',', dataArray);
-//    for (int i = 0; i < nbSep + 1; i++) {
-//      Serial.print(i); Serial.print(" -> ["); Serial.print(dataArray[i]); Serial.println("]");
-//    }
-    //
-    if (!dataArray[2].equals("A")) { // Active/Void
-      rmc->active = false;
-      // Serial.println("Not Active...");
-      return; // TODO could contain Date & Time even is Void.
-    }
-    rmc->active = true;
-    String lat = dataArray[3];
-    String latSign = dataArray[4];
-    if (lat.length() > 0) {
-      int deg = lat.substring(0, 2).toInt();
-      double min = lat.substring(2).toDouble();
-      min /= 60.0;
-//      Serial.print("From:["); Serial.print(lat); Serial.print("] ");
-//      Serial.print("Deg:"); Serial.print(deg); Serial.print(" Min:"); Serial.print(min); Serial.println();
-      rmc->latitude = (deg + min) * (latSign.equals("S") ? -1 : 1);
-    }
 
-    String lng = dataArray[5];
-    String lngSign = dataArray[6];
-    if (lng.length() > 0) {
-      int deg = lng.substring(0, 3).toInt();
-      double min = lng.substring(3).toDouble();
-      min /= 60.0;
-//      Serial.print("From:["); Serial.print(lng); Serial.print("] ");
-//      Serial.print("Deg:"); Serial.print(deg); Serial.print(" Min:"); Serial.print(min); Serial.println();
-      rmc->longitude = (deg + min) * (lngSign.equals("W") ? -1 : 1);
+    int data = -1;
+    while (Serial.available() > 0) { // Checks whether data is coming from the serial port
+        data = Serial.read(); // Reads the data from the serial port (can be a bluetooth port)
+        receivedSentence.concat((char)data);
     }
-
-    String utcTime = dataArray[1]; // Time.
-    String utcDate = dataArray[9]; // Date.
-    if (utcTime.length() >= 6) {
-      rmc->utc.hours = utcTime.substring(0, 2).toInt();
-      rmc->utc.minutes = utcTime.substring(2, 4).toInt();
-      rmc->utc.seconds = utcTime.substring(4).toFloat();
-    }
-    if (utcDate.length() == 6) {
-      rmc->utc.day = utcDate.substring(0, 2).toInt();
-      rmc->utc.month = utcDate.substring(2, 4).toInt();
-      rmc->utc.year = utcDate.substring(4).toInt();
-      if (rmc->utc.year > 50) {
-        rmc->utc.year += 1900;
-      } else {
-        rmc->utc.year += 2000;
+    // Received a String
+    if (receivedSentence.length() > 0) {
+      if (receivedSentence.endsWith(EOS)) {
+          receivedSentence = receivedSentence.substring(0, receivedSentence.length() - EOS.length());
       }
-    }
+      receivedSentence.toUpperCase();
+      // TODO Manage it
+      Serial.print("Received: " + receivedSentence + "\n");
+   	  // Serial.print("\n");
+      float temp = receivedSentence.toFloat();
+      Serial.print("Temperature is ");
+      Serial.print(temp, 2);
+      Serial.print(char(176));
+      Serial.print("C");
+      Serial.println("");
+      Serial.println(temp, 6);
 
-    String sog = dataArray[7];
-    String cog = dataArray[8];
-    if (sog.length() > 0) {
-      rmc->sog = sog.toDouble();
-    }
-    if (cog.length() > 0) {
-      rmc->cog = cog.toDouble();
-    }
+      String deviceID = "AE"; // Astrolabe Expeditions
+      String nmeaSentence = "$" + deviceID + "MTW," + String(temp, 1) + ",C*";
+      int cs = calculateCheckSum(nmeaSentence);
+      nmeaSentence = nmeaSentence + toHex(cs);
+      // Expect $AEMTW,12.3,C*17
+      Serial.println("Generated NMEA Sentence: " + nmeaSentence);
 
-    if (dataArray[10].length() > 0 && dataArray[11].length() > 0) {
-      Serial.print("Decl: ["); Serial.print(dataArray[10]);Serial.print("], [");Serial.print(dataArray[11]);Serial.println("] ");
-      rmc->declination = dataArray[10].toDouble();
-      if (dataArray[11].equals("W")) {
-        rmc->declination *= -1;
-      }
     }
-  } else {
-    // Invalid String
-    Serial.println("Invalid Sentence");
-  }
+    receivedSentence = ""; // Reset
+    // delay ?
+	delay(1000);
 }

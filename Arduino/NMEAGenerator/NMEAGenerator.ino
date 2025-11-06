@@ -1,168 +1,167 @@
 /*
    NMEA Sentence generation. WiP.
+
+	MTW Water Temperature
+	Structure is
+
+	$xxMTW,+18.0,C*hh
+	       |     |
+	       |     Celsius
+	       Temperature
+
 */
-#include "NMEAParser.h"
-
-#define RX_PIN 0    // White
-#define TX_PIN 1    // Green - Not necessary if you do read only.
-
+// #include "NMEAParser.h"
 
 #define VERBOSE false
 #define SENTENCE_MAX_LEN 512
 
-#define DETECT_SENTENCE_START 1
-#define DETECT_SENTENCE_END   2
-
-#define DETECTION_OPTION DETECT_SENTENCE_START
-
 char sentence[SENTENCE_MAX_LEN];
-int sentenceIdx = 0;
 
-#define PARSER_TEST false
+String EOS = "\r\n";
+String receivedSentence = "";
+
+int calculateCheckSum(String sentence) {
+  int cs = 0;
+  String str2validate = sentence.substring(1, sentence.indexOf("*"));
+//  Serial.print("To Validate:"); Serial.println(str2validate);
+  int len = str2validate.length();
+  for (int i = 0; i < len; i++) {
+    char c = str2validate.charAt(i);
+    cs = cs ^ c;
+  }
+  return cs;
+}
+
+String toHex(int val) {
+  String hexVal = String(val, 16);
+  if (val < 16) {
+    hexVal = "0" + hexVal;
+  }
+  return hexVal;
+}
+
+boolean isValid(String sentence) {
+//  Serial.print("NMEA:"); Serial.println(sentence);
+  boolean valid = true;
+  sentence.trim();
+  if (sentence.startsWith("$")) {
+    if (sentence.indexOf("*") > -1) {
+      String inLineCheckSum = sentence.substring(sentence.indexOf("*") + 1);
+      int cs = calculateCheckSum(sentence);
+      String csHex = toHex(cs);
+      csHex.toUpperCase();
+//      Serial.print("Found:"); Serial.print(inLineCheckSum);
+//      Serial.print(" Calculated:"); Serial.print(csHex);
+//      Serial.println();
+      valid = csHex.equals(inLineCheckSum);
+    } else {
+      valid = false;
+    }
+  } else {
+    valid = false;
+  }
+  return valid;
+}
+
+String generateMWT(String deviceID, float temparature) {
+  String mwtSentence = "$" + deviceID + "MTW," + String(temparature, 1) + ",C*";
+  int cs = calculateCheckSum(mwtSentence);
+  mwtSentence = mwtSentence + toHex(cs);
+  return mwtSentence;
+}
+
+/*
+    XDR - Transducer Measurements
+      $--XDR,a,x.x,a,c--c,...    ...a,x.x,a,c--c*hh<CR><LF>
+             | |   | |    |        ||     |
+             | |   | |    |        |+-----+-- Transducer 'n'
+             | |   | |    +--------+- Data for variable # of transducers
+             | |   | +- Transducer #1 ID (like 0..n, or PTCH, ROLL, ...)
+             | |   +- Units of measure, Transducer #1
+             | +- Measurement data, Transducer #1
+             +- Transducer type, Transducer #1
+      Notes:
+      1) Sets of the four fields 'Type-Data-Units-ID' are allowed for an undefined number of transducers.
+      Up to 'n' transducers may be included within the limits of allowed sentence length, null fields are not
+      required except where portions of the 'Type-Data-Units-ID' combination are not available.
+      2) Allowed transducer types and their units of measure are:
+      Transducer           Type Field  Units Field              Comments
+      -------------------------------------------------------------------
+      temperature            C           C = degrees Celsius
+      angular displacement   A           D = degrees            "-" = anti-clockwise
+      linear displacement    D           M = meters             "-" = compression
+      frequency              F           H = Hertz
+      force                  N           N = Newton             "-" = compression
+      pressure               P           B = Bars, P = Pascal   "-" = vacuum
+      flow rate              R           l = liters/second
+      tachometer             T           R = RPM
+      humidity               H           P = Percent
+      volume                 V           M = cubic meters
+      generic                G           none (null)            x.x = variable data
+      current                I           A = Amperes
+      voltage                U           V = Volts
+      switch or valve        S           none (null)            1 = ON/ CLOSED, 0 = OFF/ OPEN
+      salinity               L           S = ppt                ppt = parts per thousand
+
+      Non-numeric transducer IDs seem to be used as needed, like PTCH, PITCH, ROLL, MAGX, MAGY, MAGZ, AIRT, ENGT, ...
+      I found no list of "official" transducer IDs.
+   */
+
+String generateXDR(String deviceID, float temperature, float salinity) {
+  String sensorName = "FIREBEETLE";
+  String xdrSentence = "";
+// We generate a sentence like $AEXDR,C,12.3,C,FIREBEETLE,L,23.45,S,FIREBEETLE*65
+  xdrSentence = "$" + deviceID + "XDR,C," + String(temperature, 1) +
+                  ",C," + sensorName +
+                  ",L," + String(salinity, 2) + ",S," + sensorName + "*";
+  int cs = calculateCheckSum(xdrSentence);
+  xdrSentence = xdrSentence + toHex(cs);
+  return xdrSentence;
+}
 
 void setup() {
-  Serial.begin(9600);
-  while (!Serial) ;
-
-  if (PARSER_TEST) {
-    // Parser tests
-    String rmc = "$IIRMC,022136,A,3730.092,N,12228.864,W,00.0,181,141113,15,E,A*1C";
-    //           "$IIRMC,144432.086,V,,,,,00.0,0.00,190214,,,N*5F";
-
-    boolean valid = isValid(rmc);
-    Serial.print("RMC is "); Serial.println(valid ? "valid" : "not valid");
-    if (valid) {
-      Rmc rmcStruct;
-      initRMC(&rmcStruct);
-      parseRMC(rmc, &rmcStruct);
-      dumpRMC(rmcStruct, rmc);
-    }
-  }
-  //  pinMode(RX_PIN, INPUT);
-  //  pinMode(TX_PIN, OUTPUT);
-
-  gps.begin(9600);
-  // gps.listen();
-
-  Serial.println("Setup completed");
-
-  initSentence();
+    Serial.begin(9600);
+    while (!Serial) ;
+    Serial.print("Setup completed !\n");
+    Serial.print("Enter temperature (Serial input).\n");
 }
-
-void initSentence() {
-  for (int i = 0; i < SENTENCE_MAX_LEN; i++) {
-    sentence[i] = 0;
-  }
-  sentenceIdx = 0;
-}
-
-void initRMC(Rmc * rmc) {
-  rmc->active = false;
-  rmc->latitude = 0;
-  rmc->longitude = 0;
-  rmc->sog = 0.0;
-  rmc->cog = 0.0;
-  rmc->declination = 0.0;
-  rmc->utc.day = 0;
-  rmc->utc.month = 0;
-  rmc->utc.year = 0;
-  rmc->utc.hours = 0;
-  rmc->utc.minutes = 0;
-  rmc->utc.seconds = 0;
-}
-
-const String MONTH[] {
-  "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-  "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
-};
-
-void dumpRMC(Rmc rmc, String nmea) {
-  if (rmc.active) {
-    Serial.print("\nRMC Sentence:");
-    Serial.println(nmea);
-    Serial.println("Position:");
-    Serial.print("\tLat:"); Serial.println(rmc.latitude);
-    Serial.print("\tLng:"); Serial.println(rmc.longitude);
-    Serial.println("Velocity:");
-    Serial.print("\tcog:"); Serial.println(rmc.cog);
-    Serial.print("\tsog:"); Serial.println(rmc.sog);
-    Serial.println("Time:");
-    Serial.print("\tUTC:"); Serial.print(rmc.utc.day < 10 ? "0" : ""); Serial.print(rmc.utc.day); Serial.print("-"); Serial.print(MONTH[rmc.utc.month -1]); Serial.print("-"); Serial.print(rmc.utc.year); Serial.print(" ");
-    Serial.print(rmc.utc.hours < 10 ? "0" : ""); Serial.print(rmc.utc.hours); Serial.print(":"); Serial.print(rmc.utc.minutes < 10 ? "0" : ""); Serial.print(rmc.utc.minutes); Serial.print(":"); Serial.print(rmc.utc.seconds < 10 ? "0" : ""); Serial.print(rmc.utc.seconds); Serial.println();
-    Serial.print("D:"); Serial.println(rmc.declination);
-  } else {
-    Serial.print("\nRMC Not Active: ");
-    Serial.println(nmea);
-  }
-}
-
-int nbPoint = 0;
 
 void loop() {
-  //  gps.listen();
-  if (gps.available() > 0) {
-    char ch = (char)gps.read();
-    if (VERBOSE) {
-      Serial.print(ch);
-      Serial.print(" Ox"); Serial.print(ch < 16 ? "0" : ""); Serial.println(ch, HEX);
+    int data = -1;
+    while (Serial.available() > 0) { // Checks whether data is coming from the serial port
+        data = Serial.read(); // Reads the data from the serial port (can be a bluetooth port)
+        receivedSentence.concat((char)data);
     }
-    if (DETECTION_OPTION == DETECT_SENTENCE_START) {
-      if (ch == '$') { // Start of a sentence
-        if (sentenceIdx > 0) { // There is already a sentence
-          String nmea = String(sentence);
-          nmea.trim();
-          if (nmea.length() > 7) {
-            String sentenceId = nmea.substring(3, 6);
-            if (VERBOSE) {
-              Serial.print(sentenceId); Serial.print(" -> "); Serial.println(nmea);
-            }
-            // Parse!
-            if (sentenceId.equals("RMC")) {
-              boolean valid = isValid(nmea);
-              if (VERBOSE) {
-                Serial.print("RMC is "); Serial.println(valid ? "valid" : "not valid");
-              }
-              if (valid) {
-                Rmc rmcStruct;
-                initRMC(&rmcStruct);
-                parseRMC(nmea, &rmcStruct);
-                dumpRMC(rmcStruct, nmea);
-                nbPoint = 0;
-              }
-            } else {
-              Serial.print(".");
-              nbPoint++;
-              if (nbPoint > 80) {
-                Serial.println();
-                nbPoint = 0;
-              }
-            }
-          }
-          initSentence();
-        }
+    // Received a String
+    if (receivedSentence.length() > 0) {
+      if (receivedSentence.endsWith(EOS)) {
+          receivedSentence = receivedSentence.substring(0, receivedSentence.length() - EOS.length());
       }
-    }
+      receivedSentence.toUpperCase();
+      // TODO Manage it
+      Serial.print("Received: " + receivedSentence + "\n");
+   	  // Serial.print("\n");
+      float temp = receivedSentence.toFloat();
 
-    sentence[sentenceIdx++] = ch;
+      if (false) {
+        Serial.print("Temperature is ");
+        Serial.print(temp, 2);
+        Serial.print(char(176));
+        Serial.print("C");
+        Serial.println("");
+        Serial.println(temp, 6);
+      }
+      String deviceID = "AE"; // Astrolabe Expeditions
+      String mwtSentence = generateMWT(deviceID, temp);
+      // With T=12.345, expect $AEMTW,12.3,C*17
+      Serial.println("Generated MWT Sentence: " + mwtSentence);
 
-    if (DETECTION_OPTION == DETECT_SENTENCE_END) {
-      //  if (sentenceIdx > 1 && sentence[sentenceIdx - 2] == 0x0D && sentence[sentenceIdx - 1] == 0x0A) { // End of Sentence
-      if (ch == 0x0A) { // End of Sentence
-        String nmea = String(sentence);
-        nmea.trim();
-        Serial.println(nmea);
-        initSentence();
-      }
+      String xdrSentence = generateXDR(deviceID, temp, 23.45); // Salinity hard-coded
+      // Expect $AEXDR,C,12.3,C,FIREBEETLE,L,23.45,S,FIREBEETLE*65
+      Serial.println("Generated XDR Sentence: " + xdrSentence);
+
     }
-  } else {
-    delay(1000);
-    if (VERBOSE) {
-      Serial.println("No GPS data");
-      if (gps.isListening()) {
-        Serial.println("\tGPS IS listening");
-      } else {
-        Serial.println("\tGPS is NOT listening");
-      }
-    }
-  }
+    receivedSentence = ""; // Reset
+    // delay ?
+	delay(1000);
 }
