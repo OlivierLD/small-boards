@@ -45,11 +45,11 @@ const int PREFERRED_ROT = ROT_270; // ROT_90 to turn it upside down.
 //const char* PASSWORD = "67369cxxx31";       // your network password
 //const char* SERVER_NAME = "192.168.42.37";  // For REST requests, Nav Server
 
-const char* SSID = "RPi-Gateway-SDR";       // your network SSID (name)
-const char* PASSWORD = "raspberrypi";       // your network password
+const char* SSID = "ZeroNetwork"; // "RPi-Gateway-SDR";       // your network SSID (name)
+const char* PASSWORD = "PassWord"; // "raspberrypi";       // your network password
 const char* SERVER_NAME = "192.168.50.10";  // For REST requests, Nav Server
 // IPAddress server(192, 168, 42, 13);
-const int SERVER_PORT = 8888;               // REST Server port
+const int SERVER_PORT = 9999; // 8888;               // REST Server port
 
 const String LAT_PREFIX = "LAT=";
 const String LNG_PREFIX = "LNG=";
