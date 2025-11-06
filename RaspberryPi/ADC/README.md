@@ -67,8 +67,60 @@ $ python3 pot.led.MCP3008.py
 ```
 The led will glow, according to the value of the potentiometer.
 
-## MPC3002 - SPI 2 channel ADC
+## MCP3002 - SPI 2 channel ADC
 See this: <https://learn.sparkfun.com/tutorials/python-programming-tutorial-getting-started-with-the-raspberry-pi/experiment-3-spi-and-analog-input>
 
 - MCP3002 Datasheet [here](https://www.farnell.com/datasheets/1599363.pdf), and [here](https://ww1.microchip.com/downloads/en/DeviceDoc/21294E.pdf)
 
+> TODO: Wiring, Code...
+
+## Joystick
+A Joystick has two potentiometers, one for Up/Down, one for Left/Right.
+- <https://www.adafruit.com/product/245>
+- <https://learn.parallax.com/support/reference/propeller-blocklyprop-block-reference/sensor/2-axis-joystick/joystick-wiring>
+
+![Parallax Joystick](./joystick.diagram.png)
+
+#### Wiring
+- The wiring of the MCP3008 remains the same as above
+- For the joystick:
+    - Joystick's `5V` (the **_two_** connections) goes to the Raspberry's `3.3V` 
+    - Joystick's `GND` goes to the Raspberry's `GND`
+    - `A/D3` (L/R, left or right) goes to the MCP3008's `CH1`
+    - `A/D2` (U/D, left or right) goes to the MCP3008's `CH0`
+
+#### Raw / Basic test
+Run
+```
+$ python3 joystick.MCP3008.py
+```
+and move the joystick. You'd get an output like this:
+```
+Up-Down    value: 0.49682462139716654
+Left-Right value: 0.5007327796775769
+Up-Down    value: 0.4303859306301905
+Up-Down    value: 0.3082559843673669
+Up-Down    value: 0.4978016609672691
+Up-Down    value: 0.9589643380556911
+Up-Down    value: 0.0004885197850512668
+Left-Right value: 0.0004885197850512668
+Up-Down    value: 0.7616023448949683
+Left-Right value: 0.5017098192476794
+Up-Down    value: 0.4978016609672691
+Up-Down    value: 0.4284318514899854
+Up-Down    value: 0.23009281875915977
+Up-Down    value: 0.4978016609672691
+Up-Down    value: 0.4978016609672691
+Up-Down    value: 0.4978016609672691
+Up-Down    value: 0.0004885197850512668
+Left-Right value: 0.0004885197850512668
+. . .
+```
+
+### Joystick driving a camera pan-tilt stand
+- Camera pan-tilt stand is usually made of two linear servos,
+  like [this one](https://www.adafruit.com/product/1967).
+
+We'll use a MPC3008 to get the values on the joystick potentiometer, and PWM to drive the servos of the pan-tilt stand.
+
+---
