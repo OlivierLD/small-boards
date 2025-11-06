@@ -1,4 +1,6 @@
-
+/**
+ * NMEA Utilities
+ */
 int calculateCheckSum(String sentence) {
   int cs = 0;
   String str2validate = sentence.substring(1, sentence.indexOf("*"));

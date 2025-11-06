@@ -1,6 +1,9 @@
 /*
    NMEA Sentence generation. WiP.
    MTW & XDR
+
+   Requires interaction with the Serial Console.
+   Enter a temperature, and see the generated NMEA sentences.
 */
 #include "NMEAParser.h"
 
@@ -36,7 +39,7 @@ void loop() {
    	  // Serial.print("\n");
       float temp = receivedSentence.toFloat();
 
-      if (false) {
+      if (VERBOSE) {
         Serial.print("Temperature is ");
         Serial.print(temp, 2);
         Serial.print(char(176));
