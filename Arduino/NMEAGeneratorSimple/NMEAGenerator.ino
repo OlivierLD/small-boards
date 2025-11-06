@@ -1,3 +1,16 @@
+/*
+   NMEA Sentence generation. WiP.
+   For TinkerCad (no includes)
+*/
+// #include "NMEAParser.h"
+
+#define VERBOSE false
+#define SENTENCE_MAX_LEN 512
+
+char sentence[SENTENCE_MAX_LEN];
+
+String EOS = "\r\n";
+String receivedSentence = "";
 
 int calculateCheckSum(String sentence) {
   int cs = 0;
@@ -42,8 +55,8 @@ boolean isValid(String sentence) {
   return valid;
 }
 
-String generateMWT(String deviceID, float temperature) {
-  String mwtSentence = "$" + deviceID + "MTW," + String(temperature, 1) + ",C*";
+String generateMWT(String deviceID, float temparature) {
+  String mwtSentence = "$" + deviceID + "MTW," + String(temparature, 1) + ",C*";
   int cs = calculateCheckSum(mwtSentence);
   mwtSentence = mwtSentence + toHex(cs);
   return mwtSentence;
@@ -96,4 +109,51 @@ String generateXDR(String deviceID, float temperature, float salinity) {
   int cs = calculateCheckSum(xdrSentence);
   xdrSentence = xdrSentence + toHex(cs);
   return xdrSentence;
+}
+
+void setup() {
+    Serial.begin(9600);
+    while (!Serial) ;
+    Serial.print("Setup completed !\n");
+    Serial.print("Enter temperature (Serial input).\n");
+}
+
+void loop() {
+    int data = -1;
+    while (Serial.available() > 0) { // Checks whether data is coming from the serial port
+        data = Serial.read(); // Reads the data from the serial port (can be a bluetooth port)
+        receivedSentence.concat((char)data);
+    }
+    // Received a String
+    if (receivedSentence.length() > 0) {
+      if (receivedSentence.endsWith(EOS)) {
+          receivedSentence = receivedSentence.substring(0, receivedSentence.length() - EOS.length());
+      }
+      receivedSentence.toUpperCase();
+      // TODO Manage it
+      Serial.print("Received: " + receivedSentence + "\n");
+   	  // Serial.print("\n");
+      float temp = receivedSentence.toFloat();
+
+      if (false) {
+        Serial.print("Temperature is ");
+        Serial.print(temp, 2);
+        Serial.print(char(176));
+        Serial.print("C");
+        Serial.println("");
+        Serial.println(temp, 6);
+      }
+      String deviceID = "AE"; // Astrolabe Expeditions
+      String mwtSentence = generateMWT(deviceID, temp);
+      // With T=12.345, expect $AEMTW,12.3,C*17
+      Serial.println("Generated MWT Sentence: " + mwtSentence);
+
+      String xdrSentence = generateXDR(deviceID, temp, 23.45); // Salinity hard-coded
+      // Expect $AEXDR,C,12.3,C,FIREBEETLE,L,23.45,S,FIREBEETLE*65
+      Serial.println("Generated XDR Sentence: " + xdrSentence);
+
+    }
+    receivedSentence = ""; // Reset
+    // delay ?
+	delay(1000);
 }

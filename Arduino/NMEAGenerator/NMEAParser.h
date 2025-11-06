@@ -26,3 +26,9 @@ typedef struct RMC {
 } Rmc;
 
 #endif
+
+int calculateCheckSum(String sentence);
+String toHex(int val);
+boolean isValid(String sentence);
+String generateMWT(String deviceID, float temperature);
+String generateXDR(String deviceID, float temperature, float salinity);
