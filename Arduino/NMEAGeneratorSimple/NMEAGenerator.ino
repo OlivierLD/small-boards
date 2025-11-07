@@ -54,7 +54,7 @@ boolean isValid(String sentence) {
   return valid;
 }
 
-String generateMWT(String deviceID, float temparature) {
+String generateMTW(String deviceID, float temparature) {
   String mwtSentence = "$" + deviceID + "MTW," + String(temparature, 1) + ",C*";
   int cs = calculateCheckSum(mwtSentence);
   mwtSentence = mwtSentence + toHex(cs);
@@ -143,7 +143,7 @@ void loop() {
         Serial.println(temp, 6);
       }
       String deviceID = "AE"; // Astrolabe Expeditions
-      String mwtSentence = generateMWT(deviceID, temp);
+      String mwtSentence = generateMTW(deviceID, temp);
       // With T=12.345, expect $AEMTW,12.3,C*17
       Serial.println("Generated MWT Sentence: " + mwtSentence);
 

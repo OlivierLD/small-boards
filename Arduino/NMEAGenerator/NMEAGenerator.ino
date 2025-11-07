@@ -47,12 +47,12 @@ void loop() {
         Serial.println("");
         Serial.println(temp, 6);
       }
-      String deviceID = "AE"; // Astrolabe Expeditions
-      String mwtSentence = generateMWT(deviceID, temp);
+      String talkerID = "AE"; // Astrolabe Expeditions
+      String mwtSentence = generateMTW(talkerID, temp);
       // With T=12.345, expect $AEMTW,12.3,C*17
       Serial.println("Generated MWT Sentence: " + mwtSentence);
 
-      String xdrSentence = generateXDR(deviceID, temp, 23.45); // Salinity hard-coded
+      String xdrSentence = generateXDR(talkerID, temp, 23.45); // Salinity hard-coded
       // Expect $AEXDR,C,12.3,C,FIREBEETLE,L,23.45,S,FIREBEETLE*65
       Serial.println("Generated XDR Sentence: " + xdrSentence);
 

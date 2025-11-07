@@ -4,7 +4,7 @@
 #ifndef NMEA_DATA_TYPES
 
 #define NMEA_DATA_TYPES
- 
+
 typedef struct DATE_TIME {
   int year;
   int month;
@@ -30,5 +30,5 @@ typedef struct RMC {
 int calculateCheckSum(String sentence);
 String toHex(int val);
 boolean isValid(String sentence);
-String generateMWT(String deviceID, float temperature);
-String generateXDR(String deviceID, float temperature, float salinity);
+String generateMTW(String talkerID, float temperature);
+String generateXDR(String talkerID, float temperature, float salinity);

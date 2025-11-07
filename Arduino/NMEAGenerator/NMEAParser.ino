@@ -1,6 +1,13 @@
 /**
  * NMEA Utilities
  */
+
+/**
+ * @brief Calculate the checksum of. given sentence
+ *
+ * @param sentence
+ * @return int IN DECIMAL !!!
+ */
 int calculateCheckSum(String sentence) {
   int cs = 0;
   String str2validate = sentence.substring(1, sentence.indexOf("*"));
@@ -13,6 +20,12 @@ int calculateCheckSum(String sentence) {
   return cs;
 }
 
+/**
+ * @brief Decimal to Hexadecimal conversion.
+ *
+ * @param val int, decimal.
+ * @return String, 2 characters.
+ */
 String toHex(int val) {
   String hexVal = String(val, 16);
   if (val < 16) {
@@ -21,6 +34,12 @@ String toHex(int val) {
   return hexVal;
 }
 
+/**
+ * @brief Validates a given NMEA sentence by checking its checksum.
+ *
+ * @param sentence
+ * @return boolean true when valid, false otherwise
+ */
 boolean isValid(String sentence) {
 //  Serial.print("NMEA:"); Serial.println(sentence);
   boolean valid = true;
@@ -44,14 +63,30 @@ boolean isValid(String sentence) {
   return valid;
 }
 
-String generateMWT(String deviceID, float temperature) {
-  String mwtSentence = "$" + deviceID + "MTW," + String(temperature, 1) + ",C*";
+/**
+ * @brief Generates an MTW NMEA Sentence
+  MTW - Water Temperature
+    $--MTW,x.x,C*hh<CR><LF>
+     | |   |   |
+     | |   |   +-- Unit of measurement, C = degrees Celsius
+     | |   +----- Temperature, degrees Celsius
+     | +------- MWV NMEA sentence type
+     +--------- NMEA Talker ID
+  Example: $AEMTW,12.3,C*17
+ *
+ * @param talkerID
+ * @param temperature
+ * @return String
+ */
+String generateMTW(String talkerID, float temperature) {
+  String mwtSentence = "$" + talkerID + "MTW," + String(temperature, 1) + ",C*";
   int cs = calculateCheckSum(mwtSentence);
   mwtSentence = mwtSentence + toHex(cs);
   return mwtSentence;
 }
 
-/*
+/**
+ * @brief Generates an XDR NMEA Sentence
     XDR - Transducer Measurements
       $--XDR,a,x.x,a,c--c,...    ...a,x.x,a,c--c*hh<CR><LF>
              | |   | |    |        ||     |
@@ -86,13 +121,17 @@ String generateMWT(String deviceID, float temperature) {
 
       Non-numeric transducer IDs seem to be used as needed, like PTCH, PITCH, ROLL, MAGX, MAGY, MAGZ, AIRT, ENGT, ...
       I found no list of "official" transducer IDs.
-   */
-
-String generateXDR(String deviceID, float temperature, float salinity) {
-  String sensorName = "FIREBEETLE";
+ *
+ * @param talkerID
+ * @param temperature
+ * @param salinity
+ * @return String
+ */
+String generateXDR(String talkerID, float temperature, float salinity) {
+  String sensorName = "FIREBEETLE"; // Hard-coded sensor name, for now.
   String xdrSentence = "";
 // We generate a sentence like $AEXDR,C,12.3,C,FIREBEETLE,L,23.45,S,FIREBEETLE*65
-  xdrSentence = "$" + deviceID + "XDR,C," + String(temperature, 1) +
+  xdrSentence = "$" + talkerID + "XDR,C," + String(temperature, 1) +
                   ",C," + sensorName +
                   ",L," + String(salinity, 2) + ",S," + sensorName + "*";
   int cs = calculateCheckSum(xdrSentence);
