@@ -1,9 +1,9 @@
-/*
-   NMEA Sentence generation. WiP.
-   MTW & XDR
+/**
+  NMEA Sentence generation. WiP.
+  MTW & XDR
 
-   Requires interaction with the Serial Console.
-   Enter a temperature, and see the generated NMEA sentences.
+  Requires interaction with the Serial Console.
+  Enter a temperature, and see the generated NMEA sentences.
 */
 #include "NMEAParser.h"
 
@@ -38,24 +38,29 @@ void loop() {
     // TODO Manage it
     Serial.print("Received: " + receivedSentence + "\n");
     // Serial.print("\n");
-    float temp = receivedSentence.toFloat();
+    float temp = 0.0;
+    try {
+      temp = receivedSentence.toFloat();
 
-    if (VERBOSE) {
-      Serial.print("Temperature is ");
-      Serial.print(temp, 2);
-      Serial.print(char(176));
-      Serial.print("C");
-      Serial.println("");
-      Serial.println(temp, 6);
+      if (VERBOSE) {
+        Serial.print("Temperature is ");
+        Serial.print(temp, 2);
+        Serial.print(char(176));
+        Serial.print("C");
+        Serial.println("");
+        Serial.println(temp, 6);
+      }
+      String talkerID = "AE"; // Astrolabe Expeditions
+      String mwtSentence = generateMTW(talkerID, temp);
+      // With T=12.345, expect $AEMTW,12.3,C*17
+      Serial.println("Generated MTW Sentence: " + mwtSentence);
+
+      String xdrSentence = generateXDR(talkerID, temp, 23.45); // Salinity hard-coded
+      // Expect $AEXDR,C,12.3,C,FIREBEETLE,L,23.45,S,FIREBEETLE*65
+      Serial.println("Generated XDR Sentence: " + xdrSentence);
+    } catch (Exception e) {
+      Serial.println("Oops");
     }
-    String talkerID = "AE"; // Astrolabe Expeditions
-    String mwtSentence = generateMTW(talkerID, temp);
-    // With T=12.345, expect $AEMTW,12.3,C*17
-    Serial.println("Generated MTW Sentence: " + mwtSentence);
-
-    String xdrSentence = generateXDR(talkerID, temp, 23.45); // Salinity hard-coded
-    // Expect $AEXDR,C,12.3,C,FIREBEETLE,L,23.45,S,FIREBEETLE*65
-    Serial.println("Generated XDR Sentence: " + xdrSentence);
   }
   receivedSentence = ""; // Reset
   // delay ?
