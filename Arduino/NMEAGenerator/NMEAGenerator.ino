@@ -39,7 +39,7 @@ void loop() {
     Serial.print("Received: " + receivedSentence + "\n");
     // Serial.print("\n");
     float temp = 0.0;
-    try {
+//     try { // requires a -fexception handling...
       temp = receivedSentence.toFloat();
 
       if (VERBOSE) {
@@ -58,9 +58,9 @@ void loop() {
       String xdrSentence = generateXDR(talkerID, temp, 23.45); // Salinity hard-coded
       // Expect $AEXDR,C,12.3,C,FIREBEETLE,L,23.45,S,FIREBEETLE*65
       Serial.println("Generated XDR Sentence: " + xdrSentence);
-    } catch (Exception e) {
-      Serial.println("Oops");
-    }
+//     } catch (Exception e) {
+//       Serial.println("Oops");
+//     }
   }
   receivedSentence = ""; // Reset
   // delay ?
