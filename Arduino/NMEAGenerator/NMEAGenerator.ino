@@ -50,7 +50,7 @@ void loop() {
       String talkerID = "AE"; // Astrolabe Expeditions
       String mwtSentence = generateMTW(talkerID, temp);
       // With T=12.345, expect $AEMTW,12.3,C*17
-      Serial.println("Generated MWT Sentence: " + mwtSentence);
+      Serial.println("Generated MTW Sentence: " + mwtSentence);
 
       String xdrSentence = generateXDR(talkerID, temp, 23.45); // Salinity hard-coded
       // Expect $AEXDR,C,12.3,C,FIREBEETLE,L,23.45,S,FIREBEETLE*65
