@@ -1,5 +1,5 @@
 /**
- * NMEA Utilities
+ * NMEA Utilities...
  */
 
 /**
@@ -11,7 +11,7 @@
 int calculateCheckSum(String sentence) {
   int cs = 0;
   String str2validate = sentence.substring(1, sentence.indexOf("*"));
-//  Serial.print("To Validate:"); Serial.println(str2validate);
+  //  Serial.print("To Validate:"); Serial.println(str2validate);
   int len = str2validate.length();
   for (int i = 0; i < len; i++) {
     char c = str2validate.charAt(i);
@@ -38,11 +38,11 @@ String toHex(int val) {
  * @brief Validates a given NMEA sentence by checking its checksum.
  *
  * @param sentence
- * @return boolean true when valid, false otherwise
+ * @return bool true when valid, false otherwise
  */
-boolean isValid(String sentence) {
-//  Serial.print("NMEA:"); Serial.println(sentence);
-  boolean valid = true;
+bool isValid(String sentence) {
+  //  Serial.print("NMEA:"); Serial.println(sentence);
+  bool valid = true;
   sentence.trim();
   if (sentence.startsWith("$")) {
     if (sentence.indexOf("*") > -1) {
@@ -50,9 +50,9 @@ boolean isValid(String sentence) {
       int cs = calculateCheckSum(sentence);
       String csHex = toHex(cs);
       csHex.toUpperCase();
-//      Serial.print("Found:"); Serial.print(inLineCheckSum);
-//      Serial.print(" Calculated:"); Serial.print(csHex);
-//      Serial.println();
+      //      Serial.print("Found:"); Serial.print(inLineCheckSum);
+      //      Serial.print(" Calculated:"); Serial.print(csHex);
+      //      Serial.println();
       valid = csHex.equals(inLineCheckSum);
     } else {
       valid = false;
@@ -130,10 +130,10 @@ String generateMTW(String talkerID, float temperature) {
 String generateXDR(String talkerID, float temperature, float salinity) {
   String sensorName = "FIREBEETLE"; // Hard-coded sensor name, for now.
   String xdrSentence = "";
-// We generate a sentence like $AEXDR,C,12.3,C,FIREBEETLE,L,23.45,S,FIREBEETLE*65
+  // We generate a sentence like $AEXDR,C,12.3,C,FIREBEETLE,L,23.45,S,FIREBEETLE*65
   xdrSentence = "$" + talkerID + "XDR,C," + String(temperature, 1) +
-                  ",C," + sensorName +
-                  ",L," + String(salinity, 2) + ",S," + sensorName + "*";
+                ",C," + sensorName +
+                ",L," + String(salinity, 2) + ",S," + sensorName + "*";
   int cs = calculateCheckSum(xdrSentence);
   xdrSentence = xdrSentence + toHex(cs);
   return xdrSentence;

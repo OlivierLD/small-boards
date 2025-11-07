@@ -31,9 +31,9 @@ String toHex(int val) {
   return hexVal;
 }
 
-boolean isValid(String sentence) {
+bool isValid(String sentence) {
 //  Serial.print("NMEA:"); Serial.println(sentence);
-  boolean valid = true;
+  bool valid = true;
   sentence.trim();
   if (sentence.startsWith("$")) {
     if (sentence.indexOf("*") > -1) {

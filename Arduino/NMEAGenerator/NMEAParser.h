@@ -15,7 +15,7 @@ typedef struct DATE_TIME {
 } DateTime;
 
 typedef struct RMC {
-  boolean active = false;
+  bool active = false;
   double longitude;
   double latitude;
   double sog;
@@ -29,6 +29,6 @@ typedef struct RMC {
 
 int calculateCheckSum(String sentence);
 String toHex(int val);
-boolean isValid(String sentence);
+bool isValid(String sentence);
 String generateMTW(String talkerID, float temperature);
 String generateXDR(String talkerID, float temperature, float salinity);
