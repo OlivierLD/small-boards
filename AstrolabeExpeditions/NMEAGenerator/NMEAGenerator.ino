@@ -61,7 +61,7 @@ void loop() {
       Serial.println("Generated XDR Sentence: " + xdrSentence);
 
       String mdaSentence = generateMDA(talkerID, 1.01325, temp); // Pressure hard-coded
-      Serial.prontln("Generated MDA Sentence: " + mdaSentence);
+      Serial.println("Generated MDA Sentence: " + mdaSentence);
 
       String mmbSentence = generateMMB(talkerID, 1.01325); // Pressure hard-coded
       Serial.println("Generated MMB Sentence: " + mmbSentence);
