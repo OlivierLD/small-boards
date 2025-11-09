@@ -59,6 +59,16 @@ void loop() {
       String xdrSentence = generateXDR(talkerID, temp, 23.45); // Salinity hard-coded
       // Expect $AEXDR,C,12.3,C,FIREBEETLE,L,23.45,S,FIREBEETLE*65
       Serial.println("Generated XDR Sentence: " + xdrSentence);
+
+      String mdaSentence = generateMDA(talkerID, 1.01325, temp); // Pressure hard-coded
+      Serial.prontln("Generated MDA Sentence: " + mdaSentence);
+
+      String mmbSentence = generateMMB(talkerID, 1.01325); // Pressure hard-coded
+      Serial.println("Generated MMB Sentence: " + mmbSentence);
+
+      String mtaSentence = generateMTA(talkerID, temp);
+      Serial.println("Generated MTA Sentence: " + mtaSentence);
+
     // } catch (Exception ex) {
     //   Serial.println("Oops");
     // }
