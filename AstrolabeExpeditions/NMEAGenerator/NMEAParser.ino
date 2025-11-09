@@ -48,7 +48,7 @@ bool isValid(String sentence) {
     if (sentence.indexOf("*") > -1) {
       String inLineCheckSum = sentence.substring(sentence.indexOf("*") + 1);
       int cs = calculateCheckSum(sentence);
-      String csHex = toHex(cs).toUpperCase();
+      String csHex = toHex(cs);
       csHex.toUpperCase();
       //      Serial.print("Found:"); Serial.print(inLineCheckSum);
       //      Serial.print(" Calculated:"); Serial.print(csHex);
@@ -81,7 +81,9 @@ bool isValid(String sentence) {
 String generateMTW(String talkerID, float temperature) {
   String mwtSentence = "$" + talkerID + "MTW," + String(temperature, 1) + ",C*";
   int cs = calculateCheckSum(mwtSentence);
-  mwtSentence = mwtSentence + toHex(cs).toUpperCase();
+  String checksum = toHex(cs);
+  checksum.toUpperCase();
+  mwtSentence = mwtSentence + checksum;
   return mwtSentence;
 }
 
@@ -135,7 +137,9 @@ String generateXDR(String talkerID, float temperature, float salinity) {
                 ",C," + sensorName +
                 ",L," + String(salinity, 2) + ",S," + sensorName + "*";
   int cs = calculateCheckSum(xdrSentence);
-  xdrSentence = xdrSentence + toHex(cs).toUpperCase();
+  String checksum = toHex(cs);
+  checksum.toUpperCase();
+  xdrSentence = xdrSentence + checksum;
   return xdrSentence;
 }
 
@@ -174,7 +178,9 @@ String generateMDA(String talkerID, float pressure, float temperature) {
                        String(temperature, 1) + ",C," +         // 5-Air Temp in Celsius
                        ",,,,,,,,,,,,,,,*";                      // The rest is empty for now
   int cs = calculateCheckSum(mdaSentence);
-  mdaSentence = mdaSentence + toHex(cs).toUpperCase();
+  String checksum = toHex(cs);
+  checksum.toUpperCase();
+  mdaSentence = mdaSentence + checksum;
   return mdaSentence;
 }
 
@@ -204,7 +210,9 @@ String generateMDA(String talkerID, float pressure, float temperature) {
 String generateMMB(String talkerID, float pressure) {
   String mmbSentence = "$" + talkerID + "MMB," + String(pressure / 33.8639, 4) + ",I," + String(pressure, 4) + ",B*";
   int cs = calculateCheckSum(mmbSentence);
-  mmbSentence = mmbSentence + toHex(cs).toUpperCase();
+  String checksum = toHex(cs);
+  checksum.toUpperCase();
+  mmbSentence = mmbSentence + checksum;
   return mmbSentence;
 }
 
@@ -226,6 +234,8 @@ String generateMMB(String talkerID, float pressure) {
 String generateMTA(String talkerID, float temperature) {
   String mtaSentence = "$" + talkerID + "MTA," + String(temperature, 1) + ",C*";
   int cs = calculateCheckSum(mtaSentence);
-  mtaSentence = mtaSentence + toHex(cs).toUpperCase();
+  String checksum = toHex(cs);
+  checksum.toUpperCase();
+  mtaSentence = mtaSentence + checksum;
   return mtaSentence;
 }
