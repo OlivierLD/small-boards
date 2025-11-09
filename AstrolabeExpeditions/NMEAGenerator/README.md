@@ -131,3 +131,9 @@ Generated MDA Sentence: $AEMDA,0.0299,I,1.0132,B,12.3,C,,,,,,,,,,,,,,,,*19
 Generated MMB Sentence: $AEMMB,0.0299,I,1.0132,B*4E
 Generated MTA Sentence: $AEMTA,12.3,C*01
 ```
+
+Les data sont reçues dans OpenCPN.
+
+![OpenCPN](../images/OpenCPNData.png)
+
+Il faudra quelque chose pour afficher la salinité plus explicitement.
