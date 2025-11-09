@@ -2,7 +2,9 @@
 #define THE_LED 2
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(115200);  // Make sure this matches the console's speed (aka baud rate).
+  // Serial.begin(9600); // 115200 may produce un-readable characters... 9600 is the default speed for the Serial Console...
+  while (!Serial);
   Serial.println("Akeu Coucou ! ");
   pinMode(THE_LED, OUTPUT);
   digitalWrite(THE_LED, LOW);

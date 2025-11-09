@@ -16,7 +16,7 @@ String EOS = "\r\n";
 String receivedSentence = "";
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(9600); // Make sure this matches the console's speed (aka baud rate).
   while (!Serial)
     ;
   Serial.print("Setup completed !\n");
