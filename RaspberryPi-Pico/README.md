@@ -16,7 +16,8 @@ If `minicom` is not available (like on a Mac), use `screen`.
 - A Serial new port should be available when the copy is done.
 
 ### From a Mac
-The port for the Raspberry Pi Pico could be like `/dev/tty.usbmodem0000000000001`.  
+The port for the Raspberry Pi Pico could be like `/dev/tty.usbmodem0000000000001`,
+or `/dev/tty.usbmodem1421301`...  
 
 ```
 $ screen /dev/tty.usbmodem0000000000001 9600
@@ -42,7 +43,7 @@ Try that:
 >>> led.value(1)
 >>> led.value(0)
 ```
-To exit `screen`, do a `[Ctrl-a]` then `d`.
+**To exit** `screen`, do a `[Ctrl-a]` then `d`.
 
 - See <https://pbxbook.com/other/mac-tty.html>
 

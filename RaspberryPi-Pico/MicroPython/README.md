@@ -5,7 +5,7 @@ MicroPython doc at <https://docs.micropython.org/en/latest/index.html>
 Good blog post at <https://www.raspberrypi.org/blog/raspberry-pi-pico-balloon-tracker/>.
 
 Good tutorials:
-- <https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico>
+- Get started: <https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico>
 - <https://dronebotworkshop.com/pi-pico/>
 
 ### Read and log GPS data from the Pico

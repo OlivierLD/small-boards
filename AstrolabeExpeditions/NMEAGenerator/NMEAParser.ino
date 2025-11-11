@@ -136,6 +136,7 @@ String generateXDR(String talkerID, float temperature, float salinity) {
 
   String xdrSentence = "";
   // We generate a sentence like $AEXDR,C,12.3,C,FIREBEETLE,L,23.45,S,FIREBEETLE*65
+  //                          or $AEXDR,C,12.3,C,TSG,L,23.45,S,CTD*76
   xdrSentence = "$" + talkerID + "XDR,C," + String(temperature, 1) +
                 ",C," + ctdSensorName +
                 ",L," + String(salinity, 2) + ",S," + tsgSensorName + "*";
