@@ -130,12 +130,15 @@ String generateMTW(String talkerID, float temperature) {
  * @return String
  */
 String generateXDR(String talkerID, float temperature, float salinity) {
-  String sensorName = "FIREBEETLE"; // Hard-coded sensor name, for now.
+  // String sensorName = "FIREBEETLE"; // Hard-coded sensor name, for now.
+  String tsgSensorName = "TSG"; // thermosalinographe
+	String ctdSensorName = "CTD"; // Conductivity Temperature Deph
+
   String xdrSentence = "";
   // We generate a sentence like $AEXDR,C,12.3,C,FIREBEETLE,L,23.45,S,FIREBEETLE*65
   xdrSentence = "$" + talkerID + "XDR,C," + String(temperature, 1) +
-                ",C," + sensorName +
-                ",L," + String(salinity, 2) + ",S," + sensorName + "*";
+                ",C," + ctdSensorName +
+                ",L," + String(salinity, 2) + ",S," + tsgSensorName + "*";
   int cs = calculateCheckSum(xdrSentence);
   String checksum = toHex(cs);
   checksum.toUpperCase();
