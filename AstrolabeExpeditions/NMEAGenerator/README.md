@@ -126,7 +126,7 @@ différentes chaînes NMEA, qui doivent être valides.
 Received: 12.345
 
 Generated MTW Sentence: $AEMTW,12.3,C*17
-Generated XDR Sentence: $AEXDR,C,12.3,C,FIREBEETLE,L,23.45,S,FIREBEETLE*65
+Generated XDR Sentence: $AEXDR,C,12.3,C,TSG,L,23.45,S,CTD*76
 Generated MDA Sentence: $AEMDA,0.0299,I,1.0132,B,12.3,C,,,,,,,,,,,,,,,,*19
 Generated MMB Sentence: $AEMMB,0.0299,I,1.0132,B*4E
 Generated MTA Sentence: $AEMTA,12.3,C*01
