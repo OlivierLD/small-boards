@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # test.py
 
 def extract_date(nmea_sentence):
@@ -18,7 +17,7 @@ end_rmc =   "$GPRMC,071145.000,A,3744.9360,N,12230.4213,W,0.39,20.56,220221,,,D*
 print("From {} to {}".format(extract_date(start_rmc), extract_date(end_rmc)))
 
 print("Done")
-=======
+
 #
 # See what exception is raised when the drive is full
 #
@@ -32,4 +31,3 @@ if (nmea_string.startswith("$GPRMC")):
 	except Exception as ex:
 		pass
 print("Drive is full, exiting{}.".format((" at " + now) if now != None else ""))
->>>>>>> ab8741c8c7e0d21a6b1782f0be914640a55855a1
