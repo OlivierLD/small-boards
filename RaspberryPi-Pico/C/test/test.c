@@ -31,7 +31,8 @@ int main() {
         gpio_put(LED_PIN, ON);
         int r = rand();
         char to_display[50];
-        sprintf(to_display, "Hello %d!\n", r);
+        // sprintf(to_display, "Hello %d!\n", r);
+        sprintf(to_display, "Hello %d !", r); // No CR
         // printf("%s", to_display);
         puts(to_display);
         sleep_ms(1000);
