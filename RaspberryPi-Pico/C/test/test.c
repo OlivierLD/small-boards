@@ -6,6 +6,9 @@
 #define TRUE 1
 #define FALSE 0
 
+#define ON 1
+#define OFF 0
+
 const uint LED_PIN = 25;
 
 int main() {
@@ -23,9 +26,9 @@ int main() {
 
     // Like the "loop"...
     while (TRUE) {
-        gpio_put(LED_PIN, 0);
+        gpio_put(LED_PIN, OFF);
         sleep_ms(250);
-        gpio_put(LED_PIN, 1);
+        gpio_put(LED_PIN, ON);
         int r = rand();
         char to_display[50];
         sprintf(to_display, "Hello %d!\n", r);
