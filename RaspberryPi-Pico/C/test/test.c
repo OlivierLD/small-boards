@@ -14,7 +14,9 @@ int main() {
     bi_decl(bi_program_description("This is a test binary."));
     bi_decl(bi_1pin_with_name(LED_PIN, "On-board LED"));
 
-    stdio_init_all();
+    stdio_init_all();char destination[50];
+                     sprintf(destination, "Hello %s!", "World");
+                     printf("%s", destination);
 
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
@@ -24,7 +26,11 @@ int main() {
         gpio_put(LED_PIN, 0);
         sleep_ms(250);
         gpio_put(LED_PIN, 1);
-        puts("Hello World\n");
+        int r = rand();
+        char to_display[50];
+        sprintf(to_display, "Hello %d!\n", r);
+        // printf("%s", to_display);
+        puts(to_display);
         sleep_ms(1000);
     }
 }

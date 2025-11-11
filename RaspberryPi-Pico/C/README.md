@@ -17,9 +17,10 @@ Reboot after the install.
 
 The Pico-SDK is in its own [repo](https://github.com/raspberrypi/pico-sdk).
 
-In MS Visual Studio:  
-You can find the extension in the VS Code Extensions Marketplace. Search for the Raspberry Pi Pico extension,
-published by Raspberry Pi. Click the Install button to add it to VS Code.
+In _MS Visual Studio_:  
+You can find the extension in the VS Code Extensions Marketplace. Search for the **Raspberry Pi Pico** extension,
+published by Raspberry Pi. Click the Install button to add it to VS Code.  
+Do the same with the **Serial Console** extension.
 
 Next, go to the section `Use the CLI to Blink an LED in C`.
 
@@ -47,6 +48,7 @@ Hint: to exit `minicom`:
 [Ctrl-A], x, [Enter]
 ```
 
+You can also see this in the _Serial Console_ in _MS Visual Studio_.
 
 ### PicoTool ?
 ```
