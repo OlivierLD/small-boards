@@ -10,6 +10,7 @@ const uint LED_PIN = 25;
 
 int main() {
 
+    // Like the "setup"...
     bi_decl(bi_program_description("This is a test binary."));
     bi_decl(bi_1pin_with_name(LED_PIN, "On-board LED"));
 
@@ -18,6 +19,7 @@ int main() {
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
 
+    // Like the "loop"...
     while (TRUE) {
         gpio_put(LED_PIN, 0);
         sleep_ms(250);

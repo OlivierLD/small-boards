@@ -23,6 +23,30 @@ published by Raspberry Pi. Click the Install button to add it to VS Code.
 
 Next, go to the section `Use the CLI to Blink an LED in C`.
 
+## A first test
+From the folder `C/test`,
+```
+$ cp ~/pico/pico-sdk/external/pico_sdk_import.cmake .
+```
+then
+```
+$ mkdir build
+$ cd build
+$ export PICO_SDK_PATH=~/pico/pico-sdk
+$ cmake ..
+$ make
+```
+... Then the `uf2` file is in your current (`build`) directory.
+
+Drag it onto the corresponding port, then
+```
+$ [sudo] minicom -D /dev/ttyACM1 -b 115200
+```
+Hint: to exit `minicom`:
+```
+[Ctrl-A], x, [Enter]
+```
+
 
 ### PicoTool ?
 ```
