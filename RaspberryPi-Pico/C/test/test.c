@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>  // For rand()
 #include "pico/stdlib.h"
 #include "hardware/gpio.h"
 #include "pico/binary_info.h"
