@@ -28,6 +28,8 @@ BANG_SIGN = [
 
 # msleep = lambda x: time.sleep(x / 1000.0). # This is a nice one.
 
+sense.set_rotation(90)  # Rotate display if needed
+
 try:
   while True:
     sense.set_pixels(BANG_SIGN)
