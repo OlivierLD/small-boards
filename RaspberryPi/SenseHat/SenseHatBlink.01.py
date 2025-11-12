@@ -6,6 +6,8 @@ from sense_hat import SenseHat
 
 sense = SenseHat()
 
+# Led matrix is 8x8
+
 ON = [255, 255, 255]
 OFF = [0, 0, 0]
 
