@@ -7,13 +7,11 @@
 # ---------
 # pip3 install http (already in python3.7+, no need to install it)
 #
-# Provides REST access to the JSON data, try GET http://localhost:8080/json-data/data
+# Provides REST access to the JSON data, try GET http://localhost:8080/sense-hat/oplist
 # Can act as a sensor reader.
 #
-# For a REST Channel (Consumer), consider looking at GET /json-data/data
-#
 # Start it with
-# $ python3 <...>/REST_and_WEB_server.py --machine-name:$(hostname -I) --port:9999 --verbose:false
+# $ python3 <...>/SenseHatRESTServer.py --machine-name:$(hostname -I) --port:9999 --verbose:false
 #
 import json
 import signal
