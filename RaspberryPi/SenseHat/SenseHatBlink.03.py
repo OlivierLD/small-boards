@@ -11,5 +11,5 @@ try:
 except KeyboardInterrupt:
   sense.clear()  # to clear the LED matrix
 
-print("Exiting SenseHatBlink.03.py")
+print("Exiting ", __file__)
 print("Bye now!")

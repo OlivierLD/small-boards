@@ -13,7 +13,6 @@ print("Alt: Pressure: %s Millibars" % sense.pressure)
 humidity = sense.get_humidity()
 print("Humidity: %s %%rH" % humidity)
 
-sense = SenseHat()
 temp = sense.get_temperature()
 print("Temperature: %s\u00b0C" % temp)
 
