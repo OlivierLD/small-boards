@@ -11,8 +11,14 @@ OFF = [0, 0, 0]
 
 # msleep = lambda x: time.sleep(x / 1000.0)
 
-while True:
+try:
+  while True:
     sense.clear(ON)
     time.sleep(1)
     sense.clear(OFF)
     time.sleep(1)
+except KeyboardInterrupt:
+  sense.clear()  # to clear the LED matrix
+
+print("Exiting SenseHatBlink.01.py")
+print("Bye now!")
