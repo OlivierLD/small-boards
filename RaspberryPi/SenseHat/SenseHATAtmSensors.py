@@ -15,8 +15,8 @@ print("Humidity: %s %%rH" % humidity)
 
 sense = SenseHat()
 temp = sense.get_temperature()
-print("Temperature: %s C" % temp)
+print("Temperature: %s\u00b0C" % temp)
 
 # alternatives
-print("Alt-1: Temperature: %s C" % sense.temp)
-print("Alt-1: Temperature: %s C" % sense.temperature)
+print("Alt-1: Temperature: %s\u00b0C" % sense.temp)
+print("Alt-1: Temperature: %s\u00b0C" % sense.temperature)
