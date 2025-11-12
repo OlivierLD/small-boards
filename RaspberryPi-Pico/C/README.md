@@ -8,6 +8,10 @@ Coming...
 ```
 $ sudo apt install python3 git tar build-essential
 ```
+if needed:
+```
+$ sudo apt install screen
+```
 
 In this [doc mentionned above](https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf), look for `Configure your environment via Script`, and follow the instructions.
 Execute the `$ ./pico_setup.sh`, it should do all the job. It actually does what's 
@@ -48,8 +52,23 @@ Hint: to exit `minicom`:
 [Ctrl-A], x, [Enter]
 ```
 
-You can also see this in the _Serial Console_ in _MS Visual Studio_.
+or with `screen`:
+```
+$ screen /dev/ttyACM1 115200
+```
+To exit `screen`:
+```
+[Ctrl-A], d
+```
 
+
+You can also see this in the _Serial Console_ (installed as mentioned before) in _MS Visual Studio_.
+
+## TODO
+- See this `make -j4`...
+
+
+<!--
 ### PicoTool ?
 ```
 $ git clone https://github.com/raspberrypi/picotool.git
@@ -68,3 +87,7 @@ $ export PICO_SDK_PATH=~/pico/pico-sdk
 $ cmake ../
 $ make
 ```
+
+-->
+
+---

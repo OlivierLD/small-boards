@@ -18,9 +18,7 @@ int main() {
     bi_decl(bi_program_description("This is a test binary."));
     bi_decl(bi_1pin_with_name(LED_PIN, "On-board LED"));
 
-    stdio_init_all();char destination[50];
-                     sprintf(destination, "Hello %s!", "World");
-                     printf("%s", destination);
+    stdio_init_all();
 
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
