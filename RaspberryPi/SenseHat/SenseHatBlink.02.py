@@ -1,12 +1,14 @@
 #!/usr/bin/python
+#
+# Drawing a matrix on the screen.
+# Seems more efficient (and easy) to display a png with sense.load_image...
+#
 # import sys
 import time
 
 from sense_hat import SenseHat
 
 sense = SenseHat()
-
-# Led matrix is 8x8
 
 ON = [255, 255, 255]
 OFF = [0, 0, 0]
@@ -15,6 +17,7 @@ RED = [255, 0, 0]
 WHITE = [255, 255, 255]
 BLACK = [0, 0, 0]
 
+# Led matrix is 8x8
 BANG_SIGN = [
   BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK,
   BLACK, BLACK, BLACK, RED,   BLACK, BLACK, BLACK, BLACK,

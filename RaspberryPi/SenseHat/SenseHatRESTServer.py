@@ -304,7 +304,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
             if True:
                 sense.set_rotation(90)
                 sense.clear()
-                sense.load_image("emojis/10.png")
+                sense.load_image("emojis/10.png")  # Warning sign...
                 time.sleep(2)
                 sense.clear()
             # REST response stuff

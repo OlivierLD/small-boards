@@ -1,7 +1,8 @@
 #!/usr/bin/python
 #
-# Displaying a scrolling message.
+# Displaying images.
 #
+import time
 from sense_hat import SenseHat
 
 sense = SenseHat()
@@ -9,8 +10,13 @@ sense.set_rotation(90)
 red = (255, 0, 0)
 
 try:
+  sense.clear()
   while True:
-    sense.show_message("Warning!", text_colour=red)
+    for i in range(1, 9):
+      name = "emojis/{:02d}.png".format(i)
+      print("Loading image: {}".format(name))
+      sense.load_image(name)
+      time.sleep(2)
 except KeyboardInterrupt:
   sense.clear()  # to clear the LED matrix
 

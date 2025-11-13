@@ -1,4 +1,7 @@
 #!/usr/bin/python
+#
+# Full screen blinking.
+#
 # import sys
 import time
 
