@@ -302,8 +302,11 @@ class ServiceHandler(BaseHTTPRequestHandler):
                 sense.show_message("Warning!", text_colour=red)
                 sense.clear()
             if True:
+                sense.set_rotation(90)
                 sense.clear()
                 sense.load_image("emojis/10.png")
+                time.sleep(2)
+                sense.clear()
             # REST response stuff
             response = {"status": "OK"}
             response_content = json.dumps(response).encode()
