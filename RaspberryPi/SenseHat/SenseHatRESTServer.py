@@ -296,10 +296,14 @@ class ServiceHandler(BaseHTTPRequestHandler):
             print(f">>> Killing REST server process ({server_pid}).")
             os.kill(server_pid, signal.SIGKILL)
         if self.path.startswith(PATH_PREFIX + "/honk"):
-            sense.set_rotation(90)
-            red = (255, 0, 0)
-            sense.show_message("Warning!", text_colour=red)
-            sense.clear()
+            if False:
+                sense.set_rotation(90)
+                red = (255, 0, 0)
+                sense.show_message("Warning!", text_colour=red)
+                sense.clear()
+            if True:
+                sense.clear()
+                sense.load_image("emojis/10.png")
             # REST response stuff
             response = {"status": "OK"}
             response_content = json.dumps(response).encode()

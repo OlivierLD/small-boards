@@ -79,6 +79,11 @@ Start it like:
 ```
 $ python SenseHatRESTServer.py --machine-name:192.168.1.41
 ```
+or better
+```
+$ python3 <...>/SenseHatRESTServer.py --machine-name:$(hostname -I) --port:8080 --verbose:false
+```
+
 Then, from anywhere on the same network:
 ```
 curl -X GET http://192.168.1.41:8080/sense-hat/oplist | jq
@@ -86,3 +91,7 @@ curl -X GET http://192.168.1.41:8080/sense-hat/temperature | jq
 curl -X POST http://192.168.1.41:8080/sense-hat/honk | jq
 curl -X POST http://192.168.1.41:8080/sense-hat/exit | jq
 ```
+For further dev, from a browser:
+`http:///192.168.1.41:8080/web/index.html`
+
+---
