@@ -12,7 +12,7 @@ red = (255, 0, 0)
 try:
   sense.clear()
   while True:
-    for i in range(1, 9):
+    for i in range(0, 12):
       name = "emojis/{:02d}.png".format(i)
       print("Loading image: {}".format(name))
       sense.load_image(name)
