@@ -100,7 +100,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
                 else:
                     print("oops, no equal sign in {}".format(qs_prm))
 
-        if path == PATH_PREFIX + "/data":
+        if path == PATH_PREFIX + "/data": # Random data, with dates
             if verbose:
                 print("JSON Array Value request")
             try:
@@ -135,6 +135,18 @@ class ServiceHandler(BaseHTTPRequestHandler):
                     "path": PATH_PREFIX + "/temperature",
                     "verb": "GET",
                     "description": "Get the Temperature from the Sense-HAT, in JSON format."
+                }, {
+                    "path": PATH_PREFIX + "/pressure",
+                    "verb": "GET",
+                    "description": "Get the Pressure from the Sense-HAT, in JSON format."
+                }, {
+                    "path": PATH_PREFIX + "/rel-humidity",
+                    "verb": "GET",
+                    "description": "Get the Relative Humidity from the Sense-HAT, in JSON format."
+                }, {
+                    "path": PATH_PREFIX + "/all-env-sensors",
+                    "verb": "GET",
+                    "description": "Get the Temperature, Pressure, and Relative Humidity from the Sense-HAT, in JSON format."
                 }]
             }
             response_content = json.dumps(response).encode()
@@ -155,7 +167,41 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.send_header('Content-Length', str(content_len))
             self.end_headers()
             self.wfile.write(response_content)
-        # TODO Other values (humidity, PRMSL, etc
+        elif path == PATH_PREFIX + "/pressure":
+            response = { "pressure" : sense.get_pressure() }
+            response_content = json.dumps(response).encode()
+            self.send_response(200)
+            # defining the response headers
+            self.send_header('Content-Type', 'application/json')
+            content_len = len(response_content)
+            self.send_header('Content-Length', str(content_len))
+            self.end_headers()
+            self.wfile.write(response_content)
+        elif path == PATH_PREFIX + "/rel-humidity":
+            response = { "rel-humidity" : sense.get_humidity() }
+            response_content = json.dumps(response).encode()
+            self.send_response(200)
+            # defining the response headers
+            self.send_header('Content-Type', 'application/json')
+            content_len = len(response_content)
+            self.send_header('Content-Length', str(content_len))
+            self.end_headers()
+            self.wfile.write(response_content)
+        elif path == PATH_PREFIX + "/all-env-sensors":
+            response = {
+                "rel-humidity" : sense.get_humidity(),
+                "pressure" : sense.get_pressure(),
+                "temperature" : sense.get_temperature()
+            }
+            response_content = json.dumps(response).encode()
+            self.send_response(200)
+            # defining the response headers
+            self.send_header('Content-Type', 'application/json')
+            content_len = len(response_content)
+            self.send_header('Content-Length', str(content_len))
+            self.end_headers()
+            self.wfile.write(response_content)
+        # TODO Other values (Dew Point, Absolute humidity, etc)
         elif path.startswith(STATIC_PATH_PREFIX):  # Static content...
             if verbose:
                 print(f"Static path: {path}")
@@ -363,6 +409,9 @@ server = HTTPServer((machine_name, port_number), ServiceHandler)
 #
 print("Try curl -X GET http://{}:{}{}/oplist".format(machine_name, port_number, PATH_PREFIX))
 print("or  curl -v -X VIEW http://{}:{}{} -H \"Content-Length: 1\" -d \"1\"".format(machine_name, port_number, PATH_PREFIX))
+print()
+print("or from a browser, http://{}:{}{}/index.html ".format(machine_name, port_number, STATIC_PATH_PREFIX))
+
 #
 try:
     server.serve_forever()
