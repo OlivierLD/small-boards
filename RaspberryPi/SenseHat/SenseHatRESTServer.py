@@ -202,7 +202,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response_content)
         # TODO Other values (Dew Point, Absolute humidity, etc)
-        elif path.startswith(STATIC_PATH_PREFIX):  # Static content...
+        elif path.startswith(STATIC_PATH_PREFIX):  # Static content... Content to be fetched in the STATIC_PATH_PREFIX folder (web/ here).
             if verbose:
                 print(f"Static path: {path}")
             static_resource: str = path[len(STATIC_PATH_PREFIX):]
@@ -243,10 +243,10 @@ class ServiceHandler(BaseHTTPRequestHandler):
                 self.wfile.write(content.encode())
             else:
                 self.wfile.write(content)
-        else:
+        else: # Not found
             if verbose:
                 print("GET on {} not managed".format(self.path))
-            error = "NOT FOUND!"
+            error = "NOT FOUND! GET on {} not managed.\n".format(self.path)
             self.send_response(400)
             self.send_header('Content-Type', 'text/plain')
             content_len = len(error)
