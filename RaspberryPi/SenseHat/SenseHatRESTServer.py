@@ -201,7 +201,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.send_header('Content-Length', str(content_len))
             self.end_headers()
             self.wfile.write(response_content)
-        # TODO Other values (Dew Point, Absolute humidity, etc)
+        # TODO Other values (Dew Point, Absolute humidity, yaw, pitch, roll, heading, etc)
         elif path.startswith(STATIC_PATH_PREFIX):  # Static content... Content to be fetched in the STATIC_PATH_PREFIX folder (web/ here).
             if verbose:
                 print(f"Static path: {path}")
