@@ -3,6 +3,7 @@ Can be programmed several ways.
 
 
 - <https://www.raspberrypi.org/documentation/pico/getting-started/>
+- <https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html>
 
 ## MicroPython
 - <https://datasheets.raspberrypi.org/pico/sdk/pico_python_sdk.pdf>
@@ -137,6 +138,8 @@ uart = UART(0, baudrate=BAUD_RATE, tx=Pin(TX_PIN), rx=Pi(RX_PIN), bits=8, parity
 the pin number used in `Pin(16)` refers to the pin labeled `GP16` in the Raspberry Pi Pico pinout:
 
 ![Raspberry Pi Pico pinout](./raspberry-pi-pico-pinout.png)
+
+![Raspberry Pi Pico 2W pinout](./pico2w-pinout.svg)
 
 this is the pin #21.
 
