@@ -1,5 +1,12 @@
 # Astrolabe Expéditions
 
+Some links:
+- Git repos
+  - [LittObs](https://github.com/astrolabe-expeditions/LittObs_OSOCTD)
+  - [SenseOcean](https://github.com/astrolabe-expeditions/SensOcean_OSOTSG/tree/v5-fireebeetle)
+- [Programmer SenseOcean](https://cedriccoursonopensourceoceanography.notion.site/Programmer-SensOcean-b69c2cf5203f4e7b8d01bfecacec98ce#7b0cb02975d64c3b85b823d8f587f83b)
+
+---
 From Cédric:
 
 Actuellement, on a des données physiques océanographiques fournies par deux types d'instruments :
