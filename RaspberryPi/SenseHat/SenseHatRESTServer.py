@@ -128,6 +128,10 @@ class ServiceHandler(BaseHTTPRequestHandler):
                     "verb": "POST",
                     "description": "Careful: terminate the server process."
                 }, {
+                    "path": PATH_PREFIX + "/verbose",
+                    "verb": "POST",
+                    "description": "Set verbose to true or false, passed in the request's payload."
+                }, {
                     "path": PATH_PREFIX + "/honk",
                     "verb": "POST",
                     "description": "Display a warning."
@@ -147,6 +151,10 @@ class ServiceHandler(BaseHTTPRequestHandler):
                     "path": PATH_PREFIX + "/all-env-sensors",
                     "verb": "GET",
                     "description": "Get the Temperature, Pressure, and Relative Humidity from the Sense-HAT, in JSON format."
+                }, {
+                    "path": PATH_PREFIX + "/all-imu-sensors",
+                    "verb": "GET",
+                    "description": "Get heading, pitch, roll, and yaw, in JSON format."
                 }]
             }
             response_content = json.dumps(response).encode()
@@ -202,6 +210,40 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response_content)
         # TODO Other values (Dew Point, Absolute humidity, yaw, pitch, roll, heading, etc)
+        elif path == PATH_PREFIX + "/all-imu-sensors":
+            # orientation = sense.get_orientation_degrees()
+            # print("Orientation - p: {pitch}, r: {roll}, y: {yaw}".format(**orientation))
+
+            # north = sense.get_compass()
+            # print("Compass - North: %s" % north)
+            # alternatives
+            # print("Alt - 1, North: %s" % sense.compass)
+
+            gyro_only = sense.get_gyroscope()
+            # print("Gyro - p: {pitch}, r: {roll}, y: {yaw}".format(**gyro_only))
+            # alternatives
+            # print("Alt-1 - Gyro: %s" % sense.gyro)
+            # print("Alt-2 - Gyro: %s" % sense.gyroscope)
+
+
+            # accel_only = sense.get_accelerometer()
+            # print("Acc - p: {pitch}, r: {roll}, y: {yaw}".format(**accel_only))
+            response = {
+                "hdg" : sense.get_compass(),
+                "gyro" : {
+                    "pitch": gyro_only["pitch"],
+                    "roll": gyro_only["roll"],
+                    "yaw": gyro_only["yaw"]
+                }
+            }
+            response_content = json.dumps(response).encode()
+            self.send_response(200)
+            # defining the response headers
+            self.send_header('Content-Type', 'application/json')
+            content_len = len(response_content)
+            self.send_header('Content-Length', str(content_len))
+            self.end_headers()
+            self.wfile.write(response_content)
         elif path.startswith(STATIC_PATH_PREFIX):  # Static content... Content to be fetched in the STATIC_PATH_PREFIX folder (web/ here).
             if verbose:
                 print(f"Static path: {path}")
@@ -309,6 +351,24 @@ class ServiceHandler(BaseHTTPRequestHandler):
                 sense.clear()
             # REST response stuff
             response = {"status": "OK"}
+            response_content = json.dumps(response).encode()
+            self.send_response(201)
+            self.send_header('Content-Type', 'application/json')
+            content_len = len(response_content)
+            self.send_header('Content-Length', str(content_len))
+            self.end_headers()
+            self.wfile.write(response_content)
+        elif self.path.startswith(PATH_PREFIX + "/verbose"):
+            content_len: int = int(self.headers.get('Content-Length'))
+            post_body = self.rfile.read(content_len).decode('utf-8')
+            if verbose:
+                print("Content: {}".format(post_body))
+            # global verbose
+            if post_body.lower() == "true":
+                verbose = True
+            else:
+                verbose = False
+            response = {"status": "OK", "verbose": verbose}
             response_content = json.dumps(response).encode()
             self.send_response(201)
             self.send_header('Content-Type', 'application/json')

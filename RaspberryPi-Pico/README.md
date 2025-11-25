@@ -5,6 +5,8 @@ Can be programmed several ways.
 - <https://www.raspberrypi.org/documentation/pico/getting-started/>
 - <https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html>
 
+Pico 1 is a `RP2040`, Pico 2 is a `RP2350`.
+
 ## MicroPython
 - <https://datasheets.raspberrypi.org/pico/sdk/pico_python_sdk.pdf>
 - <https://core-electronics.com.au/tutorials/getting-started-with-raspberry-pi-pico.html>
