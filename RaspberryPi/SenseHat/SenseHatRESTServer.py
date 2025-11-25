@@ -59,6 +59,9 @@ sense = SenseHat()
 
 # Defining an HTTP request Handler class
 class ServiceHandler(BaseHTTPRequestHandler):
+
+    global verbose;
+
     # sets basic headers for the server
     def _set_headers(self):
         self.send_response(200)
@@ -317,7 +320,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
 
     # POST method definition
     def do_POST(self):
-        global verbose
+        # global verbose
         if verbose:
             print("POST request, {}".format(self.path))
         if self.path.startswith(PATH_PREFIX + "/exit"):
