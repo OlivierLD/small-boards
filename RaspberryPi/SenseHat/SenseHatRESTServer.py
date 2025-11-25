@@ -62,9 +62,6 @@ class ServiceHandler(BaseHTTPRequestHandler):
 
     verbose: bool = False
 
-    def _set_verbose(v):
-        verbose = v
-
     # sets basic headers for the server
     def _set_headers(self):
         self.send_response(200)
@@ -489,7 +486,6 @@ print("or from a browser, http://{}:{}{}/index.html ".format(machine_name, port_
 
 #
 try:
-    server._set_verbose(verbose)
     server.serve_forever()
 except KeyboardInterrupt:
     keep_looping = False
