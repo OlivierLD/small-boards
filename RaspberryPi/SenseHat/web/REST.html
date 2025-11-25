@@ -119,7 +119,8 @@ function getPromise(
 
         xhr.onload = () => {
             clearTimeout(requestTimer);
-            if (xhr.status === happyCode) {
+            // if (xhr.status === happyCode) {
+            if ((Array.isArray(happyCode) && happyCode.includes(xhr.status)) || xhr.status === happyCode) {
                 resolve(xhr.response);
             } else {
                 reject({code: xhr.status, message: xhr.response});
@@ -142,19 +143,7 @@ let returnError = (error, message) => {
 };
 
 const REST_REQUESTS = [
-    { verb: "GET", request: "/sense-hat/oplist", payload: "" }
-];
-
-let doRequest = (idx) => {
-    let requestPrm = REST_REQUESTS[idx - 1];
-    try {
-        let thePromise = getPromise(requestPrm.request,
-            DEFAULT_TIMEOUT,
-            requestPrm.verb,
-            200,   // happy code
-            null,  // payload
-            false, // show traffic
-            [{
+    { verb: "GET", request: "/sense-hat/oplist", payload: null, happyCode: 200, show: false, headers: [{
                 name: 'Access-Control-Allow-Origin',
                 value: '*'
             }, {
@@ -163,7 +152,20 @@ let doRequest = (idx) => {
             }, {
                 name: 'Access-Control-Allow-Headers',
                 value: 'Content-Type'
-            }]);
+            }] },
+    { verb: "GET", request: "/sense-hat/all-env-sensors", payload: null, happyCode: [200, 201], show: false, headers: [] }
+];
+
+let doRequest = (idx) => {
+    let requestPrm = REST_REQUESTS[idx - 1];
+    try {
+        let thePromise = getPromise(requestPrm.request,
+            DEFAULT_TIMEOUT,
+            requestPrm.verb,
+            requestPrm.happyCode, // happy code
+            requestPrm.payload,   // payload
+            requestPrm.show,      // show traffic
+            requestPrm.headers);
             thePromise.then(responseData => {
                 console.log('Response:', responseData);
                 returnResult(responseData);
@@ -191,6 +193,7 @@ let doRequest = (idx) => {
             <h2>REST Requests</h2>
             <ul>
                 <li><a href="" onclick="doRequest(1); return false;">curl -X GET /sense-hat/oplist</a></li>
+                <li><a href="" onclick="doRequest(2); return false;">curl -X GET /sense-hat/all-env-sensors</a></li>
             </ul>
             <div id="request-result">
 
