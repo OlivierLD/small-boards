@@ -13,6 +13,8 @@
 # Start it with
 # $ python3 <...>/SenseHatRESTServer.py --machine-name:$(hostname -I) --port:9999 --verbose:false
 #
+# TODO Fix verbose pb. See in the code.
+#
 import json
 import signal
 import sys
