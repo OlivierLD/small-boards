@@ -321,8 +321,8 @@ class ServiceHandler(BaseHTTPRequestHandler):
     # POST method definition
     def do_POST(self):
         # global verbose
-        if verbose:  # Not recognized... wierd.
-            print("POST request, {}".format(self.path))
+        # if verbose:                                      # Not recognized... wierd.
+        #    print("POST request, {}".format(self.path))
         if self.path.startswith(PATH_PREFIX + "/exit"):
             print(">>>>> REST server received POST /exit")
             # content_len: int = int(self.headers.get('Content-Length'))
