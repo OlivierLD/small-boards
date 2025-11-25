@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sense HAT Home</title>
+    <style type="text/css">
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 40px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+h1 {
+    color: #007acc;
+}
+.tab {
+    overflow-x: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgba(241, 241, 241, 0.5);
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 12px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.tab-active {
+    background-color: #ccc;
+}
+.tablinks {
+    font-weight: bold;
+}
+.dialog-tab-content {
+    height: 95%;
+    max-height: 500px;
+    overflow-y: auto;
+}
+    </style>
+    <script type="text/javascript">
+let openTab = (evt, tabName) => {
+    let tabLinks = document.getElementsByClassName("tablinks"); // Tabs/Buttons
+
+    for (let i=0; i<tabLinks.length; i++) {
+        tabLinks[i].className = tabLinks[i].className.replace(" tab-active", ""); // Reset
+    }
+    let divSections = document.querySelectorAll(".tab-section");
+
+    for (let i=0; i<divSections.length; i++) {
+        divSections[i].style.display = (divSections[i].id === tabName) ? 'block' : 'none';
+    }
+    evt.currentTarget.className += " tab-active";
+};
+
+const DEFAULT_TIMEOUT = 60000; // 1 minute
+const DEBUG = false;
+
+/* Uses ES6 Promises */
+function getPromise(
+    url,                          // full api path
+    timeout,                      // After that, fail.
+    verb,                         // GET, PUT, DELETE, POST, etc
+    happyCode,                    // if met, resolve, otherwise fail.
+    data = null,             // payload, when needed (PUT, POST...)
+    show = true,             // Show the traffic [true]|false
+    headers = null) {        // Array of { name: '', value: '' }
+
+    if (show === true) {
+        document.body.style.cursor = 'wait';
+    }
+
+    if (DEBUG) {
+        console.log(">>> Promise", verb, url);
+    }
+
+    let promise = new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest();
+        let TIMEOUT = timeout;
+
+        let req = verb + " " + url;
+        if (data !== undefined && data !== null) {
+            req += ("\n" + JSON.stringify(data, null, 2));
+        }
+
+        xhr.open(verb, url, true);
+        if (headers === null) {
+            xhr.setRequestHeader("Content-type", "application/json");
+        } else {
+            headers.forEach(header => xhr.setRequestHeader(header.name, header.value));
+        }
+        try {
+            if (data === undefined || data === null) {
+                xhr.send();
+            } else {
+                xhr.send(JSON.stringify(data));
+            }
+        } catch (err) {
+            console.log("Send Error ", err);
+        }
+
+        let requestTimer = setTimeout(() => {
+            xhr.abort();
+            let mess = {code: 408, message: 'Timeout'};
+            reject(mess);
+        }, TIMEOUT);
+
+        xhr.onload = () => {
+            clearTimeout(requestTimer);
+            if (xhr.status === happyCode) {
+                resolve(xhr.response);
+            } else {
+                reject({code: xhr.status, message: xhr.response});
+            }
+        };
+    });
+    return promise;
+}
+
+const REST_REQUESTS = [
+    { verb: "GET", request: "/sense-hat/oplist", payload: "" }
+];
+
+let doRequest = (idx) => {
+    let requestPrm = REST_REQUESTS[idx - 1];
+    try {
+        let thePromise = getPromise(requestPrm.request,
+            DEFAULT_TIMEOUT,
+            requestPrm.verb,
+            200,   // happy code
+            null,  // payload
+            false, // show traffic
+            [{
+                name: 'Access-Control-Allow-Origin',
+                value: '*'
+            }, {
+                name: 'Access-Control-Allow-Methods',
+                value: 'GET, POST, PUT, OPTIONS, HEAD'
+            }, {
+                name: 'Access-Control-Allow-Headers',
+                value: 'Content-Type'
+            }]);
+            thePromise.then(responseData => {
+                console.log('Response:', responseData);
+            }, (error, message) => {
+                console.debug('Response error', error, message);
+            });
+    } catch (err) {
+        console.error(err);
+    }
+};
+    </script>
+</head>
+<body>
+  <h1>Sense HAT REST page</h1>
+  <div>
+
+    <div class="tab" style="margin-top: 30px; padding-top: 0px; margin-bottom: 10px; display: grid; grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto;"> <!-- TODO Improve the grid-template... -->
+        <button class="tablinks tab-active" onclick="openTab(event, 'sense-hat-01');" title="Meteo">REST tests</button>
+        <button class="tablinks" onclick="openTab(event, 'sense-hat-02');">Coming</button>
+    </div>
+
+    <div class="dialog-tab-content">
+        <div id="sense-hat-01" class="tab-section" style="display: block;">
+            <h2>REST Requests</h2>
+            <ul>
+                <li><a href="" onclick="doRequest(1); return false;">curl -X GET /sense-hat/oplist</a></li>
+            </ul>
+            <div id="request-result">
+
+            </div>
+        </div>
+        <div id="sense-hat-02" class="tab-section" style="display: none;">
+            Some other stuff here
+        </div>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -226,7 +226,6 @@ class ServiceHandler(BaseHTTPRequestHandler):
             # print("Alt-1 - Gyro: %s" % sense.gyro)
             # print("Alt-2 - Gyro: %s" % sense.gyroscope)
 
-
             # accel_only = sense.get_accelerometer()
             # print("Acc - p: {pitch}, r: {roll}, y: {yaw}".format(**accel_only))
             response = {
