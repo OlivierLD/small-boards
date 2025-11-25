@@ -129,6 +129,18 @@ function getPromise(
     return promise;
 }
 
+let returnResult = (content) => {
+    let fmt = JSON.stringify(JSON.parse(content), null, 2);
+    let where = document.getElementById('request-result');
+    where.innerHTML = `<pre>${fmt}</pre>`;
+};
+
+let returnError = (error, message) => {
+    let fmt = error + '<br/>' + message;
+    let where = document.getElementById('request-result');
+    where.innerHTML = `<pre>${fmt}</pre>`;
+};
+
 const REST_REQUESTS = [
     { verb: "GET", request: "/sense-hat/oplist", payload: "" }
 ];
@@ -154,8 +166,10 @@ let doRequest = (idx) => {
             }]);
             thePromise.then(responseData => {
                 console.log('Response:', responseData);
+                returnResult(responseData);
             }, (error, message) => {
                 console.debug('Response error', error, message);
+                returnError(error, message);
             });
     } catch (err) {
         console.error(err);
