@@ -60,7 +60,7 @@ sense = SenseHat()
 # Defining an HTTP request Handler class
 class ServiceHandler(BaseHTTPRequestHandler):
 
-    verbose: bool = False
+    # verbose: bool = False
 
     # sets basic headers for the server
     def _set_headers(self):
@@ -321,7 +321,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
     # POST method definition
     def do_POST(self):
         # global verbose
-        if verbose:
+        if verbose:  # Not recognized... wierd.
             print("POST request, {}".format(self.path))
         if self.path.startswith(PATH_PREFIX + "/exit"):
             print(">>>>> REST server received POST /exit")
