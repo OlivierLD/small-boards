@@ -364,9 +364,12 @@ class ServiceHandler(BaseHTTPRequestHandler):
         elif self.path.startswith(PATH_PREFIX + "/verbose"):
             content_len: int = int(self.headers.get('Content-Length'))
             post_body = self.rfile.read(content_len).decode('utf-8')
-            if verbose:
-                print("Content: {}".format(post_body))
-            # global verbose
+            try:
+                if verbose:
+                    print("Content: {}".format(post_body))
+            except Exception as exception:
+                error = {"message": "{}".format(exception)}
+                print(error)
             if post_body.lower() == "true":
                 verbose = True
             else:
