@@ -220,7 +220,8 @@ class ServiceHandler(BaseHTTPRequestHandler):
             # print("Alt - 1, North: %s" % sense.compass)
 
             gyro_only = sense.get_gyroscope()
-            # print("Gyro - p: {pitch}, r: {roll}, y: {yaw}".format(**gyro_only))
+            if verbose:
+                print("Gyro - p: {pitch}, r: {roll}, y: {yaw}".format(**gyro_only))
             # alternatives
             # print("Alt-1 - Gyro: %s" % sense.gyro)
             # print("Alt-2 - Gyro: %s" % sense.gyroscope)
@@ -317,9 +318,9 @@ class ServiceHandler(BaseHTTPRequestHandler):
 
     # POST method definition
     def do_POST(self):
+        global verbose
         if verbose:
             print("POST request, {}".format(self.path))
-            print("POST on {} not managed".format(self.path))
         if self.path.startswith(PATH_PREFIX + "/exit"):
             print(">>>>> REST server received POST /exit")
             # content_len: int = int(self.headers.get('Content-Length'))
@@ -377,6 +378,8 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response_content)
         else:
+            if verbose:
+                print("POST on {} not managed".format(self.path))
             error = "NOT FOUND!"
             self.send_response(404)
             self.send_header('Content-Type', 'text/plain')
