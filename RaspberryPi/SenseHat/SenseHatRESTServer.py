@@ -60,7 +60,7 @@ sense = SenseHat()
 # Defining an HTTP request Handler class
 class ServiceHandler(BaseHTTPRequestHandler):
 
-    global verbose;
+    global verbose
 
     # sets basic headers for the server
     def _set_headers(self):
