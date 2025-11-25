@@ -35,7 +35,7 @@ __version__ = "0.0.1"
 __repo__ = "https://github.com/OlivierLD/small-boards"
 
 PATH_PREFIX: str = "/sense-hat"
-STATIC_PATH_PREFIX: str = "/web"        # Whatever starts with /web is managed as static resource
+STATIC_PATH_PREFIX: str = "/web"  # Whatever starts with /web is managed as static resource
 # TODO zip prefix ? That'd be kewl...
 server_port: int = 8080
 verbose: bool = False
@@ -59,9 +59,9 @@ sample_data: Dict[str, str] = {  # Used for VIEW (and non-implemented) operation
 
 sense = SenseHat()
 
+
 # Defining an HTTP request Handler class
 class ServiceHandler(BaseHTTPRequestHandler):
-
     # verbose: bool = False
 
     # sets basic headers for the server
@@ -86,7 +86,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
     # GET Method Definition
     def do_GET(self):
         if verbose:
-            print("GET methods")
+            print("GET methods")  # That on works. Same in do_POST does not.
         #
         full_path = self.path
         split = full_path.split('?')
@@ -105,7 +105,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
                 else:
                     print("oops, no equal sign in {}".format(qs_prm))
 
-        if path == PATH_PREFIX + "/data": # Random data, with dates
+        if path == PATH_PREFIX + "/data":  # Random data, with dates
             if verbose:
                 print("JSON Array Value request")
             try:
@@ -171,7 +171,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response_content)
         elif path == PATH_PREFIX + "/temperature":
-            response = { "temperature" : sense.get_temperature() }
+            response = {"temperature": sense.get_temperature()}
             response_content = json.dumps(response).encode()
             self.send_response(200)
             # defining the response headers
@@ -181,7 +181,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response_content)
         elif path == PATH_PREFIX + "/pressure":
-            response = { "pressure" : sense.get_pressure() }
+            response = {"pressure": sense.get_pressure()}
             response_content = json.dumps(response).encode()
             self.send_response(200)
             # defining the response headers
@@ -191,7 +191,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response_content)
         elif path == PATH_PREFIX + "/rel-humidity":
-            response = { "rel-humidity" : sense.get_humidity() }
+            response = {"rel-humidity": sense.get_humidity()}
             response_content = json.dumps(response).encode()
             self.send_response(200)
             # defining the response headers
@@ -202,9 +202,9 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.wfile.write(response_content)
         elif path == PATH_PREFIX + "/all-env-sensors":
             response = {
-                "rel-humidity" : sense.get_humidity(),
-                "pressure" : sense.get_pressure(),
-                "temperature" : sense.get_temperature()
+                "rel-humidity": sense.get_humidity(),
+                "pressure": sense.get_pressure(),
+                "temperature": sense.get_temperature()
             }
             response_content = json.dumps(response).encode()
             self.send_response(200)
@@ -234,8 +234,8 @@ class ServiceHandler(BaseHTTPRequestHandler):
             # accel_only = sense.get_accelerometer()
             # print("Acc - p: {pitch}, r: {roll}, y: {yaw}".format(**accel_only))
             response = {
-                "hdg" : sense.get_compass(),
-                "gyro" : {
+                "hdg": sense.get_compass(),
+                "gyro": {
                     "pitch": gyro_only["pitch"],
                     "roll": gyro_only["roll"],
                     "yaw": gyro_only["yaw"]
@@ -249,7 +249,8 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.send_header('Content-Length', str(content_len))
             self.end_headers()
             self.wfile.write(response_content)
-        elif path.startswith(STATIC_PATH_PREFIX):  # Static content... Content to be fetched in the STATIC_PATH_PREFIX folder (web/ here).
+        elif path.startswith(
+                STATIC_PATH_PREFIX):  # Static content... Content to be fetched in the STATIC_PATH_PREFIX folder (web/ here).
             if verbose:
                 print(f"Static path: {path}")
             static_resource: str = path[len(STATIC_PATH_PREFIX):]
@@ -290,7 +291,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
                 self.wfile.write(content.encode())
             else:
                 self.wfile.write(content)
-        else: # Not found
+        else:  # Not found
             if verbose:
                 print("GET on {} not managed".format(self.path))
             error = "NOT FOUND! GET on {} not managed.\n".format(self.path)
@@ -301,30 +302,11 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(bytes(error, 'utf-8'))
 
-    # VIEW method definition. Uncommon...
-    def do_VIEW(self):
-        # dict var. for pretty print
-        display = {}
-        temp = self._set_headers()
-        # check if the key is present in the sample_data dictionary
-        if temp in sample_data:
-            display[temp] = sample_data[temp]
-            # print the keys required from the json file
-            self.wfile.write(json.dumps(display).encode())
-        else:
-            error = "{} Not found in sample_data\n".format(temp)
-            self.send_response(404)
-            self.send_header('Content-Type', 'text/plain')
-            content_len = len(error)
-            self.send_header('Content-Length', str(content_len))
-            self.end_headers()
-            self.wfile.write(bytes(error, 'utf-8'))
-
     # POST method definition
     def do_POST(self):
-        # global verbose
         # if verbose:                                      # Not recognized... wierd.
-        #    print("POST request, {}".format(self.path))
+        print("POST request, {}".format(self.path))
+        #
         if self.path.startswith(PATH_PREFIX + "/exit"):
             print(">>>>> REST server received POST /exit")
             # content_len: int = int(self.headers.get('Content-Length'))
@@ -370,7 +352,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
                 if verbose:
                     print("Content: {}".format(post_body))
             except Exception as exception:
-                error = {"message": "{}".format(exception)}
+                error = {"error-message": "{}".format(exception)}
                 print(error)
             if post_body.lower() == "true":
                 verbose = True
@@ -420,6 +402,27 @@ class ServiceHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(bytes(error, 'utf-8'))
 
+    # VIEW method definition. Uncommon...
+    def do_VIEW(self):
+        if verbose:
+            print("VIEW methods")  # That on works. Same in do_POST does not.
+        #
+        # dict var. for pretty print
+        display = {}
+        temp = self._set_headers()
+        # check if the key is present in the sample_data dictionary
+        if temp in sample_data:
+            display[temp] = sample_data[temp]
+            # print the keys required from the json file
+            self.wfile.write(json.dumps(display).encode())
+        else:
+            error = "{} Not found in sample_data\n".format(temp)
+            self.send_response(404)
+            self.send_header('Content-Type', 'text/plain')
+            content_len = len(error)
+            self.send_header('Content-Length', str(content_len))
+            self.end_headers()
+            self.wfile.write(bytes(error, 'utf-8'))
 
 DATA_ARRAY: Dict[str, int] = {
 }
@@ -485,7 +488,8 @@ print("Starting server on port {}".format(port_number))
 server = HTTPServer((machine_name, port_number), ServiceHandler)
 #
 print("Try curl -X GET http://{}:{}{}/oplist".format(machine_name, port_number, PATH_PREFIX))
-print("or  curl -v -X VIEW http://{}:{}{} -H \"Content-Length: 1\" -d \"1\"".format(machine_name, port_number, PATH_PREFIX))
+print("or  curl -v -X VIEW http://{}:{}{} -H \"Content-Length: 1\" -d \"1\"".format(machine_name, port_number,
+                                                                                    PATH_PREFIX))
 print()
 print("or from a browser, http://{}:{}{}/index.html ".format(machine_name, port_number, STATIC_PATH_PREFIX))
 
