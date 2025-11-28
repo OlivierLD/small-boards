@@ -30,6 +30,7 @@ from datetime import datetime, timezone
 # import NMEABuilder   # local script
 # import utils         # local script
 from sense_hat import SenseHat
+import WeatherUtils
 
 __version__ = "0.0.1"
 __repo__ = "https://github.com/OlivierLD/small-boards"
@@ -181,7 +182,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response_content)
         elif path == PATH_PREFIX + "/pressure":
-            response = {"pressure": sense.get_pressure()}
+            response = {"pressure": sense.get_pressure()} # / 3.8954914563 ?
             response_content = json.dumps(response).encode()
             self.send_response(200)
             # defining the response headers
@@ -201,10 +202,14 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response_content)
         elif path == PATH_PREFIX + "/all-env-sensors":
+            rel_hum: float = sense.get_pressure()
+            air_temp: float = sense.get_temperature()
             response = {
-                "rel-humidity": sense.get_humidity(),
-                "pressure": sense.get_pressure(),
-                "temperature": sense.get_temperature()
+                "rel-humidity": rel_hum,
+                "pressure": sense.get_pressure(),      # divide by 3.8954914563 ?
+                "temperature": air_temp,
+                "dew-point": WeatherUtils.dew_point_temperature(rel_hum, air_temp),
+                "abs_hum": WeatherUtils.absolute_humidity(air_temp, rel_hum)
             }
             response_content = json.dumps(response).encode()
             self.send_response(200)
