@@ -5,7 +5,7 @@ Can be programmed several ways.
 - <https://www.raspberrypi.org/documentation/pico/getting-started/>
 - <https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html>
 
-Code Club:
+Code Club on Pico W:
 - <https://projects.raspberrypi.org/en/projects/get-started-pico-w>
 
 Pico 1 is a `RP2040`, Pico 2 is a `RP2350`.
