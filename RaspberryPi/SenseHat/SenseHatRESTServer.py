@@ -202,7 +202,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response_content)
         elif path == PATH_PREFIX + "/all-env-sensors":
-            rel_hum: float = sense.get_pressure()
+            rel_hum: float = sense.get_humidity()
             air_temp: float = sense.get_temperature()
             response = {
                 "rel-humidity": rel_hum,
