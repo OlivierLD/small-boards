@@ -219,7 +219,6 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.send_header('Content-Length', str(content_len))
             self.end_headers()
             self.wfile.write(response_content)
-        # TODO Other values (Dew Point, Absolute humidity, yaw, pitch, roll, heading, etc)
         elif path == PATH_PREFIX + "/all-imu-sensors":
             # orientation = sense.get_orientation_degrees()
             # print("Orientation - p: {pitch}, r: {roll}, y: {yaw}".format(**orientation))
@@ -271,10 +270,15 @@ class ServiceHandler(BaseHTTPRequestHandler):
             elif static_resource.endswith(".png"):
                 content_type = "image/png"
                 binary = True
+            elif static_resource.endswith(".jpg") or static_resource.endswith(".jpeg"):
+                content_type = "image/jpg"
+                binary = True
             elif static_resource.endswith(".ico"):
                 content_type = "image/ico"
                 binary = True
             # TODO more cases. jpg, gif, svg, ttf, pdf, wav, etc.
+            else:
+                print(f"Unmanaged type {static_resource}")
 
             # Content type based on file extension
             if not binary:
