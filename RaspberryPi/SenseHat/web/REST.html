@@ -105,7 +105,11 @@ function getPromise(
             if (data === undefined || data === null) {
                 xhr.send();
             } else {
-                xhr.send(JSON.stringify(data));
+                if (typeof(data) === 'string') {
+                    xhr.send(data);
+                } else { // Assume 'object'
+                    xhr.send(JSON.stringify(data));
+                }
             }
         } catch (err) {
             console.log("Send Error ", err);
