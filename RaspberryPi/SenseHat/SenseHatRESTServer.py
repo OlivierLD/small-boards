@@ -332,6 +332,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
         if self.path.startswith(PATH_PREFIX + "/honk"):
             content_len: int = int(self.headers.get('Content-Length'))
             post_body = self.rfile.read(content_len).decode('utf-8')
+            print(f"Post Body [{post_body}]")  # Debug
             if False:
                 sense.set_rotation(90)
                 red = (255, 0, 0)
