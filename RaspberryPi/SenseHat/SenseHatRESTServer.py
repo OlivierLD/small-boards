@@ -350,7 +350,10 @@ class ServiceHandler(BaseHTTPRequestHandler):
                 time.sleep(2)
                 sense.clear()
             # REST response stuff
-            response = {"status": "OK"}
+            response = {
+                "status": "OK",
+                "payload": post_body
+            }
             response_content = json.dumps(response).encode()
             self.send_response(201)
             self.send_header('Content-Type', 'application/json')
