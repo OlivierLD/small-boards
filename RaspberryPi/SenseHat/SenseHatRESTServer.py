@@ -140,7 +140,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
                 }, {
                     "path": PATH_PREFIX + "/honk",
                     "verb": "POST",
-                    "description": "Display a warning."
+                    "description": "Display a warning. Payload can be 'Warning!', '!', or anything."
                 }, {
                     "path": PATH_PREFIX + "/temperature",
                     "verb": "GET",
@@ -330,6 +330,8 @@ class ServiceHandler(BaseHTTPRequestHandler):
             print(f">>> Killing REST server process ({server_pid}).")
             os.kill(server_pid, signal.SIGKILL)
         if self.path.startswith(PATH_PREFIX + "/honk"):
+            content_len: int = int(self.headers.get('Content-Length'))
+            post_body = self.rfile.read(content_len).decode('utf-8')
             if False:
                 sense.set_rotation(90)
                 red = (255, 0, 0)
@@ -338,7 +340,12 @@ class ServiceHandler(BaseHTTPRequestHandler):
             if True:
                 sense.set_rotation(90)
                 sense.clear()
-                sense.load_image("emojis/10.png")  # Warning sign...
+                if post_body == 'Warning!':
+                    sense.load_image("emojis/10.png")  # Warning sign...
+                elif post_body == '!':
+                    sense.show_message("!!", text_colour=red)
+                else:
+                    sense.show_message(post_body, text_colour=red)
                 time.sleep(2)
                 sense.clear()
             # REST response stuff
