@@ -64,7 +64,6 @@ sense = SenseHat()
 # Defining an HTTP request Handler class
 class ServiceHandler(BaseHTTPRequestHandler):
     # verbose: bool = False
-    red = (255, 0, 0)
 
     # sets basic headers for the server
     def _set_headers(self):
@@ -344,9 +343,9 @@ class ServiceHandler(BaseHTTPRequestHandler):
                 if post_body == 'Warning!':
                     sense.load_image("emojis/10.png")  # Warning sign...
                 elif post_body == '!':
-                    sense.show_message("!!", text_colour=red)
+                    sense.show_message("!!", text_colour=(255, 0, 0))
                 else:
-                    sense.show_message(post_body, text_colour=red)
+                    sense.show_message(post_body, text_colour=(255, 0, 0))
                 time.sleep(2)
                 sense.clear()
             # REST response stuff
