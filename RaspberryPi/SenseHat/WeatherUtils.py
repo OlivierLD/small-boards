@@ -4,7 +4,7 @@ import math
 #
 # Compliant with http://www.dpcalc.org/
 #
-# @param hum in %
+# @param hum (relative) in %
 # @param temp in Celsius
 # @return dew point temperature in Celsius
 #

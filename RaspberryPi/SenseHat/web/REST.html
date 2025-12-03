@@ -156,7 +156,11 @@ const REST_REQUESTS = [
     { verb: "GET", request: "/sense-hat/all-env-sensors", payload: null, happyCode: [200, 201], show: false, headers: [] },
     { verb: "POST", request: "/sense-hat/verbose", payload: 'true', happyCode: [200, 201], show: false, headers: [] },
     { verb: "POST", request: "/sense-hat/verbose", payload: 'false', happyCode: [200, 201], show: false, headers: [] },
-    { verb: "POST", request: "/sense-hat/honk", payload: 'Warning!', happyCode: [200, 201], show: false, headers: [] }
+    { verb: "POST", request: "/sense-hat/honk", payload: 'Warning!', happyCode: [200, 201], show: false, headers: [] },
+    { verb: "GET", request: "/sense-hat/temperature", payload: null, happyCode: 200, show: false, headers: [] },
+    { verb: "GET", request: "/sense-hat/pressure", payload: null, happyCode: 200, show: false, headers: [] },
+    { verb: "GET", request: "/sense-hat/rel-humidity", payload: null, happyCode: 200, show: false, headers: [] },
+    { verb: "GET", request: "/sense-hat/all-imu-sensors", payload: null, happyCode: 200, show: false, headers: [] }
 ];
 
 let doRequest = (idx) => {
@@ -200,9 +204,13 @@ let doRequest = (idx) => {
                 <li><a href="" onclick="doRequest(3); return false;">curl -X POST /sense-hat/verbose -d 'true'</a></li>
                 <li><a href="" onclick="doRequest(4); return false;">curl -X POST /sense-hat/verbose -d 'false'</a></li>
                 <li><a href="" onclick="doRequest(5); return false;">curl -X POST /sense-hat/honk -d 'Warning!'</a></li>
+                <li><a href="" onclick="doRequest(6); return false;">curl -X GET /sense-hat/temperature</a></li>
+                <li><a href="" onclick="doRequest(7); return false;">curl -X GET /sense-hat/pressure</a></li>
+                <li><a href="" onclick="doRequest(8); return false;">curl -X GET /sense-hat/rel-humidity</a></li>
+                <li><a href="" onclick="doRequest(9); return false;">curl -X GET /sense-hat/all-imu-sensors</a></li>
             </ul>
             <div id="request-result">
-                <!-- REquest result will show up here -->
+                <!-- Request result - response - will show up here -->
             </div>
         </div>
         <div id="sense-hat-02" class="tab-section" style="display: none;">

@@ -17,7 +17,7 @@ Pico 1 is a `RP2040`, Pico 2 is a `RP2350`.
 
 If `minicom` is not available (like on a Mac), use `screen`.  
 
-- Start the Pico, with the button pushed
+- Start the Pico, _**with the button pushed**_
 - Drag the `pico_micropyhton_20210121.uf2` on the Pico's "drive"
 - A Serial new port should be available when the copy is done.
 
@@ -31,7 +31,7 @@ $ screen /dev/tty.usbmodem0000000000001 9600
 ```
 > Other baud rates work too (like `115200`)
 
-Hit `[Return]` if needed to get to the prompt.  
+If needed, hit `[Return]` to get to the prompt.  
 Type `[Ctrl+D]` at the prompt:
 ```
 >>> 
