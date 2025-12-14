@@ -192,12 +192,12 @@ String generateMDA(String talkerID, float pressure, float temperature) {
  * @brief Generates an MMB NMEA Sentence
  * MMB - Atmospheric/Barometric Pressure
  *   $--MMB,x.x,I,x.x,B*hh<CR><LF>
- *   | |   |   | |   |
- *   | |   |   | |   -- Unit of measurement, B = Bars
- *   | |   |   | +----- Pressure, Bars
- *   | |   |   +--------- Unit of measurement, I = inches of Hg
- *   | |   +------------- Pressure, inches of Hg
- *   | +----------------- MMB NMEA sentence type
+ *   |  |   |   | |   |
+ *   |  |   |   | |   +-- Unit of measurement, B = Bars
+ *   |  |   |   | +----- Pressure, Bars
+ *   |  |   |   +--------- Unit of measurement, I = inches of Hg
+ *   |  |   +------------- Pressure, inches of Hg
+ *   |  +----------------- MMB NMEA sentence type
  *   +------------------- NMEA Talker ID
  * Example: $IIMMB,29.9350,I,1.0136,B*7A
  * Note: 1 inch of Hg = 33.8639 millibar (hPa)

@@ -1,6 +1,7 @@
 # Sense HAT
 See the repo at https://github.com/astro-pi/python-sense-hat/tree/master  
-Doc [here](https://sense-hat.readthedocs.io/en/latest/)
+Doc [here](https://sense-hat.readthedocs.io/en/latest/) and 
+[here](https://sense-hat.readthedocs.io/en/latest/api/).
 
 All the code is to be executed on a Raspberry Pi, with a Sense HAT attached on top.
 
@@ -17,7 +18,7 @@ To clone only a part of a git repo:
 >   `git checkout main`
 
 Here, we're talking about the git repo at `https://github.com/OlivierLD/small-boards`,
-the directory we need is `RaspberryPi/SenseHat`.  
+the directory (from the repo) we need is `RaspberryPi/SenseHat`.  
 The commands would be here, in our very case:
 ```
 git clone --no-checkout https://github.com/OlivierLD/small-boards  
@@ -27,7 +28,7 @@ git sparse-checkout set RaspberryPi/SenseHat
 git checkout
 ```
 
-After installing the Sense-HAT python packages on the Raspberry Pi, 
+After installing the Sense-HAT python packages on the Raspberry Pi (`sudo apt-get install sense-hat`), 
 they should be in `/usr/lib/python3/dist-packages/sense_hat/sense_hat.py`.
 
 To refer to the packages in a specific folder, see https://www.geeksforgeeks.org/python/how-to-import-a-python-module-given-the-full-path/.
