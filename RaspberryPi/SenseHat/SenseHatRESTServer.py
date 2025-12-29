@@ -89,7 +89,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
         global verbose
 
         if verbose:
-            print("GET methods")  # That one works. Same in do_POST does not.
+            print("GET methods")  # That one works, even without the "global verbose" above...
         #
         full_path = self.path
         split = full_path.split('?')
@@ -509,7 +509,8 @@ client_thread: threading.Thread = \
     threading.Thread(target=ping_data, args=("Parameter...",))  # Producer
 # print(f"Thread is a {type(client_thread)}")
 client_thread.daemon = True  # Dies on exit
-client_thread.start()
+if False:  # Not required here
+    client_thread.start()
 
 # Server Initialization
 port_number: int = server_port
