@@ -88,6 +88,8 @@ class ServiceHandler(BaseHTTPRequestHandler):
 
     # GET Method Definition
     def do_GET(self):
+        global verbose
+
         if verbose:
             print("GET methods")  # That one works. Same in do_POST does not.
         #
@@ -314,6 +316,8 @@ class ServiceHandler(BaseHTTPRequestHandler):
 
     # POST method definition
     def do_POST(self):
+        global verbose
+
         if verbose:                                      # Not recognized... wierd.
             print("POST request, {}".format(self.path))
         #
@@ -400,6 +404,8 @@ class ServiceHandler(BaseHTTPRequestHandler):
 
     # PUT method Definition
     def do_PUT(self):
+        global verbose
+
         if verbose:
             print("PUT request, {}".format(self.path))
             print("PUT on {} not managed".format(self.path))
@@ -413,6 +419,8 @@ class ServiceHandler(BaseHTTPRequestHandler):
 
     # DELETE method definition
     def do_DELETE(self):
+        global verbose
+
         if verbose:
             print("DELETE on {} not managed".format(self.path))
         error = "NOT FOUND!"
@@ -425,6 +433,8 @@ class ServiceHandler(BaseHTTPRequestHandler):
 
     # VIEW method definition. Uncommon...
     def do_VIEW(self):
+        global verbose
+
         if verbose:
             print("VIEW methods")  # That on works. Same in do_POST does not.
         #
