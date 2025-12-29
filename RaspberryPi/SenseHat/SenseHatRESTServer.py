@@ -13,7 +13,7 @@
 # Start it with
 # $ python3 <...>/SenseHatRESTServer.py --machine-name:$(hostname -I) --port:9999 --verbose:false
 #
-# TODO Fix verbose pb. See in the code.
+# TODO Fix verbose pb. See in the code. See "self.path.startswith(PATH_PREFIX + "/verbose"):"
 #
 import json
 import signal
@@ -29,6 +29,8 @@ from typing import Dict
 from datetime import datetime, timezone
 # import NMEABuilder   # local script
 # import utils         # local script
+
+# sys.path.append('/usr/lib/python3/dist-packages/sense_hat')
 from sense_hat import SenseHat
 import WeatherUtils
 
@@ -87,7 +89,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
     # GET Method Definition
     def do_GET(self):
         if verbose:
-            print("GET methods")  # That on works. Same in do_POST does not.
+            print("GET methods")  # That one works. Same in do_POST does not.
         #
         full_path = self.path
         split = full_path.split('?')
@@ -253,8 +255,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
             self.send_header('Content-Length', str(content_len))
             self.end_headers()
             self.wfile.write(response_content)
-        elif path.startswith(
-                STATIC_PATH_PREFIX):  # Static content... Content to be fetched in the STATIC_PATH_PREFIX folder (web/ here).
+        elif path.startswith(STATIC_PATH_PREFIX):  # Static content... Content to be fetched in the STATIC_PATH_PREFIX folder (web/ here).
             if verbose:
                 print(f"Static path: {path}")
             static_resource: str = path[len(STATIC_PATH_PREFIX):]
@@ -313,8 +314,8 @@ class ServiceHandler(BaseHTTPRequestHandler):
 
     # POST method definition
     def do_POST(self):
-        # if verbose:                                      # Not recognized... wierd.
-        print("POST request, {}".format(self.path))
+        if verbose:                                      # Not recognized... wierd.
+            print("POST request, {}".format(self.path))
         #
         if self.path.startswith(PATH_PREFIX + "/exit"):
             print(">>>>> REST server received POST /exit")
