@@ -13,8 +13,6 @@
 # Start it with
 # $ python3 <...>/SenseHatRESTServer.py --machine-name:$(hostname -I) --port:9999 --verbose:false
 #
-# TODO Fix verbose pb. See in the code. See "self.path.startswith(PATH_PREFIX + "/verbose"):"
-#
 import json
 import signal
 import sys
@@ -318,7 +316,7 @@ class ServiceHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         global verbose
 
-        if verbose:                                      # Not recognized... wierd.
+        if verbose:
             print("POST request, {}".format(self.path))
         #
         if self.path.startswith(PATH_PREFIX + "/exit"):
