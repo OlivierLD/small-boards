@@ -51,6 +51,7 @@ const int PREFERRED_ROT = ROT_270; // ROT_90 to turn it upside down.
 
 // const char* SSID = "ZeroNetwork";              // your network SSID (name)
 const char* SSID = "NMEANetwork";              // your network SSID (name)
+
 const char* PASSWORD = "PassWord";             // your network password
 
 // const char* SERVER_NAME = "192.168.50.10";     // For REST requests, Nav Server's IP address
@@ -59,26 +60,26 @@ const char* SERVER_NAME = "10.42.0.1";         // For REST requests, Nav Server'
 // IPAddress server(192, 168, 42, 13);
 const int SERVER_PORT = 9999;           // 8888;               // REST Server port
 
-const String LAT_PREFIX = "LAT=";
-const String LNG_PREFIX = "LNG=";
-const String BSP_PREFIX = "BSP=";
-const String SOG_PREFIX = "SOG=";
-const String COG_PREFIX = "COG=";
-const String DATE_PREFIX = "DATE=";
-const String UTC_YEAR_PREFIX =  "YEAR=";
+const String LAT_PREFIX       = "LAT=";
+const String LNG_PREFIX       = "LNG=";
+const String BSP_PREFIX       = "BSP=";
+const String SOG_PREFIX       = "SOG=";
+const String COG_PREFIX       = "COG=";
+const String DATE_PREFIX      = "DATE=";
+const String UTC_YEAR_PREFIX  = "YEAR=";
 const String UTC_MONTH_PREFIX = "MONTH=";
-const String UTC_DAY_PREFIX =   "DAY=";
+const String UTC_DAY_PREFIX   = "DAY=";
 const String UTC_HOURS_PREFIX = "HOUR=";
-const String UTC_MINS_PREFIX =  "MIN=";
-const String UTC_SECS_PREFIX =  "SEC=";
+const String UTC_MINS_PREFIX  = "MIN=";
+const String UTC_SECS_PREFIX  = "SEC=";
 
 const String SOL_HOURS_PREFIX = "S_HOUR=";
-const String SOL_MINS_PREFIX =  "S_MIN=";
-const String SOL_SECS_PREFIX =  "S_SEC=";
+const String SOL_MINS_PREFIX  = "S_MIN=";
+const String SOL_SECS_PREFIX  = "S_SEC=";
 
-const String BARO_PREFIX = "BARO=";
-const String TEMP_PREFIX = "TEMP=";
-const String HUM_PREFIX =  "HUM=";
+const String BARO_PREFIX      = "BARO=";
+const String TEMP_PREFIX      = "TEMP=";
+const String HUM_PREFIX       = "HUM=";
 
 const int NONE = 0;
 const int NS = 1;
