@@ -49,10 +49,12 @@ const int PREFERRED_ROT = ROT_270; // ROT_90 to turn it upside down.
 // const char* PASSWORD = "raspberrypi";       // your network password
 // const char* SERVER_NAME = "192.168.50.10";  // For REST requests, Nav Server's IP address
 
-const char* SSID = "ZeroNetwork";              // your network SSID (name)
+// const char* SSID = "ZeroNetwork";              // your network SSID (name)
+const char* SSID = "NMEANetwork";              // your network SSID (name)
 const char* PASSWORD = "PassWord";             // your network password
 
-const char* SERVER_NAME = "192.168.50.10";     // For REST requests, Nav Server's IP address
+// const char* SERVER_NAME = "192.168.50.10";     // For REST requests, Nav Server's IP address
+const char* SERVER_NAME = "10.42.0.1";         // For REST requests, Nav Server's IP address
 
 // IPAddress server(192, 168, 42, 13);
 const int SERVER_PORT = 9999;           // 8888;               // REST Server port
@@ -119,20 +121,20 @@ const int SOLAR_TIME_SCREEN = 6;
 const int ATM_SCREEN = 7;
 
 const String MONTH[] = {
-"Jan", "Feb", "Mar", "Apr", "May", "Jun",
-"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
 // Actually used screens (comment unwanted ones)
 const int SCREENS[] = {
-POS_SCREEN,
-BSP_SCREEN,
-SOG_SCREEN,
-COG_SCREEN,
-DATE_SCREEN,
-UTC_DATE_SCREEN,
-SOLAR_TIME_SCREEN,
-ATM_SCREEN
+  POS_SCREEN,
+  BSP_SCREEN,
+  SOG_SCREEN,
+  COG_SCREEN,
+  DATE_SCREEN,
+  UTC_DATE_SCREEN,
+  SOLAR_TIME_SCREEN,
+  ATM_SCREEN
 };
 int currentScreenIndex = 0;                      // First screen
 int currentScreen = SCREENS[currentScreenIndex]; // POS_SCREEN;

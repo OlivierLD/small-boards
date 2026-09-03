@@ -1,5 +1,7 @@
 # Astrolabe Expéditions
 
+With ESP32, FireBeetle.  
+
 Some links:
 - Git repos
   - [LittObs](https://github.com/astrolabe-expeditions/LittObs_OSOCTD)

@@ -3,7 +3,7 @@
  */
 
 /**
- * @brief Calculate the checksum of. given sentence
+ * @brief Calculate the checksum of a given sentence
  *
  * @param sentence
  * @return int IN DECIMAL !!!
