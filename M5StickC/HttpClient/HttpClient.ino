@@ -401,7 +401,8 @@ String extractFromCache(String cache, String prefix) {
     return data;
 }
   /*
-     Data comes back like that:
+    This MUST be supported by the server !!! See below.
+    Data comes back like that:
 
     BSP=0.00
     LAT=37.748850
@@ -427,7 +428,7 @@ void getData() {
     if (DEBUG) {
       Serial.println("\nMaking request...");
     }
-    String cache = makeRequest("GET", "/mux/cache?option=txt");
+    String cache = makeRequest("GET", "/mux/cache?option=txt");  // Server must know this...
     flipColors();
     if (DEBUG) {
       Serial.println("Request's response came back:");
